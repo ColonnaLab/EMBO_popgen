@@ -1,0 +1,283 @@
+#We are going to run ELS for a gorilla population sample (Gorilla g. gorilla subspecies), using individuals from another gorilla subspecies as outgroup (Gorilla b. graueri).
+
+#ELS has been used (without this name) in Green et al., Science 2010 and Prufer et al., Nature 2014 for humans using Neanderthals. Also by Cagan et al., MBE 2016 for great ape species.
+
+
+
+
+
+#INPUT FILES
+
+/embo/data/aida/ELS/input_files/
+
+
+#Configuration input file
+#The probability of a derived allele of a given frequency to be shared with the outgroup, which depends on the age of the allele. Need to calculate before running the analysis. In this case it is averaged over the three outgroup individuals we will use:
+/embo/data/aida/ELS/input_files/configurationfile/configuration
+
+
+
+#Genomic data input file
+#One file per outgroup individual and chromosome.
+
+#DESCRIPTION of the input files in README at the web:
+https://github.com/StephanePeyregne/ELS/
+
+/embo/data/aida/ELS/input_files/hmminput/Gorilla_gorilla_*.chr*.physic_dist.cov5.HMMinput
+
+e.g. Gorilla_gorilla_Kaisi.chr1.physic_dist.cov5.HMMinput
+
+#Some info on these particular file names:
+#The names contain ”physic_dist” because physical distance was used (rather than genetic) since the genetic map of the gorillas is not very well defined (but you could use the existing one). Typically, if available one would use the genetic distance.
+
+#The names contain “cov5” because we filtered out any position that had less than 5x coverage for any individual.
+
+
+
+
+#PROGRAM
+#THE ELS_HMM program is already installed. 
+#If you want to use it later: it is publicly available, github: https://github.com/StephanePeyregne/
+#Reference: Peyregne et al., bioRxiv
+
+
+
+
+
+#SCRIPTS
+#There are two scripts we will use to manage the results, kindly provided by Stephane Peyregne (from the MPI-EVA in Leipzig). They are here:
+/embo/data/aida/ELS/scripts
+
+#You can use them from there or copy to your own directory, to a folder named ‘scripts’.
+/embo/YourName/ELS/scripts/
+
+
+#I will provide command examples with my path, please remember to change to your name…
+
+
+
+—————————————
+#PREPARING
+
+#You can organize your output files as you prefer, but since there are three individuals I suggest trying to be a bit organized about it. So I provide suggestions (your choice, though). If you do not follow this, remember to change the path to the files on the commands.
+
+
+#Create an output file in your home directory.
+#I suggest something like this:
+/embo/YourName/ELS/output_files/
+
+#Then let’s create within this folder one folder for each outgroup individual we will use
+#I suggest
+mkdir /embo/YourName/ELS/output_files/Victoria
+mkdir /embo/YourName/ELS/output_files/Kaisi
+mkdir /embo/YourName/ELS/output_files/Mkubwa
+
+
+
+
+
+
+
+——————————————
+#RUN HMM
+
+#We will first run the ELS_HMM program
+#Let’s start with one individual, one chromosome first: Kaisi, chromosome 22.
+
+
+#PARAMETERS: Description at README at
+#https://github.com/StephanePeyregne/ELS/
+
+#Typically, parameters are inferred by the program, together with the probabilities for internal, external and ELS. This is done with the -N or -B flags.
+#Typically one runs the program several times with certain initial parameters, and checks that there is convergence of the parameter estimates across runs.
+
+#Because we have little time, we are using parameters previously estimated, otherwise it would take too long to run here. 
+
+
+#The command (without parameter inference) is:
+hmm -e configuration_file -L 35000 -l 1200 -S 11000 -r 0.11 -F 0.9989 -f 0.926 HMMinput > output
+
+
+#Create the command to run it for Kaisi chr22. 
+#If things do not work you can check the command below:
+hmm -e /embo/data/aida/ELS/input_files/configurationfile/configuration -L 35000 -l 1200 -S 11000 -r 0.11 -F 0.9989 -f 0.926 /embo/aida/ELS/input_files/hmminput/Gorilla_gorilla_Kaisi.chr22.physic_dist.cov5.HMMinput > /embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr22
+
+
+#Let’s check the outfile. It contains the following information:
+# FILE: chromosome position tagging number_chromosomes frequency_derived_allele ancestral_or_derived_outgroup distance_previous_site internal_or_external probability_external probability_ELS
+
+#So the relevant information for us is the genomic position of the informative site (first two columns) and the probability of external and ELS (last two columns)
+
+
+
+#Now, try to run all of Kaisi chromosomes. 
+#If you cannot do it, ask your neighbour. 
+#If nothing works, see command line below.
+
+for i in `seq 1 22`; do hmm -e /embo/data/aida/ELS/input_files/configurationfile/configuration -L 35000 -l 1200 -S 11000 -r 0.11 -F 0.9989 -f 0.926 /embo/aida/ELS/input_files/hmminput/Gorilla_gorilla_Kaisi.chr${i}.physic_dist.cov5.HMMinput > /embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i} & done
+
+
+#The output is described here:
+https://github.com/StephanePeyregne/ELS/README
+
+#Now we have the posterior probabilities for external and ELS (extended lineage sorting) for each site, in the two last columns. Internal is the rest up to 1, but it is not in the file.
+
+#Please check that your files make sense…
+
+
+
+
+
+——————
+#INFER ELS REGIONS
+
+
+#We can now combine information across consecutive sites to infer external and ELS regions. To do this, one needs to decide the threshold of probabilities to define an ELS region. You can play with these parameters, but to start I will use the one that was suggested to me by Stephane Peyregne.
+
+#Stephane defines (based on simulation results) a putative ELS region a stretch of high posterior probabilities (>0.7) for ELS state that is uninterrupted by sites with low probability (<0.1) for ELS.  
+
+
+#Stephane Peyregne kindly provided a perl script to do this: postprocessing.ELS.pl. Run it as:
+/embo/data/aida/ELS/scripts/postprocessing.ELS.pl 0.7 0.1 < input_file > output_file
+
+
+#Let’s do it for one chromosome first. Please, write the command yourself. #If you need help figuring out the exact command line:
+/embo/data/aida/ELS/scripts/postprocessing.ELS.pl 0.7 0.1 < /embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr22 > /embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr22.regions
+
+
+#Then let’s do all chromosomes. Again, please try to write this by yourself. If you cannot manage, ask someone. If nothing works, check out the command below:
+
+for i in `seq 1 22`; do /embo/data/aida/ELS/scripts/postprocessing.ELS.pl 0.7 0.1 < /embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i} > /embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i}.regions & done
+
+
+#If you get error messages please ignore them… the script runs fine regardless of them.
+
+
+
+#So now a simple “wc” will tell you how many ELS regions are inferred on each chromosome, based on your threshold.
+
+#You can play around with the threshold, just remember to change the folder or the output file name…
+
+
+
+
+
+
+
+——————
+#SELECT BEST CANDIDATE TARGETS OF POSITIVE SELECTION
+
+#Let’s start to check them out. Positively selected regions are expected to be much longer than neutral external regions, so the longer the region the stronger of a candidate target of positive selection it is.
+
+#Maybe it makes sense to order them by length first then. Please try to do it (remember there is a header line). If it does not work, see command below.
+
+#For one file:
+cat <(head -1 output_regions_file) <(sort -k 6 -gr <(tail -n +2 output_regions_file)) >output_orderedregions_file
+
+#Example:
+cat <(head -1 /embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr22.regions) <(sort -k 6 -gr <(tail -n +2 /embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr22.regions)) >/embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr22.regions.ordered
+
+
+#You can check this chromosome now.
+
+
+#Let’s run the rest of chromosomes. Everyone will probably be able to run this now. If it does not work, the command is below:
+for i in `seq 1 22`; do cat <(head -1 /embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i}.regions) <(sort -k 6 -gr <(tail -n +2 /embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i}.regions)) >/embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i}.regions.ordered & done
+
+
+#Let’s check with “ls -l” and “wc” that all run smothly…
+#And you can start checking which are the best regions.
+#If you prefer, you can concatenate all chromosomes and then sort them to see which are the longest regions genome-wide.
+
+#This file can be also found here
+/embo/data/aida/ELS/output_files/out-sorted.Kaisi
+
+
+
+
+
+
+—————
+VISUALIZE THE REGIONS
+
+#Stephane also created a visualization tool to check out the regions with the name of plot.R. You can run it to check your favourite regions. Please ignore error messages…
+#plot.R will write a pdf file in the folder where you are, with the name of the coordinates. So you see now that being organized about folders did matter…
+
+#This runs on the probabilities per site, so you need to use the hmmout file as input. It provides the probability, per site, of external and ELS. The probability of internal (the rest to 1) is not plotted.
+
+
+#The command:
+R --no-save --no-restore --args file=\"output_file\" start=start_coordinate end=end_coordinate < /embo/data/aida/ELS/scripts/plot.R > /dev/null
+
+
+#For me that would be:
+R --no-save --no-restore --args file=\"/embo/aida/ELS/output_files/Kaisi/hmmout.Kaisi.chr21\" start=42980000 end=43000000 < /embo/data/aida/ELS/scripts/plot.R > /dev/null
+
+
+#Check out the regions you like, based on your exploration of the regions.ordered files.
+#I suggest a few:
+
+#chr14 15901680 15909680
+#completely normal region
+
+#chr14 78070000 78110000
+#This contains the NRXN3 gene
+
+#chr7 68960000 69065000
+#Overlaps AUTS2 gene
+
+#chr1 71965000 72005000
+#NEGR1 (diabetes/obesity susceptibility gene)
+
+#chr18 20250000 20290000
+#This contains the Impact gene
+
+
+
+
+
+——————
+#WORK OVER SEVERAL OUTGROUPS
+
+#Having several outgroups is very informative because a positively selected region should overlap across outgroups (although the edges may differ).
+
+
+#We have three outgroups. So we want to repeat the steps above for the other two outgroups. You can do it automatically over a for loop if you like, or for the two outgroups separately. 
+
+#If you had enough practice and don’t want to go over it again, you can get the files directly from my home, here:
+/embo/aida/ELS/output_files/Victoria/
+/embo/aida/ELS/output_files/Mkubwa/
+
+
+
+#If you would like to find the regions that overlap you can create an overlap file yourself, but you can also find it here:
+/embo/data/aida/ELS/output_files/
+
+
+#Now check the regions you checked in Kaisi before, in the other two outgroups. 
+
+#Compare also across individuals the regions I pointed you to above.
+
+
+#Which ones are shared among all individuals? What would one infer from those?
+#What about the ones that are not shared among individuals?
+
+
+
+
+
+
+
+
+——————
+#OTHER SIGNATURES IN THESE REGIONS
+#Marc Pybus (at the UPF, Barcelona) made available the results from HKA, Fay and Wu’s H and ELS in an interactive browser at http://tinyurl.com/nf8qmzh
+#You can check there your favourite regions too
+
+
+
+
+
+
+
+

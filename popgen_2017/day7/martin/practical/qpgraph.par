@@ -1,0 +1,9 @@
+genotypename:    ho_anc.geno
+snpname:         ho_anc.snp
+indivname:       ho_anc.indiv
+outpop:         Mbuti
+blgsize:        0.05
+lsqmode:       YES
+hires:	       YES
+diag:          .0001
+initmix:      1000

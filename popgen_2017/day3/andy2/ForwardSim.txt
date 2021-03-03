@@ -1,0 +1,77 @@
+# ForwardSim.r  forward sims to obtain genealogy
+
+# Initialize popsize (N), number of samples (samp), number of 
+# generations (ngen) and starting frequency (startfreq)
+
+# Note this is for a haploid population of size N.
+
+N<-200
+nsamp<-15
+nreps<-10
+allcoaltimes<-c()
+
+for (irep in 1:nreps){
+ngen<-800
+nodcur<-matrix(1:N)
+integers<-seq(1:N)
+
+# Initialize for this population with each allele having unique index
+
+coalgen<-c()
+nodcur<-seq(1,N)
+nods<-sample(integers,replace=TRUE)
+nodcur<-nods
+
+# Do recurrent sampling of the indices with replacement.  These indicate parents for the next gen.
+
+for (i in 1:ngen){
+   nods<-sample(integers,replace=TRUE)
+   nodcur<-rbind(nodcur,nods)
+}
+
+# Now we start at the last generation and follow the nsamp leftmost lineages back, identifying
+# cases of coalescences, and then following the resulting n-1 lineage back, until all coalesce.
+
+coal<-1
+igen<-ngen
+parnt<-c()
+
+while (coal<nsamp){
+   parnt<-c(nodcur[igen,(1:nsamp)])
+   if (sum(duplicated(parnt))==1) {
+      coalgen[coal]<-igen
+      coal<-coal+1
+   }
+igen<-igen-1
+}
+allcoaltimes<-rbind(allcoaltimes,coalgen)
+}
+
+
+
+=====================================================================
+====================================================================
+  count1<-sum(nodcur[i,]==fixed)
+  if (count1<count){
+     coalgen[coal]<-i
+     count<-count1
+     coal<-coal+1
+   }
+}
+
+print coalgen
+
+
+
+#Now plot these trajectories
+gen<-seq(1,ngen+1)
+for (k in 1:nsamp){
+plot(gen,pcur[,k],type="l",ylim=c(0,1))
+par(new=TRUE)
+}
+
+
+# ASSIGNMENT 1: 
+
+# ASSIGNMENT 2: 
+

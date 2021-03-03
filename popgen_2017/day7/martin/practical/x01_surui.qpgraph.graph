@@ -1,0 +1,18 @@
+root	R
+label	Mbuti	Mbuti
+label	Dinka	Dinka
+label	MA1	MA1
+label	Han	Han
+label	Surui	Surui
+edge	R_Mbuti	R	Mbuti
+edge	R_eAfr	R	eAfr
+edge	eAfr_Dinka	eAfr	Dinka
+edge	eAfr_nonAfr	eAfr	non_African
+edge	nonAfr_West	non_African	West
+edge	nonAfr_East	non_African	East
+edge	West_MA1	West	MA1
+edge	West_admixWest	West	admixWest
+edge	East_Han	East	Han
+edge	East_admixEast	East	admixEast
+admix	ancNatAm	admixWest	admixEast	50	50
+edge	ancNatAm_Surui	ancNatAm	Surui

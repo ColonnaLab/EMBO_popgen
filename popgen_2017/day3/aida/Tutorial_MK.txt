@@ -1,0 +1,47 @@
+#Asymptotic McDonald–Kreitman Test to estimate the proportion of non-synonymous substitutions driven by positive selection.s
+
+#We will use the WEBSITE (you can run on the command line, which is best if you run on your data). See:
+http://benhaller.com/messerlab/asymptoticMK.html
+
+
+
+#INPUT FILES
+
+/embo/data/aida/MK/input_files/
+
+#Copy them to your home (path of your choice)
+
+Two types of files:
+
+*_no1
+#The files with only polymorphic sites (the one to upload)
+
+*_with1
+#This files including the number of substitutions (d, dS). These two values need to be pasted on the web page.
+
+
+
+#Go to the webpage and, using the sample data file, explore how changing d and d0 influences the inferences.
+
+#Run the provided files in this order:
+#AfricanAmerican
+#EuropeanAmerican
+#PongoAbe
+#PongoPyg
+
+#Note that you need to upload the file “_no1” and paste the counts of sites with frequency 1 in the webpage
+
+
+
+#Is thre much difference between AfricanAmericans and EuropeanAmericans? Do you find this surprising?
+
+#Are you surprised by the differences between the humans and Drosophila results?
+
+#What do you think of the Pongo analyses?
+
+#Any interesting biological questions one could ask with this approach?
+
+
+
+
+
