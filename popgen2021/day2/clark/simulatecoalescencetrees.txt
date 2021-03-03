@@ -1,0 +1,60 @@
+#library(ape)
+simtree <- function(nsamplesinpresenttime) {
+
+  # Initiate list of nodes and their height in the tree (corresponding to time measured from present time and back in time)
+  # (with on node per sample in the present and height 0 since we start in the present)
+  nodelist <- rep(0, times=nsamplesinpresenttime) 
+  names(nodelist) <- 1:nsamplesinpresenttime
+  
+  # Initiate the time of the last coalescence even (which is set to 0 before we begin
+  T <- 0 
+  
+  # Simulate one coalescence event after the other until all samples have coalesced
+  for(i in seq(1, nsamplesinpresenttime-1)) {
+  	nodecount <- length(nodelist) # node count
+  
+  	# Pick two random nodes to coalesce
+	tocoalesce <- sample(nodecount, size=2)
+	
+	# Sample random coalescence time(from exponential distribution)
+	coalescencerate = nodecount*(nodecount-1)/2	
+	coalescencetime <- rexp(1, rate=coalescencerate)
+	print(paste("Time to coalescence when there are ",nodecount,"nodes")) 
+	print(coalescencetime)	
+
+	# Set time of the coalescence event measure from the present time
+	T <- T+coalescencetime	
+
+	# Get height of the two nodes
+    	left <- nodelist[tocoalesce[1]]
+    	right <- nodelist[tocoalesce[2]]
+
+	# Get branch lengths
+	leftbranchlength <- T-left
+	rightbranchlength <- T-right
+
+	# Make new node name; (here slightly more complicated to make plotting later easier)
+	# We name it by the names of the two coalesced nodes each following by its branch length
+	# = Newick tree format
+	cnode <- paste("(", names(left), ":", leftbranchlength, ",", names(right), ":", rightbranchlength, ")", sep="")  
+
+	# Remove the two merged nodes
+    	nodelist <- nodelist[-tocoalesce]
+
+	# Add the new composite node
+	nodelist <- c(nodelist, T) # First the height
+	names(nodelist)[length(nodelist)] <- cnode # then the name 
+  }
+  # add semicolon, a Newick requirement
+  return(paste0(names(nodelist), ";")) 
+}
+
+# Test: 
+# Simulate the tree:
+#newicktree <- simtree(10) 
+#newicktree
+## [1] "(((6:0.207031552610069,(2:0.0444964009647568,1:0.0444964009647568):0.162535151645312):0.3157373523820487
+# plot the tree
+#ct<-read.tree(text=newicktree); plot(ct) 
+#add.scale.bar(cex = 0.7, font = 2, col = "red")
+#set.seed(8);newicktree <- simtree(5);ct<-read.tree(text=newicktree); plot(ct);add.scale.bar(cex = 0.7, font = 2, col = "red")
