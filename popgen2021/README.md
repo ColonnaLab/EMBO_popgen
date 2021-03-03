@@ -16,8 +16,8 @@
 <table width="700">
    <tr>
    <td><a href="https://elixir-iib-training.github.io/website/"><img src="./img/logos/logo_iib.png" alt="yay" height="80" width="700"></a></td>
-   <td><a href="https://www.elixir-europe.org/about-us/how-funded/eu-projects/excelerate"><img src="./img/logos/Logo_excelerate_whitebackground.png" alt="yay" height="80" width="300"></a></td>
-   <td><a href="http://www.igb.cnr.it/"><img src="./img/logos/IGB-logo.jpg" alt="cnr" height="150" width="550"></a></td>
+   <td><a href="https://www.elixir-europe.org/about-us/how-funded/eu-projects/excelerate"><img src="./img/logos/Logo_excelerate_whitebackground.png" alt="yay" height="80" width="700"></a></td>
+   <td><a href="http://www.igb.cnr.it/"><img src="./img/logos/IGB-logo.jpg" alt="cnr" height="150" width="700"></a></td>
       </tr>
       <tr>
       <td><a href="http://www.genomix4life.com/it/"><img src="./img/logos/Logo_genomix4life.png" height="100" width="500"></a></td>
