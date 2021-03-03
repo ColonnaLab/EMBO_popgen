@@ -1,0 +1,45 @@
+# AlleleFreqDyn.txt - examines aspects of allele frequency changes under drift for
+# purposes of devising tests of departure from neutrality based on observed allele 
+# frequencies over generations.
+
+# First show single generation allele frequency changes under binomial, 
+# from random starts
+
+N<-1000
+nsamp<-10000
+p<-runif(nsamp)
+x<-rbinom(nsamp,N,p)
+p1<-x/N
+delta<-p1-p
+plot(p,delta)
+
+# Next use the same bit of code from the Wright-Fisher sim to generate allele 
+# frequencies of replicate populations under the strict neutrality.
+
+N<-200
+nsamp<-8
+ngen<-200
+startfreq<-.5
+pcur<-matrix(1:N)
+
+#Wright-Fisher is simply recurrent binomial sampling over generations
+
+x<-rbinom(nsamp,N,startfreq)
+p<-x/N
+pcur<-p
+
+for (i in 1:ngen){
+x<-rbinom(nsamp,N,p)
+p<-x/N
+pcur<-rbind(pcur,p)
+}
+
+# ASSIGNMENT 1: For each of the sample data sets, try to devise a way to 
+# estimate the population size N from the rate of increase in variance in 
+# allele frequencies over generations.
+# In the data sets, columns are distinct SNPs and rows are generations.
+
+# ASSIGNMENT 2: It turns out that the sample data sets each have one SNP 
+# that deviates from the neutral dynamics. Use whatever test you can 
+# devise to determine which of the SNPs in the sample data sets appear to 
+# depart from neutrality,  

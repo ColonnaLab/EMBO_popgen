@@ -1,0 +1,86 @@
+# WFsim.r  simple simulations of the Wright-Fisher model
+
+# Initialize popsize (N), number of samples (samp), number of 
+# generations (ngen) and starting frequency (startfreq)
+
+# Note this is for a haploid population of size N.
+
+N<-200
+nsamp<-8
+ngen<-200
+startfreq<-.5
+pcur<-matrix(1:N)
+
+#Wright-Fisher is simply recurrent binomial sampling over generations
+
+x<-rbinom(nsamp,N,startfreq)
+p<-x/N
+pcur<-p
+
+for (i in 1:ngen){
+x<-rbinom(nsamp,N,p)
+p<-x/N
+pcur<-rbind(pcur,p)
+}
+
+#Now plot these trajectories
+gen<-seq(1,ngen+1)
+for (k in 1:nsamp){
+plot(gen,pcur[,k],type="l",ylim=c(0,1))
+par(new=TRUE)
+}
+
+
+# ASSIGNMENT 1: Conduct runs of the above simulation, and 
+# calculate the variance in allele frequencies across 20
+# independent sample populations for each of generations 20
+# through 200 in steps of 20.  Plot the results.
+# Hint: the variance of allele freq at gen i is var(pcur[i,])
+
+
+# ANSWER:
+
+gen<-seq(1:200)
+varvec<-seq(1,200)
+for (i in 1:ngen){
+  varvec[i]<-var(pcur[i,])
+}
+plot(gen,varvec,type="b",xlab="Generation",ylab="Variance among reps")
+
+# You can see that the variance increases.  It is non-linear in
+# the plot because of the fact that subpopulations are 
+# going to fixation, when variance of course can no longer 
+# increase.
+
+
+# ASSIGNMENT 2: Plot the expected time to fixation (when allele 
+# frequency is either 0 or 1) for 20 populations with population 
+# sizes 50, 100, 150 and 200, starting from p = 0.5.
+
+# ANSWER:
+
+fixtime<-matrix(seq(1,80),4,20)
+for (i in 1:4){
+  for (irep in 1:20){
+     N<-i*50
+     p<-.5
+     igen<-0
+     while (abs(p-.5)<.499){
+       x<-rbinom(1,N,p)
+       p<-x/N
+       igen<-igen+1
+     }
+   fixtime[i,irep]<-igen
+   }
+}
+
+# The mean fixation times for the populations of size 
+# 50,100,150, and 200 are:
+
+mean(fixtime[1,])
+mean(fixtime[2,])
+mean(fixtime[3,])
+mean(fixtime[4,])
+
+# Note that the variance in fixation time is huge, so 20 replicates
+# is not enough to give very consistent results.

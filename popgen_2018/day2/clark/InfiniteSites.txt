@@ -1,0 +1,53 @@
+# InfiniteSites.r - illustration of some concepts using the infinite sites model
+
+# Relation between sample size and expected number of SNPs
+
+# First construct a vector for the sum of 1/i
+
+sum<-rep(0,100)
+for (i in 1:100){
+   for (j in 1:i){
+      sum[i]<-sum[i]+1/j
+   }
+}
+
+# For theta=10, plot the expected number of SNPs for a range of sample sizes
+
+theta<-10
+ExpNumSites<-sum*theta
+SampleSize<-seq(1,100)
+
+plot(SampleSize,ExpNumSites)
+
+# Given count of SNPs, estimate theta (Watterson)
+
+# ASSIGNMENT 1: Suppose you observe 52 SNPs in a sample of 100 individuals.  
+# Use the Infinite Sites model to estimate theta (this is known as the 
+# Watterson estimator of theta). What if there were 26 SNPs instead of 52?   
+# What if the sample size was 50 instead of 100?
+
+#ANSWER:
+
+theta<-52/sum[100]
+theta
+
+#obviousy, halving the number of segregating sites halves the estimate of theta.
+theta2<-26/sum[100]
+theta2
+
+theta3<-52/sum[50]
+theta3
+
+# ASSIGNMENT 2: See if you can show that the expected number of singletons 
+# depends only on theta and (amazingly) NOT on the sample size.
+
+#ANSWER:
+
+# You could do this by direct simulation, but the very best way to demonstrate 
+# this requires the neutral coalescent, and appears in 
+#
+#      Fu and Li (1993) Statistical tests of neutrality of mutations. 
+#      Genetics 133:693-709.
+#
+# This will be covered on Monday !
+

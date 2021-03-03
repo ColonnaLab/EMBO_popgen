@@ -1,0 +1,311 @@
+# We are going to run ELS for a gorilla population sample (Gorilla g. gorilla subspecies), using individuals from another gorilla subspecies as outgroup (Gorilla b. graueri).
+
+# ELS has been used (without this name) in Green et al., Science 2010 and Prufer et al., Nature 2014 for identifying instances of positive selection in humans using the Neanderthal genome. Also used by Cagan et al., MBE 2016 in several great ape species. The manuscript describing the code we will use is Peyrégne et al., Genome Research 27:1563-1572 (2017).
+
+
+
+
+
+# 1. INPUT FILES
+#################
+/home/ochi/ELS/input_files/
+
+
+# DESCRIPTION of the input files can be found in the README at the web:
+https://github.com/StephanePeyregne/ELS/
+
+
+
+# Configuration input file:
+# The probability of a derived allele of a given frequency to be shared with the outgroup, which depends on the age of the allele. Need to calculate it before running the analysis. In this case it is averaged over the three outgroup individuals we will use:
+
+/home/ochi/ELS/input_files/configurationfile/configuration
+
+
+
+
+# Genomic data input file:
+# The genomic information. One file per outgroup individual and chromosome (we will run it per chromosome).
+
+/home/ochi/ELS/input_files/hmminput/Gorilla_gorilla_*.chr*.physic_dist.cov5.HMMinput
+
+e.g. Gorilla_gorilla_Kaisi.chr1.physic_dist.cov5.HMMinput
+
+# Some info on these particular file names:
+# The names contain ”physic_dist” because physical (rather than genetic) distance was used. This is because the genetic map of the gorillas is not well defined (but you could use the existing one). Typically, if available one would use the genetic distance.
+# The names contain “cov5” because we filtered out any position that had less than 5x coverage in any individual.
+
+
+
+
+
+
+
+# 2. ELS_HMM
+#############
+
+# THE ELS_HMM program is already installed. 
+# If you want to use it later: it is publicly available, github: https://github.com/StephanePeyregne/
+# Reference: Peyrégne et al., Genome Research 27:1563-1572 (2017).
+
+
+
+
+
+# 3. SCRIPTS
+#############
+
+# There are two scripts we will use to manage the results, kindly provided by Stephane Peyregne (from the MPI-EVA in Leipzig). They are in this directory:
+/home/ochi/ELS/scripts
+
+# You can use them from there but I suggest that you copy them to your own directory, to a folder named ‘scripts’:
+/home/YourName/ELS/scripts/
+
+
+# I will provide command examples with my path, please remember to change to your name…
+
+
+
+
+
+—————————————
+# 4. PREPARING
+###############
+
+# You can organise your output files as you prefer, but since there are three individuals I suggest trying to be a bit organised about it. So I provide suggestions (your choice, though). If you do not follow this, remember to change the path to the files.
+
+
+# Create an output file directory in your own directory.
+# I suggest something like this:
+/home/YourName/ELS/output_files/
+
+# Then let’s create within this folder one folder for each outgroup individual we will use
+# I suggest
+mkdir /home/YourName/ELS/output_files/Victoria
+mkdir /home/YourName/ELS/output_files/Kaisi
+mkdir /home/YourName/ELS/output_files/Mkubwa
+
+
+
+
+
+
+
+——————————————
+# 5. RUNNING HMM
+#################
+
+# Typically, a number of key parameters are inferred by the program, together with the probabilities for internal, external and ELS. This is done with the -N or -B flags.
+# To check convergence of the parameter estimates, one would typically run ELS_HMM several times with certain initial parameters, and check the convergence.
+
+# Because we have little time, today we are using parameters previously estimated, which allows the program to run much faster. 
+
+
+
+# PARAMETERS: Description can be found in the README, at
+# https://github.com/StephanePeyregne/ELS/
+# It would be good to read this first.
+
+
+
+# COMMAND (without parameter inference) is:
+hmm -e configuration_file -L 35000 -l 1200 -S 11000 -r 0.11 -F 0.9989 -f 0.926 HMMinput > output
+
+# Let’s start with one individual, one chromosome: Kaisi, chromosome 22.
+# Create the command to run ELS_HMM for Kaisi chr22, and run it.
+
+# If things do not work you can check the command below (remember that this is for my directory):
+hmm -e /home/ochi/ELS/input_files/configurationfile/configuration -L 35000 -l 1200 -S 11000 -r 0.11 -F 0.9989 -f 0.926 /home/ochi/ELS/input_files/hmminput/Gorilla_gorilla_Kaisi.chr22.physic_dist.cov5.HMMinput > /home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr22
+
+
+
+
+# Let’s check the OUTFILE. It contains the following information:
+# FILE: chromosome position tagging number_chromosomes frequency_derived_allele ancestral_or_derived_outgroup distance_previous_site internal_or_external probability_external probability_ELS
+
+# So the relevant information for us is the genomic position of the informative site (first two columns) and the probability of external and ELS (last two columns)
+
+
+
+# Now, try to run all of Kaisi chromosomes. 
+# If you cannot do it, ask your neighbour. 
+# If nothing works, see the command line below.
+
+for i in `seq 1 22`; do hmm -e /home/ochi/ELS/input_files/configurationfile/configuration -L 35000 -l 1200 -S 11000 -r 0.11 -F 0.9989 -f 0.926 /home/ochi/ELS/input_files/hmminput/Gorilla_gorilla_Kaisi.chr${i}.physic_dist.cov5.HMMinput > /home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i} & done
+
+
+# The output is described here:
+https://github.com/StephanePeyregne/ELS/README
+# Please check the information as you wait for all files runs to finish
+
+
+# Now we have the posterior probabilities for external and ELS (extended lineage sorting) for each site, in the two last columns. Internal is the rest up to 1, but it is not in the file.
+
+# Please check that your files all make sense…
+
+
+
+
+
+
+—————
+# 6. INFERRING ELS REGIONS
+###########################
+
+# We can now combine information across consecutive sites to infer external and ELS regions. To do this, one needs to decide the threshold of probabilities to define an ELS region. You can play with these parameters, but to start I will use the one that was suggested to me by Stephane Peyregne.
+
+# Stephane defines (based on simulation results for gorilla) a putative ELS region a stretch of high posterior probabilities of ELS (>0.7) that is uninterrupted by sites with low probability of ELS (<0.1).  
+
+
+# Stephane kindly provided a perl script to do this: postprocessing.ELS.pl. Run it as:
+/home/ochi/ELS/scripts/postprocessing.ELS.pl 0.7 0.1 < input_file > output_file
+
+
+# Again, let’s do one chromosome first. Please, write the command yourself.
+# If you need help figuring out the exact command line, here is mine:
+/home/ochi/ELS/scripts/postprocessing.ELS.pl 0.7 0.1 < /home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr22 > /home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr22.regions
+# Check the file and make sure you understand it
+
+
+# If all worked fine, let’s run all chromosomes. Again, please try to write this by yourself. If you have problems, ask someone. If nothing works, check out the command below:
+for i in `seq 1 22`; do /home/ochi/ELS/scripts/postprocessing.ELS.pl 0.7 0.1 < /home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i} > /home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i}.regions & done
+
+
+# If you get error messages please ignore them… this has to do with the server and the script runs fine regardless of the errors.
+
+
+
+# So now a simple “wc” will tell you how many ELS regions are inferred on each chromosome, based on your threshold.
+
+# You can play around with the threshold, just remember to change the folder or the output file name…
+
+
+
+
+
+
+
+——————
+# 7. SELECT BEST CANDIDATE TARGETS OF POSITIVE SELECTION
+#########################################################
+
+# Let’s start to check them out. Positively selected regions are expected to be much longer than neutral external regions. So the longer the region, the stronger a candidate target of positive selection.
+
+# Maybe it makes sense to order them by length first then. Please try to do it (remember there is a header line). If it does not work, see command below.
+
+# For one file:
+cat <(head -1 output_regions_file) <(sort -k 6 -gr <(tail -n +2 output_regions_file)) >output_orderedregions_file
+
+# Example, for Kaisi chr22:
+cat <(head -1 /home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr22.regions) <(sort -k 6 -gr <(tail -n +2 /home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr22.regions)) >/home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr22.regions.ordered
+
+
+# You can check this chromosome now. Anything interesting?
+
+
+# Let’s run the rest of chromosomes. Write your own command to do this. If it does not work, use:
+for i in `seq 1 22`; do cat <(head -1 /home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i}.regions) <(sort -k 6 -gr <(tail -n +2 /home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i}.regions)) >/home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr${i}.regions.ordered & done
+
+
+
+# Once everything finished running, let’s check with “ls -l” and “wc” that everything run smoothly…
+# And you can start checking which are the most interesting regions.
+# If you prefer, you can concatenate all chromosomes and then sort them to see which regions are the longest, genome-wide.
+
+# This file can be also found here
+/home/ochi/ELS/output_files/out-sorted.Kaisi
+
+
+
+
+
+
+—————
+# 8. VISUALISE THE REGIONS
+########################
+
+# Stephane also created a visualisation tool to check out the regions (plot.R). You can run it to see your favourite regions. Please ignore error messages…
+# plot.R will write a pdf file in the folder where you are, with the name of the coordinates. So you see now that being organised about folders matters…
+
+# plot.R runs on the probabilities per site, so you need to use the hmmout file as input. Remember that this file provides the probability, per site, of external and ELS. The probability of internal is the rest to 1.
+
+
+#T he command:
+R --no-save --no-restore --args file=\"output_file\" start=start_coordinate end=end_coordinate < /home/ochi/ELS/scripts/plot.R > /dev/null
+
+
+# For me that would be:
+R --no-save --no-restore --args file=\"/home/ochi/ELS/output_files/Kaisi/hmmout.Kaisi.chr21\" start=42980000 end=43000000 < /home/ochi/ELS/scripts/plot.R > /dev/null
+
+
+# Check out the regions you like, based on your exploration of the regions.ordered files.
+# I suggest a few:
+
+chr14 15901680 15909680
+#completely normal region
+
+chr14 78070000 78110000
+#This contains the NRXN3 gene
+
+chr18 20250000 20290000
+#This contains the Impact gene
+
+
+Some other regions:
+
+chr7 68960000 69065000
+#Overlaps AUTS2 gene
+
+chr1 71965000 72005000
+#NEGR1 (diabetes/obesity susceptibility gene)
+
+
+
+——————
+# 9. WORK OVER SEVERAL OUTGROUP INDIVIDUALS
+###########################################
+
+# Having several outgroup individuals is very informative because a positively selected region should overlap across outgroups (although the edges may differ).
+
+
+# We have three outgroups. So we want to repeat the steps above for the other two outgroups. You can do it automatically with a for loop if you like, or run for the two outgroups separately. 
+
+# If you had enough practice and don’t want to go over it again, you can get the files directly here:
+/home/ochi/ELS/output_files/Victoria/
+/home/ochi/ELS/output_files/Mkubwa/
+
+
+
+# If you would like to find the regions that overlap across all the outgroup individuals, you can create an overlap file yourself. You can also find the file here:
+/home/ochi/ELS/output_files/
+
+
+# Now check the regions you checked in Kaisi before, in the other two outgroup individuals. 
+
+# Compare also across individuals the regions I pointed you to above.
+
+
+# QUESTION: Which ones are shared among all individuals? What would one infer from those?
+# QUESTION: What about the ones that are not shared among individuals?
+
+
+
+
+
+
+
+
+——————
+# 10. OTHER SIGNATURES IN THESE GENOMIC REGIONS
+################################################
+
+# Marc Pybus (at the University Pompey Fabra, Barcelona) made available the results from HKA, Fay and Wu’s H and ELS in an interactive browser at http://tinyurl.com/nf8qmzh
+# You can check there your favourite regions too
+
+
+
+
+
+
+
+

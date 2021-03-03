@@ -1,0 +1,123 @@
+# AlleleFreqDyn.txt - examines aspects of allele frequency changes under drift for
+# purposes of devising tests of departure from neutrality based on observed allele 
+# frequencies over generations.
+
+# First show single generation allele frequency changes under binomial, 
+# from random starts
+
+N<-1000
+nsamp<-10000
+p<-runif(nsamp)
+x<-rbinom(nsamp,N,p)
+p1<-x/N
+delta_p<-p1-p
+plot(p,delta_p)
+
+# Next use the same bit of code from the Wright-Fisher sim to generate allele 
+# frequencies of replicate populations under the strict neutrality.
+
+N<-200
+nsamp<-8
+ngen<-200
+startfreq<-.5
+pcur<-matrix(1:N)
+
+#Wright-Fisher is simply recurrent binomial sampling over generations
+
+x<-rbinom(nsamp,N,startfreq)
+p<-x/N
+pcur<-p
+
+for (i in 1:ngen){
+x<-rbinom(nsamp,N,p)
+p<-x/N
+pcur<-rbind(pcur,p)
+}
+
+
+
+# ASSIGNMENT 1: For each of the sample data sets, try to devise a way to 
+# estimate the population size N from the rate of increase in variance in 
+# allele frequencies over generations.
+# In the data sets, columns are distinct SNPs and rows are generations.
+
+# ANSWER:
+
+# Variance of the binomial is p(1-p)/2N.  Tally the observed values of
+# allele frequency p, and for the many transitions in the data set, 
+# calculate the variance in the change in p. Then solve for N 
+# by least squares.
+
+# Note that nsamp = 10, 12, 12 for data sets 1, 2 and 3.
+nsamp<-10
+pcur<-read.table("SampleData1.txt",header=FALSE)
+gen<-seq(1,51)
+for (k in 1:nsamp){
+  plot(gen,pcur[,k],type="l",ylim=c(0,1))
+  par(new=TRUE)
+}
+
+allp<-c()
+alldelta<-c()
+varp<-seq(1,10)
+for (k in 1:10){
+   dif<-pcur[,k]
+   dif1<-dif[-51]
+   dif2<-dif[-1]
+   delta<-(dif2-dif1)
+   allp<-append(allp,dif1)
+   alldelta<-append(alldelta,delta)
+}
+
+# Now do a regression to find the least-squares estimate of N.
+# var = pq/2N so 1/N = (2var)/(pq), so regress 2*variance on pq, slope is 1/N.
+
+index<-round(allp*20)
+dig<-seq(4,16)*.05
+vpq<-dig*(1-dig)
+varr<-c()
+for (ii in 4:16){varr[ii]<-2*var(alldelta[index==ii])}
+
+varr<-varr[-1:-3]
+vpq<-vpq[!is.na(varr)]
+varr<-varr[!is.na(varr)]
+
+lmm<-lm(varr~vpq)
+lmm$coeff[2]
+1/lmm$coeff[2]
+ 
+# This yields 71, 288 and xxx for data sets 1, 2, and 3, figures that 
+# are quite close to those used to generate the simulated results.
+
+
+
+# ASSIGNMENT 2: It turns out that the sample data sets each have one SNP 
+# that deviates from the neutral dynamics. Use whatever test you can 
+# devise to determine which of the SNPs in the sample data sets appear to 
+# depart from neutrality,  
+
+# ANSWER:  Lets illustrate this with SampleData3
+
+pcur<-read.table("SampleData3.txt",header=FALSE)
+gen<-seq(1,51)
+for (k in 1:nsamp){
+plot(gen,pcur[,k],type="l",ylim=c(0,1))
+par(new=TRUE)
+}
+
+varp<-c()
+for (k in 1:12){
+   dif<-pcur[,k]
+   dif1<-dif[-51]
+   dif2<-dif[-1]
+   delta<-dif2-dif1
+   varp[k]<-var(delta)
+}
+varp
+
+# You can see immediately that rep 3 is the outlier, with too small a 
+# variance in delta-p
+
+plot(gen,pcur[,3],type="l",ylim=c(0,1),col="red")
+
+# Similarly, for data sets 1 and 2 the outliers are rep 8 and rep 5 respectively.

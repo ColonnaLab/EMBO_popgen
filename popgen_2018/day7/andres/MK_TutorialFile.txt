@@ -1,0 +1,75 @@
+Asymptotic McDonald–Kreitman Test to estimate the proportion of non-synonymous substitutions driven by positive selection.
+
+We will use the WEBSITE (you can run on the command line, which might best when running on your data). See:
+http://benhaller.com/messerlab/asymptoticMK.html
+
+
+There are two types of sites according to frequency: polymorphic (p) and fixed or substitution (d).
+There are two types of sites according to functionality: non-synonymous (d, pN) and synonymous (d0, pS)
+
+
+
+INPUT FILES
+-----------
+
+/embo/data/aida/MK/input_files/
+
+Copy them to your home (path of your choice)
+
+Two types of files:
+
+*_with1
+This file has the count for non-synonymous and synonymous sites, including the number of substitutions as sites of frequency 1, in the last line. These two values have to be introduced in the web page.
+
+*_no1
+This file contains only polymorphic sites, as I removed frequency 1 just to make your life easier. This is the file to upload.
+
+
+
+1. EXPLORING THE METHOD
+------------------------
+
+Go to the webpage and run the tool. 
+
+Run using the SampleData file (this is Drosophila data). You will have to provide d (59570) and d0 (159058) (from Haller and Messer, 2017).
+
+Explore how changing these two values affects the inferences, even if the polymorphism data is constant. Why is that?
+
+
+
+2. HUMAN DATA
+--------------
+
+Now run with the human data in the files I provided:
+- AfricanAmerican
+- EuropeanAmerican
+
+
+!! Note that you will need to upload the file “_no1” and paste the counts of sites with frequency 1 in the webpage as d and d0.
+
+
+Are there important differences between “AfricanAmerican” and “EuropeanAmerican” humans? Do you find this surprising?
+Are there differences between the results in humans and Drosophila? Are you surprised by these differences?
+I
+
+
+3. PONGO DATA
+—-------------
+
+Now run with the orangutan (Pongo) data in the files I provided:
+- PongoAbe
+- PongoPyg
+
+QUESTION: What do you think of these results? 
+QUESTION: Are there interesting biological questions one could ask with this approach and data? What does it tell us about the method?
+
+
+
+4. OTHER QUESTIONS
+------------------
+
+What do you think about the power of the test for individual genes?
+What about sets of genes?
+Do you think it would have power to differentiate sets of genes with high/low alpha values in Drosophila? And in humans?
+Would this help us identify signatures of other types of selection, such as balancing selection? 
+
