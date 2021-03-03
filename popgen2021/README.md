@@ -26,7 +26,7 @@
       <td width="100"></td>
       <td align="right"><a href="http://meetings.embo.org/event/19-population-genomics/"><img src="./img/logos/EMBO.gif" alt="yay" height="150" width="650"></a></td>
       <td width="100"></td>
-        <td><a href="http://home.infn.it/en/"><img src="./img/logos/Logo_INFN.png" alt="yay" height="100" width="150"></a></td>          
+        <td align="center"><a href="http://home.infn.it/en/"><img src="./img/logos/Logo_INFN.png" alt="yay" height="100" width="150"></a></td>          
         </tr>
         <tr height="50"></tr>
    <tr>
