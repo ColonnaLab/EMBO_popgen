@@ -34,6 +34,10 @@
    <td width="100"></td>
    <td><a href="http://www.igb.cnr.it/"><img src="./img/logos/IGENOMIX.png" alt="cnr" height="150" width="700"></a></td>
    </tr>
+<td><a href="https://elixir-iib-training.github.io/website/"><img src="./img/logos/Logo_genomix4life.png" alt="yay" height="80" width="400"></a></td>
+   <td width="100"></td>
+   <td><a href="https://www.elixir-europe.org/about-us/how-funded/eu-projects/excelerate"><img src="./img/logos/SEQUENTIA.png" alt="yay" height="80" width="700"></a></td>
+   <td width="100"></td>
    <tr>
     <td colspan="4"><img src="./img/tw.png" alt="yay" height="80" width="80"><b>#EMBOpopgen</b></td>    
    </tr>
