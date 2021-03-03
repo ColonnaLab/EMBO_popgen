@@ -19,7 +19,7 @@
    <td width="100"></td>
    <td><a href="https://www.elixir-europe.org/about-us/how-funded/eu-projects/excelerate"><img src="./img/logos/sibe.png" alt="yay" height="80" width="500"></a></td>
    <td width="100"></td>
-   <td><a href="http://www.igb.cnr.it/"><img src="./img/logos/SIGA.png" alt="cnr" height="150" width="500"></a></td>
+   <td><a href="http://www.igb.cnr.it/"><img src="./img/logos/SIGA.png" alt="cnr" height="100" width="400"></a></td>
       </tr>
       <tr>
       <td><a href="http://www.genomix4life.com/it/"><img src="./img/logos/AGI.png" height="100" width="500"></a></td>
