@@ -15,7 +15,7 @@
 
 <table width="700">
    <tr>
-   <td><a href="https://elixir-iib-training.github.io/website/"><img src="./img/logos/embo_press.png" alt="yay" height="80" width="400"></a></td>
+   <td><a href="https://www.embopress.org"><img src="./img/logos/embo_press.png" alt="yay" height="80" width="400"></a></td>
    <td width="100"></td>
    <td><a href="https://www.elixir-europe.org/about-us/how-funded/eu-projects/excelerate"><img src="./img/logos/sibe.png" alt="yay" height="80" width="500"></a></td>
    <td width="100"></td>
