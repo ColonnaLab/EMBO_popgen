@@ -26,12 +26,14 @@
       <td width="100"></td>
       <td align="right"><a href="http://meetings.embo.org/event/19-population-genomics/"><img src="./img/logos/RECAS.png" alt="yay" height="150" width="650"></a></td>
       <td width="100"></td>
-      <td align="center"><a href="http://home.infn.it/en/"><img src="./img/logos/ELIXIR.png" alt="yay" height="100" width="150"></a></td>          
+      <td align="center"><a href="http://home.infn.it/en/"><img src="./img/logos/ELIXIR.png" alt="yay" height="100" width="150"></a></td>
+   </tr>
    <td><a href="https://elixir-iib-training.github.io/website/"><img src="./img/logos/CNR.png" alt="yay" height="80" width="400"></a></td>
    <td width="100"></td>
    <td><a href="https://www.elixir-europe.org/about-us/how-funded/eu-projects/excelerate"><img src="./img/logos/IGB-logo.jpg" alt="yay" height="80" width="700"></a></td>
    <td width="100"></td>
    <td><a href="http://www.igb.cnr.it/"><img src="./img/logos/IGENOMIX.png" alt="cnr" height="150" width="700"></a></td>
+   </tr>
    <tr>
     <td colspan="4"><img src="./img/tw.png" alt="yay" height="80" width="80"><b>#EMBOpopgen</b></td>    
    </tr>
