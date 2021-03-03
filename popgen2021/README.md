@@ -1,7 +1,7 @@
 #### PRACTICAL COURSE
 
 # POPULATION GENOMICS: BACKGROUND AND TOOLS
-### Procida, Italy 30 March - 06 April 2019
+### Virtual, 16 – 25 March 2021
 
 ## Go to the [official EMBO website](https://meetings.embo.org/event/20-populationgenomics)
 
