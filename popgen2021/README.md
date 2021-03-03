@@ -24,7 +24,7 @@
       <tr>
       <td><a href="http://www.genomix4life.com/it/"><img src="./img/logos/Logo_genomix4life.png" height="100" width="500"></a></td>
       <td width="100"></td>
-      <td align="right"><a href="http://meetings.embo.org/event/19-population-genomics/"><img src="./img/logos/EMBO.gif" alt="yay" height="200" width="650"></a></td>
+      <td align="right"><a href="http://meetings.embo.org/event/19-population-genomics/"><img src="./img/logos/EMBO.gif" alt="yay" height="180" width="650"></a></td>
       <td width="100"></td>
         <td align="right"><a href="http://home.infn.it/en/"><img src="./img/logos/Logo_INFN.png" alt="yay" height="100" width="150"></a></td>          
         </tr>
