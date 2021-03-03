@@ -3,7 +3,7 @@
 # POPULATION GENOMICS: BACKGROUND AND TOOLS
 ### Procida, Italy 30 March - 06 April 2019
 
-## Go to the [official EMBO website](http://meetings.embo.org/event/19-population-genomics)
+## Go to the [official EMBO website](https://meetings.embo.org/event/20-populationgenomics)
 
 
 <table style="width:100%">
