@@ -25,6 +25,9 @@ SSH instructions [here](WiFi-SSHinstruction.md)
    <tr>
      <td><img src="./img/popgenlogo.png" alt="yay" height="200" width="700"></td>
      <tr/>
+     <td colspan="4"><img src="./img/tw.png" alt="yay" height="80" width="80"><b>#EMBOpopgen</b></td>    
+    </tr>
+ </table>
 </table>
 
 
@@ -54,6 +57,3 @@ SSH instructions [here](WiFi-SSHinstruction.md)
    <td><a href="https://www.sequentiabiotech.com"><img src="./img/logos/SEQUENTIA.png" alt="yay" height="80" width="600"></a></td>
    <td width="100"></td>
    <tr>
-    <td colspan="4"><img src="./img/tw.png" alt="yay" height="80" width="80"><b>#EMBOpopgen</b></td>    
-   </tr>
-</table>
