@@ -5,6 +5,21 @@
 
 ## Go to the [official EMBO website](https://meetings.embo.org/event/20-populationgenomics)
 
+## Connections
+SSH instructions [here](WiFi-SSHinstruction.md)
+
+## Docs with teaching materials
+| Speakers | Teaching materials |
+|--------------------|-----------------|
+|Anders Albrechtsen| [materials]() |
+|Anna-Sapfo Malaspinas| [materials]() |
+|Andrea Manica| [materials]() |
+|Benjamin Peter| [materials]() |
+|Dan Schrider| [materials]() |
+|Nicole Soranzo| [materials]() |
+|Leo Speidel| [materials]() |
+|Lucy van Dorp| [materials]() |
+|Daniel Wegmann| [materials]() |
 
 <table style="width:100%">
    <tr>
@@ -42,8 +57,3 @@
     <td colspan="4"><img src="./img/tw.png" alt="yay" height="80" width="80"><b>#EMBOpopgen</b></td>    
    </tr>
 </table>
-
-
-
-## Connections
-SSH instructions [here](WiFi-SSHinstruction.md)
