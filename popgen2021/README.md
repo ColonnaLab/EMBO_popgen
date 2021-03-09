@@ -8,7 +8,7 @@
 ## Connections
 SSH instructions [here](WiFi-SSHinstruction.md)
 
-## Docs with teaching materials
+## Repos with teaching materials
 | Speakers | Teaching materials |
 |--------------------|-----------------|
 |[Anders Albrechtsen](http://www.popgen.dk/groupWiki/index.php/Anders_Albrechtsen)| [materials](Anders_Albrechtsen) |
