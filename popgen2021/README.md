@@ -23,7 +23,7 @@ SSH instructions [here](WiFi-SSHinstruction.md)
 
 <table style="width:100%">
    <tr>
-     <td><img src="./img/popgenlogo.png" alt="yay" height="200" width="700"></td> <td colspan="4"><img src="./img/tw.png" alt="yay" height="60" width="60"><b>#EMBOpopgen</b></td>    
+     <td><img src="./img/popgenlogo.png" alt="yay" height="200" width="700"></td> <td colspan="4"><img src="./img/tw.png" alt="yay" height="60" width="60"><b>[#EMBOpopgen](https://twitter.com/hashtag/EMBOpopgen?src=hashtag_click)</b></td>    
      <tr/>
 </table>
 
