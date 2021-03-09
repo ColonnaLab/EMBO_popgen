@@ -11,15 +11,15 @@ SSH instructions [here](WiFi-SSHinstruction.md)
 ## Docs with teaching materials
 | Speakers | Teaching materials |
 |--------------------|-----------------|
-|Anders Albrechtsen| [materials](Anders_Albrechtsen) |
-|Anna-Sapfo Malaspinas| [materials](Anna-Sapfo_Malaspinas) |
-|Andrea Manica| [materials](Andrea_Manica) |
-|Benjamin Peter| [materials](Benjamin_Peter) |
-|Dan Schrider| [materials](Dan_Schrider) |
-|Nicole Soranzo| [materials](Nicole_Soranzo) |
-|Leo Speidel| [materials](Leo_Speidel) |
-|Lucy van Dorp| [materials](Lucy_van_Dorp) |
-|Daniel Wegmann| [materials](Daniel_Wegmann) |
+|[Anders Albrechtsen](http://www.popgen.dk/groupWiki/index.php/Anders_Albrechtsen)| [materials](Anders_Albrechtsen) |
+|[Anna-Sapfo Malaspinas](https://www.sib.swiss/anna-sapfo-malaspinas-group)| [materials](Anna-Sapfo_Malaspinas) |
+|[Andrea Manica](https://www.zoo.cam.ac.uk/directory/andrea-manica)| [materials](Andrea_Manica) |
+|[Benjamin Peter](https://www.eva.mpg.de/genetics/staff/benjamin-peter.html)| [materials](Benjamin_Peter) |
+|[Dan Schrider](https://www.schriderlab.org)| [materials](Dan_Schrider) |
+|[Nicole Soranzo](https://www.sanger.ac.uk/person/soranzo-nicole/)| [materials](Nicole_Soranzo) |
+|[Leo Speidel](https://leospeidel.com)| [materials](Leo_Speidel) |
+|[Lucy van Dorp](https://www.ucl.ac.uk/~ucbpvan/)| [materials](Lucy_van_Dorp) |
+|[Daniel Wegmann](https://www.unifr.ch/bio/en/research/conservation-biology/wegmann-group.html)| [materials](Daniel_Wegmann) |
 
 <table style="width:100%">
    <tr>
