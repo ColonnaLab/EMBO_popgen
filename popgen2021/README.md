@@ -11,7 +11,7 @@ SSH instructions [here](WiFi-SSHinstruction.md)
 ## Docs with teaching materials
 | Speakers | Teaching materials |
 |--------------------|-----------------|
-|Anders Albrechtsen| [materials]() |
+|Anders Albrechtsen| [materials](Anders_Albrechtsen) |
 |Anna-Sapfo Malaspinas| [materials]() |
 |Andrea Manica| [materials]() |
 |Benjamin Peter| [materials]() |
