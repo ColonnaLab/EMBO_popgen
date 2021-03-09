@@ -6,7 +6,7 @@
 ## Go to the [official EMBO website](https://meetings.embo.org/event/20-populationgenomics)
 
 ## Connections
-SSH instructions [here](WiFi-SSHinstruction.md)
+SSH instructions [here](SSHinstruction.md)
 
 ## Repos with teaching materials
 | Speakers | Teaching materials |
