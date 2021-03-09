@@ -12,14 +12,14 @@ SSH instructions [here](WiFi-SSHinstruction.md)
 | Speakers | Teaching materials |
 |--------------------|-----------------|
 |Anders Albrechtsen| [materials](Anders_Albrechtsen) |
-|Anna-Sapfo Malaspinas| [materials]() |
-|Andrea Manica| [materials]() |
-|Benjamin Peter| [materials]() |
-|Dan Schrider| [materials]() |
-|Nicole Soranzo| [materials]() |
-|Leo Speidel| [materials]() |
-|Lucy van Dorp| [materials]() |
-|Daniel Wegmann| [materials]() |
+|Anna-Sapfo Malaspinas| [materials](Anna-Sapfo_Malaspinas) |
+|Andrea Manica| [materials](Andrea_Manica) |
+|Benjamin Peter| [materials](Benjamin_Peter) |
+|Dan Schrider| [materials](Dan_Schrider) |
+|Nicole Soranzo| [materials](Nicole_Soranzo) |
+|Leo Speidel| [materials](Leo_Speidel) |
+|Lucy van Dorp| [materials](Lucy_van_Dorp) |
+|Daniel Wegmann| [materials](Daniel_Wegmann) |
 
 <table style="width:100%">
    <tr>
