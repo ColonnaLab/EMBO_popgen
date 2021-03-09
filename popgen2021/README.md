@@ -27,7 +27,6 @@ SSH instructions [here](WiFi-SSHinstruction.md)
      <tr/>
      <td colspan="4"><img src="./img/tw.png" alt="yay" height="80" width="80"><b>#EMBOpopgen</b></td>    
     </tr>
- </table>
 </table>
 
 
