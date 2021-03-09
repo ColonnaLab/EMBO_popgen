@@ -23,14 +23,14 @@ SSH instructions [here](WiFi-SSHinstruction.md)
 
 <table style="width:100%">
    <tr>
-     <td><img src="./img/popgenlogo.png" alt="yay" height="200" width="700"></td> <td colspan="4"><img src="./img/tw.png" alt="yay" height="60" width="60"><b>[#EMBOpopgen](https://twitter.com/hashtag/EMBOpopgen?src=hashtag_click)</b></td>    
+     <td><img src="./img/popgenlogo.png" alt="yay" height="200" width="700"></td> <td><a href="https://twitter.com/hashtag/EMBOpopgen?src=hashtag_click"><img src="./img/tw.png" alt="yay" height="60" width="60"><b>#EMBOpopgen</b></td>    
      <tr/>
 </table>
 
 
 <table width="700">
    <tr>
-   <td><a href="https://www.embopress.org"><img src="./img/logos/embo_press.png" alt="yay" height="80" width="400"></a></td>
+   <td><img src="./img/logos/embo_press.png" alt="yay" height="80" width="400"></a></td>
    <td width="100"></td>
    <td><a href="https://www.sibe-iseb.it"><img src="./img/logos/sibe.png" alt="yay" height="80" width="500"></a></td>
    <td width="100"></td>
