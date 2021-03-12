@@ -3,7 +3,7 @@ For this course we will work on the High Performance Cluster of the [Istituto Na
 
 The filesystem has been generated according to this structure
 
-<img src="./img/recas_infrastructure.png" alt="yay">
+<img src="./img/recas_infrastructure.png" alt="yay" height="200" width="100">
 
 Each has writing permission only in the folder(s) with their name and reading permission to any folder.
 
