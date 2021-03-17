@@ -2,7 +2,7 @@
 title: "EMBO 2021 -- Approximate Bayesian Computation"
 author: "Daniel Wegmann"
 date: "3/16/2021"
-output: html_document
+output: md_document
 ---
 
 ```{r setup, include=FALSE}
@@ -98,11 +98,15 @@ fastsimcoal2
 To get a feeling for ABC, we will play around with a simple model of constant population size. You can can get all necessary files as a zip file from the git repo:
 
 ```{bash, eval=FALSE}
-wget XXX
-tar -xf ABCdemo.tar.gz
+wget https://github.com/ColonnaLab/EMBO_popgen/raw/main/popgen2021/Daniel_Wegmann/ABCDemo.tar.gz
+tar -xf ABCDemo.tar.gz
 ```
 
-Then enter the folder `ABCdemo`.
+Then enter the folder `ABDdemo`.
+
+```{bash, eval=FALSE}
+cd ABCDemo
+```
 
 Let us begin by generating some pseudo-observed data. To generate simulations, we use `fastsimcoal2`, which requires an input file specifying the model. Here we will use the file `constsize_obs.par`. Have a look at that file and locate the two important parameters:
 

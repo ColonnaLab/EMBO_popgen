@@ -93,10 +93,12 @@ To get a feeling for ABC, we will play around with a simple model of
 constant population size. You can can get all necessary files as a zip
 file from the git repo:
 
-    wget XXX
-    tar -xf ABCdemo.tar.gz
+    wget https://github.com/ColonnaLab/EMBO_popgen/raw/main/popgen2021/Daniel_Wegmann/ABCDemo.tar.gz
+    tar -xf ABCDemo.tar.gz
 
-Then enter the folder `ABCdemo`.
+Then enter the folder `ABDdemo`.
+
+    cd ABCDemo
 
 Let us begin by generating some pseudo-observed data. To generate
 simulations, we use `fastsimcoal2`, which requires an input file
