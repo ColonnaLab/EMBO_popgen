@@ -13,11 +13,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 While this lecture will take place on a virtual black board, here is some accompaning material:
 
-* The script  [The Art of Statistical Modeling and Inference](https://bitbucket.org/wegmannlab/statistical_modelling_and_inference/raw/bdb36a7e4e91f5d9b2346a6a8271068256220955/Statistical_Modelling_and_Inference.pdf), with a detailed chapter on ABC.
+* The script  [The Art of Statistical Modeling and Inference](https://bitbucket.org/wegmannlab/statistical_modelling_and_inference/raw/master/Statistical_Modelling_and_Inference.pdf), with a detailed chapter on ABC.
 * The book-chapter [A Guide to General-Purpose Approximate Bayesian ComputationSoftware](https://arxiv.org/pdf/1806.08320.pdf).
 * A video on [Bayesian statistics](https://www.youtube.com/watch?v=S873W1RwSn4&t=902s).
 * A video on [Approximate Bayesian computation](https://www.youtube.com/watch?v=xtPHTSVD4T8&t=2s).
 * A video on [ABC-GLM](https://www.youtube.com/watch?v=r3iAqCjODrk&t=16s).
+* The R script [ABC_demo.r](https://bitbucket.org/wegmannlab/statistical_modelling_and_inference/raw/master/Scripts/ABC_demo.r) used to illustrate ABC.
 
 ## Exercises A (Morning): Getting started with ABC
 
