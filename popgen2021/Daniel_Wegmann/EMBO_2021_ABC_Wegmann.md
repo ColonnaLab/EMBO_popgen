@@ -44,8 +44,9 @@ Now lets compile ABCtoolbox! This is done easily by changing into the
 directory of the code and using the provided make file by simply typing
 
     cd abctoolbox
+    scl enable devtoolset-9 bash
     make
-
+    
 Now let’s move the `ABCtoolbox` binary into the bin folder, and then
 change into that directory.
 
