@@ -1,3 +1,3 @@
 # Slides & Practical 
 
-http://popgen.dk/albrecht/phdcourse/html/EMBO2021.html
+http://popgen.dk/albrecht/EMBO2021
