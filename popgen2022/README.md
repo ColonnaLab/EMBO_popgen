@@ -43,15 +43,7 @@ SSH instructions [here](SSHinstruction.md)
       <td width="100"></td>
       <td align="center"><a href="https://elixir-europe.org/about-us/who-we-are/nodes/italy"><img src="./img/logos/ELIXIR.png" alt="yay" height="100" width="150"></a></td>
    </tr>
-   <td><a href="https://www.cnr.it/en/homepage"><img src="./img/logos/CNR.png" alt="yay" height="80" width="500"></a></td>
-   <td width="100"></td>
-   <td><a href="http://www.igb.cnr.it/"><img src="./img/logos/IGB-logo.jpg" alt="yay" height="80" width="500"></a></td>
-   <td width="100"></td>
    <td><a href="https://www.igenomix.it/"><img src="./img/logos/IGENOMIX.png" alt="cnr" height="150" width="700"></a></td>
    </tr>
-<td><a href="https://www.genomix4life.com/en/"><img src="./img/logos/Logo_genomix4life.png" alt="yay" height="80" width="600"></a></td>
-   <td width="100"></td>
-   <td><a href="https://www.sequentiabiotech.com"><img src="./img/logos/SEQUENTIA.png" alt="yay" height="80" width="600"></a></td>
-   <td width="100"></td>
    <tr>
 </table>
