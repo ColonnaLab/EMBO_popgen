@@ -1,9 +1,9 @@
 #### PRACTICAL COURSE
 
 # POPULATION GENOMICS: Background, tools, and programming
-### Virtual, 16 – 25 March 2021
+### Virtual, 22 – 30 March 2022
 
-## Go to the [official EMBO website](https://meetings.embo.org/event/20-populationgenomics)
+## Go to the [official EMBO website](https://embo-popgen.centercongressi.com/faculty.php)
 
 ## Connections
 SSH instructions [here](SSHinstruction.md)
