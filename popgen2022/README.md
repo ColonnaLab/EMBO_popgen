@@ -5,11 +5,10 @@
 
 ## Go to the [official EMBO website](https://embo-popgen.centercongressi.com/faculty.php)
 
-<!--
 ## Connections
 
 SSH instructions [here](SSHinstruction.md)
--->
+
 ## Repos with teaching materials
 | Speakers | Teaching materials |
 |--------------------|-----------------|
