@@ -11,7 +11,7 @@ Each has writing permission only in the folder(s) with their name and reading pe
 To connect to the INFN machine using SSH from a Linux terminal use:
 
 ```
-ssh -Y yourusername@elixirschool.recas.ba.infn.it
+ssh -Y yourusername@embo-popgen.recas.ba.infn.it
 ```
 the -Y tag enable graphical options
 
@@ -24,7 +24,7 @@ Username and password were given to you at the reception
 open a terminal and scp to your local machine
 
 ```
-scp username@elixirschool.recas.ba.infn.it:/home/username/myfiletotransfer.extension .
+scp username@embo-popgen.recas.ba.infn.it:/home/username/myfiletotransfer.extension .
 
 ```
 
@@ -32,7 +32,7 @@ scp username@elixirschool.recas.ba.infn.it:/home/username/myfiletotransfer.exten
 open a terminal and scp to your local machine
 
 ```
-scp username@elixirschool.recas.ba.infn.it:/home/username/myfiletotransfer.extension .
+scp username@embo-popgen.recas.ba.infn.it:/home/username/myfiletotransfer.extension .
 
 ```
 
