@@ -40,8 +40,21 @@ Here, the argument “–depth 1” implies tat you only get the latest
 version, as opposed to the whole history of the program. The code is now
 cloned into a diectory called abctoolbox.
 
-Now lets compile ABCtoolbox! This is done easily by changing into the
-directory of the code and using the provided make file by simply typing
+Now lets compile ABCtoolbox! The high-performance computing (HPC) center
+we are using for this course has a rather old ggc (the compiler for C++
+code) that does not suppoer c++11. However, a much more recent version
+can be loaded with
+
+    scl enable devtoolset-9 bash
+
+If you plan to use ABCtoolbox on your own computer or on a different HPC
+system, this extra step will most likely not be necessary. In case you
+do need to load a newer version of gcc, reach out to your local
+sys-admin to know how to enable it.
+
+With a reasonably recent version of gcc available, the compilation is
+done easily by changing into the directory of the code and using the
+provided make file by simply typing
 
     cd abctoolbox
     make
