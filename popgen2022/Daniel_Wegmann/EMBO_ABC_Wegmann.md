@@ -123,7 +123,7 @@ Have a look at that file and locate the two important parameters:
 2.  the mutation rate.
 
 You may also consult the manual of fastsimcoal, which is available
-[here](http://cmpg.unibe.ch/software/fastsimcoal2/man/fastsimcoal26.pdf).
+[here](http://cmpg.unibe.ch/software/fastsimcoal2/man/fastsimcoal27.pdf).
 
 Use the following command to generate the simulations (run fastsimcoal2
 without arguments to get some help):
