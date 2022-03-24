@@ -81,7 +81,7 @@ Then copy the fastsimcoal esecutable into the bin folder and make sure
 it is executable. When doing so, we will also rename the binary so the
 exercises below work regardless of the version you have.
 
-    cp fsc2[0-9]_linux64/fsc2[0-9] fastsimcoal2
+    cp fsc2[0-9]_linux64/fsc2[0-9]05 fastsimcoal2
     chmod +x fastsimcoal2
 
 Now we do the same for `arlsumstat`.
