@@ -74,8 +74,8 @@ Next lets download also two other binaries: the latest versions of
 calculate summary statistics on fastsimcoal2 output. Starting with
 former:
 
-    wget http://cmpg.unibe.ch/software/fastsimcoal2/downloads/fsc26_linux64.zip
-    unzip fsc26_linux64.zip
+    wget http://cmpg.unibe.ch/software/fastsimcoal2/downloads/fsc27_linux64.zip
+    unzip fsc27_linux64.zip
 
 Then copy the fastsimcoal esecutable into the bin folder and make sure
 it is executable. When doing so, we will also rename the binary so the
