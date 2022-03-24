@@ -1,8 +1,7 @@
-Material
---------
+## Material
 
 While this lecture will take place on a virtual black board, here is
-some accompaning material:
+some accompanying material:
 
 -   The script [The Art of Statistical Modeling and
     Inference](https://bitbucket.org/wegmannlab/statistical_modelling_and_inference/raw/master/Statistical_Modelling_and_Inference.pdf),
@@ -19,8 +18,7 @@ some accompaning material:
     [ABC\_demo.r](https://bitbucket.org/wegmannlab/statistical_modelling_and_inference/raw/master/Scripts/ABC_demo.r)
     used to illustrate ABC.
 
-Exercises A (Morning): Getting started with ABC
------------------------------------------------
+## Exercises A (Morning): Getting started with ABC
 
 ### Step A1: Compile the latest version of ABCtoolbox and check executables
 
@@ -31,7 +29,7 @@ Let us begin by creating a directory “bin” for all executables
     cd bin
 
 Let’s now compile the latest version of ABCtoolbox. For this you first
-have to download the latesest code from the git repository. You can do
+have to download the latest code from the git repository. You can do
 this as follows:
 
     git clone --depth 1 https://bitbucket.org/wegmannlab/abctoolbox.git
@@ -74,19 +72,19 @@ Next lets download also two other binaries: the latest versions of
 calculate summary statistics on fastsimcoal2 output. Starting with
 former:
 
-    wget http://cmpg.unibe.ch/software/fastsimcoal2/downloads/fsc27_linux64.zip
+    wget http://cmpg.unibe.ch/software/fastsimcoal27/downloads/fsc27_linux64.zip
     unzip fsc27_linux64.zip
 
-Then copy the fastsimcoal esecutable into the bin folder and make sure
+Then copy the fastsimcoal executable into the bin folder and make sure
 it is executable. When doing so, we will also rename the binary so the
 exercises below work regardless of the version you have.
 
-    cp fsc2[0-9]_linux64/fsc2[0-9]05 fastsimcoal2
+    cp fsc2[0-9]*_linux64/fsc2[0-9]* fastsimcoal2
     chmod +x fastsimcoal2
 
 Now we do the same for `arlsumstat`.
 
-    wget http://cmpg.unibe.ch/software/arlequin35/linux/arlsumstat_linux.zip
+    wget http://cmpg.unibe.ch/software/arlequin3522/linux/arlsumstat_linux.zip
     unzip arlsumstat_linux.zip
     cp arlsumstat_linux/arlsumstat*64bit arlsumstat
     chmod +x arlsumstat
@@ -269,8 +267,7 @@ to the 100 simulations you generated with the following command:
 
     tail -n+2 sims_constsize_theta_50K.txt >> sims_constsize_theta_sampling1.txt
 
-Step A8: Estimate the posterior distributionon theta with ABCtoolbox
---------------------------------------------------------------------
+## Step A8: Estimate the posterior distributionon theta with ABCtoolbox
 
 Now estimate *θ* using `ABCtoolbox`. For this, create an input file
 `estimate_theta.input` by copying and then modifying the input file we
@@ -290,8 +287,7 @@ Change the parameters in `constsize_obs.par` and regenerate the observed
 data, re-calculate summary statistics from them and rerun the estimation
 (no need to generate new simulations!). Can you accurately estimate *θ*?
 
-Exercises B (Afternoon): Choice of Summary Statistics & Validation
-------------------------------------------------------------------
+## Exercises B (Afternoon): Choice of Summary Statistics & Validation
 
 ### Step B1: Finding appropriate summary statistics using PLS
 
@@ -387,8 +383,7 @@ should be distributed uniformly.
 
 Are they? What may affect these distributions and in what way?
 
-Exercises C (Afternoon): Moderl Choice
---------------------------------------
+## Exercises C (Afternoon): Moderl Choice
 
 ### Step C1: Setting up a competing model with a bottleneck
 
