@@ -295,7 +295,19 @@ Some of the summary statistics are highly correlated, suggesting that we
 may reduce the summary statistics space while retaining all the
 information. One method to do so is via a Partial Least Squares (PLS)
 transformation. For such a transformation you may use the R script
-find\_pls.r, which is provided in the exercise directory. Simply call it
+`find_pls.r`, which is provided in the exercise directory.
+
+This script uses the “pls” package in R. It seems to first have to
+install it. To do so, open R (suing the command `R`) and then type
+
+    install.packages("pls")
+
+and follow the instructions (you will need to type “yes” a few times to
+agree to install the package for you only rather than system wide and
+you will also need to choose a CRAN mirror, for which I suggest one from
+Italy.)
+
+Once this is done, quit R (using `q()`) and then call the `find_pls.r`
 as follows:
 
     Rscript find_pls.r sims_constsize_theta_sampling1.txt
