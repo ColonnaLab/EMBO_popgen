@@ -267,7 +267,7 @@ to the 100 simulations you generated with the following command:
 
     tail -n+2 sims_constsize_theta_50K.txt >> sims_constsize_theta_sampling1.txt
 
-## Step A8: Estimate the posterior distributionon theta with ABCtoolbox
+## Step A8: Estimate the posterior distribution on theta with ABCtoolbox
 
 Now estimate *θ* using `ABCtoolbox`. For this, create an input file
 `estimate_theta.input` by copying and then modifying the input file we
@@ -383,7 +383,7 @@ should be distributed uniformly.
 
 Are they? What may affect these distributions and in what way?
 
-## Exercises C (Afternoon): Moderl Choice
+## Exercises C (Afternoon): Model Choice
 
 ### Step C1: Setting up a competing model with a bottleneck
 
