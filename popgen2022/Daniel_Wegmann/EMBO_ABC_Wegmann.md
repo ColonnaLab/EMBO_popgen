@@ -445,19 +445,19 @@ combinations with highest power, choose a combinations with few
 statistics and low correlation among them. Which is your combination?
 
 Prepare an observed file containing only these statistics for the
-observed data.
+observed data and name it `constsize.obs.modelChoice`.
 
 ### Step C3: Performing model choice
 
 Running model choice with `ABCtoolbox` is straight forward: simply add
 additional models to the arguments `simName` and `params`. In our case,
 first copy the file `estimate_theta.input` and add the bottleneck model
-to simName and to params and change the output prefix. It shoudl like
+to simName and to params and change the output prefix. It should like
 this;
 
-    simName sims_constsize_sampling1.txt;sims_bottleneck_sampling1.txt.old
+    simName sims_constsize_sampling1.txt;sims_bottleneck_sampling1.txt
     params 2;2-4 
-    outputPrefix ABC_modelchoice_
+    outputPrefix ABC_modelChoice_
 
 Finally, run `ABCtoolbox` on this input file and check both the output
 written to screen as well as the model fit file. Which model is
