@@ -86,7 +86,7 @@ abline(v=causalWin[,3],col="red")
 NB!. This is based on genotypes. I will get back to how to do it for low depth data using genotype likelihoood
 
 
-[BONUS: If you want to see tajimas D instead](http://popgen.dk/albrecht/phdcourse/html/tajimasD.html)
+[BONUS: If you want to see tajimas D instead]( https://github.com/populationgenetics/exercises/blob/master/NaturalSelection/selectionAA.md )
 
 Use the browser to see how Tajima's D perform on the same data
 
