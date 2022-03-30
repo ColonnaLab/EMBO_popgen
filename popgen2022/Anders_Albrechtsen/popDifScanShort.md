@@ -149,10 +149,33 @@ barplot(resDown,beside=T,legend=c("YRI","JPT","CEU"),names=1:9,main="realSFS dow
 ```
 
  - Which population has the largest population size?
+ - The data is a small subset of the genome (2Mb). If you had analysed 6Mb it sould have looked [like this]( http://popgen.dk/albrecht/phdcourse/html/plots/realSFS4.pdf )
  - The analysed whole chromosome for the 1000G individual look [like this](http://popgen.dk/albrecht/phdcourse/sfs/Moltke5V2.pdf)
 
 
 
+lets use the sfs to calculate some statistics for the population
+
+```
+ ##run in R
+## read sfs
+y<-scan("yri.sfs");
+j<-scan("jpt.sfs");
+c<-scan("ceu.sfs");
+
+x<-y #change this one to try one of the other populations
+
+nSites<-sum(x)   #Number of sites where we have data
+nSeg<-sum(x[c(-1,-21)])    #Number of segregating sites
+an <- function(n) sum(1/1:(n-1))
+thetaW <- nSeg/an(20) # Wattersons Theta
+thetaW / 1.5e-8 / nSites / 4 # effective population size
+```
+
+The above example is for the African population. Try to run it for all three populations.
+
+ - which has the largest populations size
+ - which has the largest variability (fraction of polymorphic/segregating sites)
 
 
 ## Fst and PBS
@@ -227,7 +250,7 @@ note the maximum observed values for both the pairwise fst and the PBS
 
 
 
-
+## non-random region
 Lets do the same for not so randomly selection 1Mb region of on chr 5. 
 Remember to close R
 
@@ -288,3 +311,5 @@ legend("topleft",fill=1:3,c("YRI","JPT","CEU"))
 
 Find out what genes is in this region by going to the [UCSC browser](https://genome.ucsc.edu/index.html). Choose Genome browser. Choose human GRCh37/hg19 and find the region. Read about this gene on wikipedia and see if this fits PBS results. 
 
+## special assignment only for group 1
+https://github.com/aalbrechtsen/embo2022/blob/main/specialAssignment.md
