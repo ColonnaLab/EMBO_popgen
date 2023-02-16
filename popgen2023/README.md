@@ -12,7 +12,16 @@ SSH instruction
 ## Repos with teaching materials
 | Speakers | Teaching materials | 
 |--------------------|-----------------|
-| Andrea Manica | [materials](Andrea_Manica)
+| Ana Basiri | [materials](Ana_Basiri) |
+| Andrea Manica | [materials](Andrea_Manica) | 
+| Anna-Sapfo Malaspinas | [materials](Anna-Sapfo_Malaspinas) |
+| Benjamin Peter | [materials](Benjamin_Peter) |
+| Daniel Wegmann | [materials](Daniel_Wegmann) |
+| Flora Jay | [materials](Flora_Jay) |
+| Kelley Harris | [materials](Kelley_Harris) |
+| Leo Speidel | [materials](Leo_Speidel) | 
+| Lucy van Dorp | [materials](Lucy_van_Dorp) |
+| Tábita Hünemeier | [materials](Tábita_Hünemeier) |
 
 <table style="width:100%">
    <tr>
