@@ -3,25 +3,23 @@
 # EMBO Course in Population Genomics
 ### Virtual, 22 – 30 March 2022
 
-## Go to the [official EMBO website](https://embo-popgen.centercongressi.com/faculty.php)
+## Go to the [official EMBO website](https://meetings.embo.org/event/23-pop-genomics)
 
 ## Connections
 
-SSH instructions [here](SSHinstruction.md)
+SSH instructions [here]()
 
 ## Repos with teaching materials
 | Speakers | Teaching materials |
 |--------------------|-----------------|
+|[Ana Basiri]() | [materials](Ana_Basiri) |
 |[Anders Albrechtsen](http://www.popgen.dk/groupWiki/index.php/Anders_Albrechtsen)| [materials](Anders_Albrechtsen) |
 |[Anna-Sapfo Malaspinas](https://www.sib.swiss/anna-sapfo-malaspinas-group)| [materials](Anna-Sapfo_Malaspinas) |
 |[Andrea Manica](https://www.zoo.cam.ac.uk/directory/andrea-manica)| [materials](Andrea_Manica) |
 |[Benjamin Peter](https://www.eva.mpg.de/genetics/staff/benjamin-peter.html)| [materials](Benjamin_Peter) |
-|[Dan Schrider](https://www.schriderlab.org)| [materials](Dan_Schrider) |
 |[Leo Speidel](https://leospeidel.com)| [materials](Leo_Speidel) |
 |[Daniel Wegmann](https://www.unifr.ch/bio/en/research/conservation-biology/wegmann-group.html)| [materials](Daniel_Wegmann) |
-|[Amy Goldberg](https://www.goldberglab.org)| [materials](Amy_Goldberg) |
-|[Nina Jablonski](https://sites.psu.edu/ninajablonski/)| [materials](Nina_Jablonski) |
-|[Kirstie Whitaker](https://www.turing.ac.uk/people/researchers/kirstie-whitaker)| [materials](Kirstie_Whitaker) |
+
 <table style="width:100%">
    <tr>
      <td><img src="./img/popgenlogo.png" alt="yay" height="200" width="700"></td> <td><a href="https://twitter.com/hashtag/EMBOpopgen?src=hashtag_click"><img src="./img/tw.png" alt="yay" height="60" width="60"><b>#EMBOpopgen</b></td>    
