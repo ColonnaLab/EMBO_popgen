@@ -12,6 +12,7 @@ SSH instruction
 ## Repos with teaching materials
 | Speakers | Teaching materials | 
 |--------------------|-----------------|
+| Andrea Manica | [materials](Andrea_Manica)
 
 <table style="width:100%">
    <tr>
