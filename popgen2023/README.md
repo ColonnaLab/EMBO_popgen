@@ -24,7 +24,7 @@ SSH instruction
    </tr>
    <td><img src="./img/embo_press.png" alt="yay" height="80" width="1000"></a></td>
    <td width="100"></td>
-   <td><a href="https://www.sibe-iseb.it"><img src="./img/logos/sibe.png" alt="yay" height="80" width="800"></a></td>
+   <td><a href="https://www.sibe-iseb.it"><img src="./img/sibe.png" alt="yay" height="80" width="800"></a></td>
    <td width="100"></td>
    <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SIGA.png" alt="cnr" height="150" width="800"></a></td>
       </tr>
