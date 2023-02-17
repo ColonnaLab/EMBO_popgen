@@ -7,7 +7,9 @@
 
 ## Connections
 
-SSH instruction [instructions](connections/keypair.pdf)
+For this course we will work on the High Performance Cluster of the [Istituto Nazionale di Fisica Nucleare](https://www.ba.infn.it/eng/)
+
+To connect to the machine using SSH, send us your public key ( [here are instructions on how to create your public key](connections/keypair.pdf) ).
 
 ## Repos with teaching materials
 | Speakers | Teaching materials | 
