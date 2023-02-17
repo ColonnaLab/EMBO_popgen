@@ -7,7 +7,7 @@
 
 ## Connections
 
-SSH instruction
+SSH instruction [instructions](connections/keypair.pdf)
 
 ## Repos with teaching materials
 | Speakers | Teaching materials | 
