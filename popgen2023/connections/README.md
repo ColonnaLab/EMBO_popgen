@@ -25,4 +25,4 @@ using the JupyterHub interface only (which is just an authenticated jupyterlab n
 
 The usernames are the same used for SSH, but in this case you must insert your own password to access the system.
 
-Usernames and passwords will be provided via Slack: if you have not received the invitation to join the EMBO POPGEN 2023 channel please get in touch with us ASAP.
+**Usernames and passwords will be provided via Slack: if you have not received the invitation to join the EMBO POPGEN 2023 channel please get in touch with us ASAP.**
