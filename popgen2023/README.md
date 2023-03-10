@@ -11,6 +11,8 @@ For this course we will work on the High Performance Cluster of the [Istituto Na
 
 To connect to the machine using SSH, send us your public key ( [here are instructions on how to create your public key](connections/keypair.pdf) ).
 
+Connection to the machine ( [here are the instruction on how to access the machine](https://github.com/ColonnaLab/EMBO_popgen/tree/main/popgen2023/connections/README.md))
+
 ## Repos with teaching materials
 | Speakers | Teaching materials | 
 |--------------------|-----------------|
