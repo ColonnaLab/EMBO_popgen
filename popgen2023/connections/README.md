@@ -1,7 +1,6 @@
 # SERVER CONNECTION
 
-## The Server can be accessed by speakers and students at: 
-## embo-popgen-2023.recas.ba.infn.it 
+## The Server can be accessed by speakers and students at: embo-popgen-2023.recas.ba.infn.it 
 
 The software has been installed system-wide and should be visible by everyone.
 
