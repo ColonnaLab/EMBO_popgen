@@ -8,7 +8,7 @@
 
 ## Connections
 
-For this course we will work on the High Performance Cluster of the Istituto Nazionale di Fisica Nucleare.
+For this course we will work on the High Performance Cluster of the [Istituto Nazionale di Fisica Nucleare](https://home.infn.it/it/)
 
 To connect to the machine using SSH, send us your public key. [Instructions on how to create your public key](https://github.com/ColonnaLab/EMBO_popgen/blob/main/popgen2023/connections/keypair.pdf)
 
