@@ -9,7 +9,9 @@
 ## Connections
 
 For this course we will work on the High Performance Cluster of the Istituto Nazionale di Fisica Nucleare.
-To connect to the machine using SSH, send us your public key. [Instructions on how to create your public key](https://github.com/ColonnaLab/EMBO_popgen/blob/main/popgen2023/connections/keypair.pdf).
+
+To connect to the machine using SSH, send us your public key. [Instructions on how to create your public key](https://github.com/ColonnaLab/EMBO_popgen/blob/main/popgen2023/connections/keypair.pdf)
+
 [Instructions on how to connect to the machine](https://github.com/ColonnaLab/EMBO_popgen/blob/main/popgen2023/connections/README.md)
 
 ## Repos with teaching materials
@@ -35,18 +37,18 @@ To connect to the machine using SSH, send us your public key. [Instructions on h
 
 <table width="700">
    <tr>
-   <td><img src="./img/logos/embo_press.png" alt="yay" height="80" width="1000"></a></td>
+   <td><img src="./img/embo_press.png" alt="yay" height="80" width="1000"></a></td>
    <td width="100"></td>
    <td><a href="https://www.sibe-iseb.it"><img src="./img/logos/sibe.png" alt="yay" height="80" width="800"></a></td>
    <td width="100"></td>
-   <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/logos/SIGA.png" alt="cnr" height="150" width="800"></a></td>
+   <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SIGA.png" alt="cnr" height="150" width="800"></a></td>
       </tr>
       <tr>
-      <td><a href="https://www.associazionegeneticaitaliana.it/"><img src="./img/logos/AGI.png" height="100" width="500"></a></td>
+      <td><a href="https://www.associazionegeneticaitaliana.it/"><img src="./img/AGI.png" height="100" width="500"></a></td>
       <td width="100"></td>
-      <td align="right"><a href="https://www.recas-bari.it/index.php/en/"><img src="./img/logos/RECAS.png" alt="yay" height="150" width="500"></a></td>
+      <td align="right"><a href="https://www.recas-bari.it/index.php/en/"><img src="./img/RECAS.png" alt="yay" height="150" width="500"></a></td>
       <td width="100"></td>
-      <td align="center"><a href="https://elixir-europe.org/about-us/who-we-are/nodes/italy"><img src="./img/logos/ELIXIR.png" alt="yay" height="100" width="150"></a></td>
+      <td align="center"><a href="https://elixir-europe.org/about-us/who-we-are/nodes/italy"><img src="./img/ELIXIR.png" alt="yay" height="100" width="150"></a></td>
    </tr>
    <tr>
 </table>
