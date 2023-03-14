@@ -1,53 +1,7 @@
-#### PRACTICAL COURSE
+#### How to reach Pompei and Ercolano
 
-# EMBO Course in Population Genomics
-### Procida,Italy 13 - 19 March 2023
+[Pompei](https://en.wikipedia.org/wiki/Pompeii) and [Ercolano](https://en.wikipedia.org/wiki/Ercolano) are two famous archaeological sites that lie in the shadow of [Mount Vesuvius](https://en.wikipedia.org/wiki/Mount_Vesuvius), the active volcano that dominates the area. They were destroyed by pyroclastic flows during the massive eruption of Vesuvius in 79 AD.
 
-## Go to the [official EMBO website](https://meetings.embo.org/event/23-pop-genomics)
+**POMPEII ARCHAEOLOGICAL SITE:** Go to the central Naples train station at Piazza Garibaldi. You'll find the Circumvesuviana (the train system that connects Naples and the towns and cities in the region around Vesuvius) on the lower level of the station. Buy tickets (about 3 euro each way) and take the Circumvesuviana to *“Pompei Scavi”*. Note that other regional trains go to the modern city of Pompei but you will need to walk about 25 minutes from that station to the archaeological site while the station Pompei Scavi is just a few minutes from the entrance to the park. A single cafeteria serves the site, so you may want to bring snacks. It can be hot or warm, so dress accordingly. Pompei is a vast ruin, and a walk through most of it should take at least three hours. [Website](http://pompeiisites.org/en/)
 
-## Connections
-
-For this course we will work on the High Performance Cluster of the [Istituto Nazionale di Fisica Nucleare](https://www.ba.infn.it/eng/)
-
-To connect to the machine using SSH, send us your public key ( [here are instructions on how to create your public key](connections/keypair.pdf) ).
-
-Connection to the machine ( [here are the instruction on how to access the machine](https://github.com/ColonnaLab/EMBO_popgen/tree/main/popgen2023/connections/README.md))
-
-## Repos with teaching materials
-| Speakers | Teaching materials | 
-|--------------------|-----------------|
-| Ana Basiri | [materials](Ana_Basiri) |
-| Andrea Manica | [materials](Andrea_Manica) | 
-| Anna-Sapfo Malaspinas | [materials](Anna-Sapfo_Malaspinas) |
-| Benjamin Peter | [materials](Benjamin_Peter) |
-| Daniel Wegmann | [materials](Daniel_Wegmann) |
-| Flora Jay | [materials](Flora_Jay) |
-| Kelley Harris | [materials](Kelley_Harris) |
-| Leo Speidel | [materials](Leo_Speidel) | 
-| Lucy van Dorp | [materials](Lucy_van_Dorp) |
-| Tábita Hünemeier | [materials](Tábita_Hünemeier) |
-
-<table style="width:100%">
-   <tr>
-     <td><img src="./img/popgenlogo.png" alt="yay" height="200" width="700"></td> <td><a href="https://twitter.com/hashtag/EMBOpopgen?src=hashtag_click"><img src="./img/tw.png" alt="yay" height="60" width="60"><b>#EMBOpopgen</b></td>    
-     <tr/>
-</table>
-
-
-<table width="700">
-   </tr>
-   <td><img src="./img/embo_press.png" alt="yay" height="80" width="1000"></a></td>
-   <td width="100"></td>
-   <td><a href="https://www.sibe-iseb.it"><img src="./img/sibe.png" alt="yay" height="80" width="800"></a></td>
-   <td width="100"></td>
-   <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SIGA.png" alt="cnr" height="150" width="800"></a></td>
-      </tr>
-      <tr>
-      <td><a href="https://www.associazionegeneticaitaliana.it/"><img src="./img/AGI.png" height="100" width="500"></a></td>
-      <td width="100"></td>
-      <td align="right"><a href="https://www.recas-bari.it/index.php/en/"><img src="./img/RECAS.png" alt="yay" height="150" width="500"></a></td>
-      <td width="100"></td>
-      <td align="center"><a href="https://elixir-europe.org/about-us/who-we-are/nodes/italy"><img src="./img/ELIXIR.png" alt="yay" height="100" width="150"></a></td>
-   </tr>
-   <tr>
-</table>
+**ERCOLANO ARCHAEOLOGICAL SITE:** Ercolano lies on the same train Circumvesuviana line as Pompei, but it is closer to Naples. Go to the central Naples train station at Piazza Garibaldi and go to Circumvesuviana station. Buy tickets and take the Circumvesuviana to *“Ercolano Scavi”*. Walk down the hill towards the sea for about ten minutes. Ercolano is much smaller than Pompei, but what it lacks in size it makes up in the quality of its preservation. It is possible to visit Ercolano and Pompei sites in one day, but you will probably want to start early. [Website](https://ercolano.beniculturali.it/)
