@@ -91,14 +91,14 @@ plotPriorPosterior <- function(densities, col='red', ylim=c(0, max(max(densities
 # Simulate and plot
 #---------------------------------------------------
 true_f <- 0.3;
-n <- simData(true_f, N=25);
+n <- simData(true_f, N=5);
 
 #or use data from example in script
 #n <- c(12,11,2); 
 
 #set prior
-alpha <- 1/2;
-beta <- 1/2;
+alpha <- 0.8;
+beta <- 10;
 
 #calculate and plot
 densities <- calcPriorPosterior(n, alpha, beta);

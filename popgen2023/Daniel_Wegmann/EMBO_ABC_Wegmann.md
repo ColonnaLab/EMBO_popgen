@@ -188,7 +188,7 @@ and `arlsumstat` calls.
 
 Since generating these simulations may take some time, I already
 prepared a file containing about 50,000 of them. You can now add those
-to the 100 simulations you generated with the following command:
+to the 10 simulations you generated with the following command:
 
     tail -n+2 sims_constsize_50K.txt >> sims_constsize_sampling1.txt
 
@@ -353,11 +353,11 @@ summary statistics. For this purpose, `ABCtoolbox` offers two statistics
 to compare the observed statistics with those simulated: the marginal
 density and the Tukey depth. To perform tests using these two
 statistics, you need to add the following two arguments to the input
-file (note: the 1000 refer to the number of retained simulations to be
-used when calculating p-values):
+file (note: 100 refers to the number of retained simulations to be
+used when calculating p-values. We use here 100 for speed, you may want to use all retained simulations for a real application):
 
-    marDensPValue 1000
-    tukeyPValue 1000
+    marDensPValue 100
+    tukeyPValue 100
 
 Then, simply rerun the estimation and check either the output written to
 screen or the file with tag “modelFit.txt”. Are these tests passed? Did
