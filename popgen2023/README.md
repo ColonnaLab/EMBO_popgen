@@ -28,6 +28,9 @@ To connect to the machine using SSH, send us your public key. [Instructions on h
 | Flora Jay | [materials](Flora_Jay) |
 | Lucy van Dorp | [materials](Lucy_van_Dorp) |
 
+### How to reach Pompei and Ercolano
+If you want to visit Ercolano and Pompei, archaeological sites near Naples [here are the information on how to reach them](https://github.com/ColonnaLab/EMBO_popgen/tree/main/popgen2023/extra)
+
 <table style="width:100%">
    <tr>
      <td><img src="./img/popgenlogo.png" alt="yay" height="200" width="700"></td> <td><a href="https://twitter.com/hashtag/EMBOpopgen?src=hashtag_click"><img src="./img/tw.png" alt="yay" height="60" width="60"><b>#EMBOpopgen</b></td>    
