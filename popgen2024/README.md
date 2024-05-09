@@ -19,7 +19,7 @@ To connect to the machine using SSH, send us your public key. [Instructions on h
 |--------------------|-----------------|
 | Chiara Batini | [materials](Chiara_Batini) |
 | Vincenza Colonna| [materials](Vincenza_Colonna) |
-| Matteo Fumagalli | [materials](Matteo Fumagalli) |
+| Matteo Fumagalli | [materials](Matteo_Fumagalli) |
 | Erik Garrison | [materials](Erik_Garrison) |
 | Tábita Hünemeier | [materials](Tábita_Hünemeier) |
 | Loïc Lannelongue | [materials](Loic_Lannelongue) |
