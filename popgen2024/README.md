@@ -3,7 +3,6 @@
 # EMBO Course in Population Genomics
 ### Naples (Italy), 10 – 16 June 2024
 
-## Go to the [official EMBO website](https://embo-popgen.centercongressi.com/faculty.php)
 ## Go to the [EMBO Popgen 2024 website](https://meetings.embo.org/event/24-pop-genomics) 
 
 ## Connections
