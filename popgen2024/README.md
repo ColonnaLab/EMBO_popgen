@@ -44,7 +44,7 @@ If you want to visit Ercolano and Pompei, archaeological sites near Naples [here
    <td width="100"></td>
    <td><a href="https://www.sibe-iseb.it"><img src="./img/sibe.png" alt="yay" height="80" width="800"></a></td>
    <td width="100"></td>
-   <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SIGA.png" alt="cnr" height="150" width="800"></a></td>
+   <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SIGA2.png" alt="cnr" height="150" width="800"></a></td>
       </tr>
       <tr>
       <td><a href="https://www.associazionegeneticaitaliana.it/"><img src="./img/AGI.png" height="100" width="500"></a></td>
