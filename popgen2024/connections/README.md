@@ -19,7 +19,7 @@ ssh -i <PATH_TO_PRIVATE_KEY> embo-popgen-2024.recas.ba.infn.it -l <USERNAME>
 (the "-i <PATH_TO_PRIVATE_KEY>" flag can be omitted if the private key is in the standard location, in  the $HOME/.ssh/ directory on UNIX-like systems as Linux, Mac or WSL in Windows)
 
 2. via WEB:
-using the JupyterHub interface only (which is just an authenticated jupyterlab notebook web interface), pointing the browser to the URL: https://embo-popgen-2023.recas.ba.infn.it
+using the JupyterHub interface only (which is just an authenticated jupyterlab notebook web interface), pointing the browser to the URL: https://embo-popgen-2024.recas.ba.infn.it
 
 The usernames are the same used for SSH, but in this case you must insert your own password to access the system.
 
