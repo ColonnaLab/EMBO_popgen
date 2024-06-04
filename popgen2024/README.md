@@ -5,6 +5,9 @@
 
 ## Go to the [EMBO Popgen 2024 website](https://meetings.embo.org/event/24-pop-genomics) 
 
+## Go to the [EMBO POPGEN Course Posters' page](https://www.jeangilder.it/pop-genomics/) 
+
+
 ## Connections
 
 For this course we will work on the High Performance Cluster of the [Istituto Nazionale di Fisica Nucleare](https://home.infn.it/it/)
