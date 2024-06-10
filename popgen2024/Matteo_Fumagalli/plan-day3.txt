@@ -1,0 +1,30 @@
+
+
+
+Plan for Day 3
+
+Morning session: introduction to Bayesian methods
+
+09:30-10:15 Lecture
+either using slides in main.pdf or the jupyter notebooks:
+01_thinking.ipynb
+02_concepts.ipynb (straight to Normal/Normal model)
+04_priors
+05_inference
+
+10:45-12:30 Practical session
+(finish theory)
+(03_genomics.ipynb)
+06_population.ipynb
+learning priors: practical_ABC.pdf Task 1
+
+
+Afternoon session: introduction to ABC
+
+13:30-14:15
+09_ABC.ipynb
+
+14:45-16:30
+10_speciation.ipynb or infer demography of mosquitoes using  practical_ABC.pdf tasks 2 and 3
+
+
