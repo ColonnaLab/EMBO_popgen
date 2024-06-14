@@ -1,0 +1,546 @@
+---
+title: "EMBO Population Genomics Practical 2"
+author: "Andrea Manica"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+interactive_doc <- FALSE
+show_solutions <- TRUE
+```
+
+For this practical, we will use the f2 we pre-calculated in the previous practical. We can simply reload them with
+
+```{r get_f2_admixtools}
+library(admixtools)
+library(tidypopgen)
+f2_blocks = f2_from_precomp("./data/f2_tidypopgen", verbose = FALSE)
+```
+
+# qpWave
+
+qpWave allows us to estimate the lower bound of the number of waves that have
+gone from the right to the left populations. Let us start by looking at the
+possibility of hybridisation between archaic hominins and European modern populations:
+
+```{r}
+neand_euras_wave <- qpwave(data = f2_blocks,
+      left = c("French","Spanish","Tuscan"),
+      right = c("AltaiNea","Mota", "Yoruba", "Denisova", "Mbuti")
+)
+neand_euras_wave
+```
+
+So, we can see that we can't reject the rank 0 matrix, so there is just one wave
+maximum into Europe (consistent with the idea that we see similar Neanderthal
+admixture in all populations).
+
+**QUESTION**: Now, add the 'Han' and 'Onge' to the set of left populations and repeat the test.
+Does the result change? What does it show?
+
+```{r include = show_solutions}
+neand_euras_wave <- qpwave(data = f2_blocks,
+      left = c("French","Spanish","Tuscan", "Onge","Han"),
+      right = c("AltaiNea","Mota", "Yoruba", "Denisova", "Mbuti")
+)
+neand_euras_wave
+```
+```{r include = show_solutions}
+# We can see that this time, we can reject rank 0 (and indeed rank 1 is
+# significantly better, given the p_nested). But going to rank 2 is not
+# necessary (not better than rank 1 given p_nested). So, we conclude that
+# there were two separate wave; there is something different between Europe
+# and Asia in terms of archaic hominin admixture (it could be additional
+# Neanderthal, or very small levels of Denisova; we would have to look into
+# it in more detail to figure out what is going on).
+```
+
+## apAdm
+
+qpAdm allows to estimate the proportion of admixture from multiple populations
+required to create a target population. It has been argued that modern European
+populations are the result of mixing of up to three ancestral streams: the
+local Mesolithic Hunter-Gatherers, the Levant Neolithic farmers, and the Yamnaya 
+(who arrived during the Bronze age). In our dataset, we have examples of these
+populations named "Loschbour", "LBK" and "Yamnaya".
+
+Let us start modelling the modern French:
+
+```{r}
+french_adm <- qpadm(data = f2_blocks,
+      left = c("Loschbour", "LBK", "Yamnaya"),
+      right = c("Mbuti", "Mota", "Dinka", "Yoruba", "Han"),
+      target= "French")
+```
+
+The object produced by `qpadm` includes a number of elements; the most useful is
+```{r}
+french_adm$popdrop
+```
+This table compares models in which different populations have been dropped. The
+`pat` column shows the left populations that are present in the model: 0 means present,
+1 absent. So, 000 is the saturated model (with all left populations), 100 is a model
+without the first population (Loschbur), 010 without the second (without LBK), etc.
+For each model, we are given a test of whether the model can be rejected given the data (`chisq` and `p`; 
+obviously we want a model that is compatible with the data, so NOT significant). However, note that some models
+might fit with the data, but do so by having negative contributions (which makes mathematical
+sense, but are not biological feasible); this is highlighted in the column `feasible`.
+Furthermore, qpAdm can estimate the most likely number of sources. Models with the correct
+number of sources are given by `best`. 
+
+In this case, we can see that both 000 and 100 can not be rejected (p>0.05). However,
+the best models column shows that the most supported scenario is one with only
+two sources (one of '001', '010' and '100'); of those, the two that are rejected are also
+not feasible (as they have negative contributions), leaving us
+with only '100'. So the French are best modelled as a mix of LBK and Yamnaya.
+Looking at the proportions, it is 1/4 LBK vs 3/4 Yamnaya.
+
+**QUESTION**: Now, let's look at the Basque. Can they be modelled in the same way? How large
+is the Yamnaya component compared to the French?
+
+```{r sardinian_adm, include = show_solutions}
+basque_adm <- qpadm(data = f2_blocks,
+      left = c("Loschbour", "LBK", "Yamnaya"),
+      right = c("Mbuti", "Mota", "Dinka", "Yoruba", "Han"),
+      target= "Basque")
+basque_adm$popdrop
+```
+
+```{r include = show_solutions}
+# The Basque can be modelled in the same way, but with a larger Neolithic
+# component compared to the French.
+```
+
+```{r include = show_solutions}
+# A few things to think about:
+# Are the Han a good outgroup given their geographic proximity to the Yamnaya?
+# Are the single genomes we used as sources appropriate for getting the
+# source frequencies?
+```
+
+## qpGraph
+
+We now want to create a very simple graph that recapitulates what we know of the
+most important events of the demography history of humans. Africa has some deep
+structure, and from a group related to the Dinka, humans came out of Africa,
+and split into Europeans and Asians:
+```{r base_fig_template, echo=FALSE}
+base_edges <- matrix(
+  c("R",	"Mbuti",
+    "R", "eAfr",
+    "eAfr",	"Dinka",
+    "eAfr",	"outAfrica",
+    "outAfrica",	"Han",
+    "outAfrica",	"Loschbour"),
+  ncol=2,byrow = TRUE,
+  dimnames=list(NULL, c("from","to")))
+
+base_edges %>% edges_to_igraph() %>% plot_graph()
+```
+
+To create such a graph, we need to create an edge matrix. Note that the edges
+can connect either a population in the dataset or an internal node. We are free
+to call those nodes anything we want. In the following example, we will use:
+"R" for root, "eAfr" for the east African last common ancestors between Dinka and
+non Africans, and "outAfrica" as the most recent common ancestor between
+Asians (represented by the Han) and Europeans (represented by Loschbur).
+
+```{r base_edges}
+base_edges <- matrix(
+  c("R",	"Mbuti",
+    "R", "eAfr",
+    "eAfr",	"Dinka",
+    "eAfr",	"outAfrica",
+    "outAfrica",	"Han",
+    "outAfrica",	"Loschbour"),
+  ncol=2,
+  byrow = TRUE,
+  dimnames=list(NULL, c("from","to")))
+
+base_edges
+```
+
+You can create the matrix in multiple ways, but the approach above allows to
+neatly write each edge as a line. We can now convert the edge list into
+an `igraph` object:
+```{r base_igraph}
+base_igraph <- base_edges %>% edges_to_igraph()
+```
+
+`igraph` is a commoly used library to represent graphs, and it can represent
+graphs which are not suitable admixture graphs (e.g. graphs that are cyclic, or
+with multiple simultaneous splits). We can verify that our graph is valid with:
+```{r base_valid}
+is_valid(base_igraph)
+```
+
+Now we 
+plot it to confirm that we have obtained the graph that we wanted:
+```{r plot_base_igraph}
+base_igraph %>% plot_graph()
+```
+
+This looks good. But for inspecting and interacting with admixture graphs, it
+is often useful to be able to get the labels of internal nodes. We can do that
+easily with the interactive library `plotly`:
+```{r plotly_base_igraph, eval = interactive_doc}
+base_igraph %>% plotly_graph()
+```
+
+If you hover over the edges and internal nodes, you will be shown the appropriate
+labels.
+
+We are now ready to fit our graph to data:
+```{r}
+base_qpgraph <- qpgraph(data = f2_blocks, graph = base_igraph)
+```
+
+Remember from the lecture that we assess qpgraph based on f3. We can request to see the comparison of the predicted
+vs observed f3 simply with:
+```{r}
+base_qpgraph$f3
+```
+
+We can see that our graph is compatible with the data. All comparisons of the f3
+estimated from the data (`est`) versus the fit from the graph (`fit`) 
+have differences that are very small, resulting in *z* values close to zero and consequently very large p-values).
+
+A z value of 2 or 3 is often used as a threshold for a good fit. We can check that
+there are no combination with such a large value with:
+```{r}
+base_qpgraph$f3 %>% filter(abs(z)>2)
+```
+
+There are no such values, so we can conclude that the graph is compatible with
+the data (note that this does not mean that the graph is a correct representation
+of the past, there could be multiple graphs that fit the data).
+
+Let's visualise it:
+
+```{r}
+base_qpgraph$edges %>% plot_graph()
+```
+
+If you substitute `plot_graph()` with `plotly_graph()` you can get an interactive
+graph.
+
+# Careful around the root
+
+Note that admixture graphs are ill suited at defining the topology around the
+root; the root and the outgroup have to be defined a priori, and admixtools simply
+splits the distance between the two first nodes to place the root.
+
+**QUESTION**: Let's see what happens if we choose the wrong outgroup. 
+Try creating a graph where we swap the role of Mbuti and Dinka (i.e. placing 
+Mbuti as the closest African population to European and Asians). Use `base_swapped_qpgraph`
+as the name for the graph you create.
+
+```{r base_wapped_sol, include = show_solutions}
+base_swapped_edges <- matrix(
+  c("R",	"Dinka",
+    "R", "mAfr",
+    "mAfr",	"Mbuti",
+    "mAfr",	"outAfrica",
+    "outAfrica",	"Han",
+    "outAfrica",	"Loschbour"),
+  ncol=2,
+  byrow = TRUE,
+  dimnames=list(NULL, c("from","to")))
+
+base_swapped_igraph <- base_swapped_edges %>% edges_to_igraph()
+base_swapped_qpgraph <- qpgraph(data = f2_blocks, graph = base_swapped_igraph)
+base_swapped_qpgraph$f3
+base_swapped_qpgraph$edges %>% plot_graph()
+```
+
+How do we
+demonstrate that this graph is not compatible with the data?
+We can compare these two models more formally with:
+```{r}
+fits = qpgraph_resample_multi(f2_blocks, 
+                              graphlist = list(base_qpgraph[[1]], base_swapped_qpgraph[[1]]), 
+                              nboot = 100)
+compare_fits(fits[[1]]$score_test, fits[[2]]$score_test)
+```
+
+In reality, the root does little here, the models are identical, and the root 
+is simply an "aesthetic" element for how we plot the graph. So, be aware that
+the choice of outgroup is very important, as it will colour your interpretation
+but can not be easily verified (unless you choose something very wrong).
+
+We can see the issues with the root by highlighting unidentifiable edges:
+
+```{r}
+base_igraph %>% plot_graph(highlight_unidentifiable = TRUE)
+```
+
+
+# Adding the Yamnaya
+
+We can add more populations to obtain the following graph:
+
+```{r yamnaya_graph, echo=FALSE}
+yamnaya_edges <- matrix(
+  c(
+    "R",	"Mbuti",
+    "R",	"eAfr",
+    "eAfr", "Dinka",
+    "eAfr", "outAfrica",
+    "outAfrica", "Han",
+    "outAfrica", "wEurasian",
+    "wEurasian", "Yamnaya",
+    "wEurasian", "Loschbour"),
+  ncol = 2,
+  byrow = TRUE,
+  dimnames = list(NULL, c("from", "to")))
+yamnaya_igraph <- yamnaya_edges %>% edges_to_igraph()
+yamnaya_igraph %>% plot_graph()
+```
+
+Note that, to add the "Yamnaya", you will need to add an internal node before
+Loschbour. We will call this node "wEurasian". So, the end of the previous set of edges
+becomes:
+```
+    "outAfrica", "wEurasian",
+    "wEurasian", "Yamnaya",
+    "wEurasian", "Loschbour")
+```
+
+**QUESTION**: Add these edges and create an object names `yamnaya_igraph`, and plot it to make sure
+that it matches our desired topology. After checking that
+the graph is valid, fit the graph, inspect it, and check whether it is
+compatible with the data:
+
+```{r include = show_solutions}
+yamnaya_qpgraph <- qpgraph(data = f2_blocks, graph = yamnaya_igraph)
+```
+
+And ask whether our graph is compatible with the data
+
+```{r include = show_solutions}
+yamnaya_qpgraph$f3 %>% filter(abs(z)>2)
+```
+
+Does any population have a *z* value larger than 3? What do you conclude (remember
+to plot and inspect the fitted graph)?
+
+
+# Adding an admixture edge
+
+The trees that we considered so far did not have any admixture. To add admixture,
+we simply need to add edges such that we have two edges going to the same node
+(which must be an internal node). We add an early
+Neolithic farmer, LBK, which is modelled as a mixture of an early ghost population
+that came out of Africa and split before the European/Asian split, 
+
+```{r lbk_edges_plot, include = show_solutions}
+lbk_edges <- matrix(
+  c(
+    "R",	"Mbuti",
+    "R",	"eAfr",
+    "eAfr", "Dinka",
+    "eAfr", "outAfrica",
+    "outAfrica", "Han",
+    "outAfrica","wEurasian",
+    "wEurasian", "Yamnaya",
+    "wEurasian", "pLoschbour",
+    "pLoschbour", "Loschbour",
+    "eAfr", "pLBK",
+    "pLoschbour", "pLBK",
+    "pLBK","LBK"),
+  ncol = 2,
+  byrow = TRUE,
+  dimnames = list(NULL, c("from", "to")))
+lbk_igraph <- lbk_edges %>% edges_to_igraph()
+lbk_igraph %>% plot_graph()
+```
+
+Note that, when a real population is modelled as admixed, the admixture edges
+have to converge first to an intermediate internal node that is then
+connected to a real population (if you have two admixture edges going directly
+to a population, then `is_valid()` will fail).
+
+**QUESTION**: Create a set of edges `lbk_edges` to match the graph above,
+and then fit the graph to the data. Is the model compatible with the data?
+
+```{r lbk_edges, include = show_solutions}
+lbk_edges <- matrix(
+  c(
+    "R",	"Mbuti",
+    "R",	"eAfr",
+    "eAfr", "Dinka",
+    "eAfr", "outAfrica",
+    "outAfrica", "Han",
+    "outAfrica","wEurasian",
+    "wEurasian", "Yamnaya",
+    "wEurasian", "pLoschbour",
+    "pLoschbour", "Loschbour",
+    "eAfr", "pLBK",
+    "pLoschbour", "pLBK",
+    "pLBK","LBK"),
+  ncol = 2,
+  byrow = TRUE,
+  dimnames = list(NULL, c("from", "to")))
+lbk_igraph <- lbk_edges %>% edges_to_igraph()
+lbk_igraph %>% plot_graph()
+lbk_qpgraph <- qpgraph(data = f2_blocks, graph = lbk_igraph)
+lbk_qpgraph$edges %>% plot_graph()
+```
+
+Note that, in admxiture graphs visualised with the original admixtools software,
+additional intermediate nodes were often added for aestethic purposes (they were
+labelled automatically, and so they were plotted so that we could refer to them).
+It is possible to add such nodes, but they are not identifiable. They are not
+a problem, they do not affect the fit, so it is a matter of personal preference.
+Here is an example of such a graph:
+
+```{r lbk_extra_edges}
+lbk_extra_edges <- matrix(
+  c(
+    "R",	"Mbuti",
+    "R",	"eAfr",
+    "eAfr", "pBasalEurasian",
+    "eAfr", "Dinka",
+    "pBasalEurasian", "BasalEurasian",
+    "pBasalEurasian","outAfrica",
+    "outAfrica", "Han",
+    "outAfrica","wEurasian",
+    "wEurasian", "Yamnaya",
+    "wEurasian", "pLoschbour",
+    "pLoschbour", "Loschbour",
+    "pLoschbour","WHG",
+    "BasalEurasian", "pLBK",
+    "WHG", "pLBK",
+    "pLBK","LBK"),
+  ncol = 2,
+  byrow = TRUE,
+  dimnames = list(NULL, c("from", "to")))
+lbk_extra_igraph <- lbk_extra_edges %>% edges_to_igraph()
+lbk_extra_igraph %>% plot_graph()
+```
+
+This graph is valid:
+```{r}
+is_valid(lbk_extra_igraph)
+```
+
+But the edges that we added are not identifiable:
+```{r}
+lbk_extra_igraph %>% plot_graph(highlight_unidentifiable = TRUE)
+```
+
+If we fit the model, we can notice that some of the edges that we added
+have zero drift (a clear indication they are redundant), but note that the edge
+going to the generic WHG that is the sister population to Loschbour returns a small
+drift, even though it is not identifiable:
+```{r}
+lbk_extra_qpgraph <- qpgraph(data = f2_blocks, graph = lbk_extra_igraph)
+lbk_extra_qpgraph$edges %>% plot_graph()
+```
+
+Note that the admixture proportion is identical to the previous estimates even
+though we added those unidentifiable edges; so, they are purely aesthetic, they do
+not impact our fit.
+
+# Adding another edge
+
+**QUESTION**: If you have additional time, can you add an addition admixture edge, exploring 
+what happens if you add the Sardinians. Try modelling the Sardinian as a direct
+descendant of the ancestor of LBK, and then try to add some admixture from
+the Yamnaya (as we saw earlier that we could detect that signal). Can you get
+away with modelling just a Neolithic component, or do you need the Yamnaya admixture
+to make the model work.
+
+```{r sardinian_neo_edges, include = show_solutions}
+sardinia_neo_edges <- matrix(
+  c(
+    "R",	"Mbuti",
+    "R",	"eAfr",
+    "eAfr", "Dinka",
+    "eAfr", "outAfrica",
+    "outAfrica", "Euras1",
+    "Euras1", "Han",
+    "Euras1", "Euras2",
+    "Euras2", "pYamnaya",
+    "pYamnaya", "Yamnaya",
+    "Euras2", "Eur1",
+    "Eur1", "X1",
+    "Eur1", "Loschbour",
+    "X1", "pNeol",
+    "outAfrica", "pNeol", 
+    "pNeol", "Neol1",
+    "Neol1", "LBK",
+    "Neol1", "Sardinian"),
+  ncol = 2,
+  byrow = TRUE,
+  dimnames = list(NULL, c("from", "to")))
+sardinia_neo_igraph <- sardinia_neo_edges %>% edges_to_igraph()
+sardinia_neo_igraph %>% plot_graph()
+```
+
+```{r include = show_solutions}
+sardinia_neo_qpgraph <- qpgraph(data = f2_blocks, graph = sardinia_neo_igraph)
+sardinia_neo_qpgraph$f3 %>% filter(abs(z)>2)
+```
+```{r include = show_solutions}
+# So, this simple model is compatible with the data without that admixture edge.
+```
+
+```{r sardinian_all_edges, include = show_solutions}
+sardinia_edges <- matrix(
+  c(
+    "R",	"Mbuti",
+    "R",	"eAfr",
+    "eAfr", "Dinka",
+    "eAfr", "outAfrica",
+    "outAfrica", "Euras1",
+    "Euras1", "Han",
+    "Euras1", "Euras2",
+    "Euras2", "pYamnaya",
+    "pYamnaya", "Yamnaya",
+    "Euras2", "Eur1",
+    "Eur1", "X1",
+    "Eur1", "Loschbour",
+    "X1", "pNeol",
+    "outAfrica", "pNeol", 
+    "pNeol", "Neol1",
+    "Neol1", "LBK",
+    "Neol1", "S1",
+    "S1", "pSard",
+    "pYamnaya", "pSard",
+    "pSard",	"Sardinian"),
+  ncol = 2,
+  byrow = TRUE,
+  dimnames = list(NULL, c("from", "to")))
+sardinia_igraph <- sardinia_edges %>% edges_to_igraph()
+sardinia_igraph %>% plot_graph()
+```
+
+```{r include = show_solutions}
+sardinia_qpgraph <- qpgraph(data = f2_blocks, graph = sardinia_igraph)
+sardinia_qpgraph$f3 %>% filter(abs(z)>2)
+```
+
+```{r include = show_solutions}
+sardinia_qpgraph$edges %>% plot_graph()
+```
+
+```{r include = show_solutions}
+sardinia_fits = qpgraph_resample_multi(f2_blocks, 
+                              graphlist = list(sardinia_neo_qpgraph[[1]], sardinia_qpgraph[[1]]), 
+                              nboot = 100)
+compare_fits(sardinia_fits[[1]]$score_test, sardinia_fits[[2]]$score_test)
+```
+
+```{r include = show_solutions}
+# We can see that there is no evidence for admixture from the Yamnaya.
+```
+
+If you have clear hypotheses, it is best to build alternative graphs and compare
+them. On the other hand, if you are trying to place populations without a clear
+framework, you would be better off automatically exploring many graphs. As that
+exploration is computatonally intensive, we will not do that during this practical,
+but you have the building blocks on how to compare models, so you would just compare
+a lot of different models rather than 2.
