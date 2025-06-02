@@ -56,7 +56,7 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
    <td width="100"></td>
    <td><a href="https://www.sibe-iseb.it"><img src="./img/SIBE.png" alt="yay" height="80" width="800"></a></td>
    <td width="100"></td>
-   <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SIGA.png" alt="cnr" height="100" width="900"></a></td>
+   <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SIGA.png" alt="cnr" height="150" width="900"></a></td>
       </tr>
       <tr>
       <td><a href="https://www.associazionegeneticaitaliana.it/"><img src="./img/AGI.jpeg" height="100" width="500"></a></td>
