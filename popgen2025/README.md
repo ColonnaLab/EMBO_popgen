@@ -28,7 +28,6 @@ To connect to the machine using SSH, send us your public key. [Instructions on h
 | Speakers | Teaching materials |
 |--------------------|-----------------|
 | Speakers | Teaching materials |
-|--------------------|-----------------|
 | Chiara Batini | [materials](Chiara_Batini) |
 | Vincenza Colonna| [materials](Vincenza_Colonna) |
 | Serena Aceto | [materials](Serena_Aceto) |
