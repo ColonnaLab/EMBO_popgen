@@ -27,19 +27,21 @@ To connect to the machine using SSH, send us your public key. [Instructions on h
 ## Repos with teaching materials
 | Speakers | Teaching materials |
 |--------------------|-----------------|
+| Speakers | Teaching materials |
+|--------------------|-----------------|
 | Chiara Batini | [materials](Chiara_Batini) |
 | Vincenza Colonna| [materials](Vincenza_Colonna) |
-| Serena Aceto | [materials](Serena Aceto) |
-| Michael Hiller | [materials](Michael Hiller) |
-| Tábita Hünemeier | [materials](Tábita_Hünemeier) |
+| Serena Aceto | [materials](Serena_Aceto) |
+| Michael Hiller | [materials](Michael_Hiller) |
+| Tábita Hünemeier | [materials](Tabita_Hunemeier) |
 | Loïc Lannelongue | [materials](Loic_Lannelongue) |
-| Oscar Lao | [materials](Oscar Lao) |
-| Andrea Manica | [materials](Andrea Manoca) |
-| Franco Marsico | [materials](Franco Marsico) |
-| Manolo Perez | [materials](Manolo Perez) |
-| Marco Salvemini | [materials](Marco Salvemini) |
-| Matthias Steinrücken | [materials](Matthias Steinrücken) |
-| Serena Tucci | [materials](Serena Tucci) |
+| Oscar Lao | [materials](Oscar_Lao) |
+| Andrea Manica | [materials](Andrea_Manica) |
+| Franco Marsico | [materials](Franco_Marsico) |
+| Manolo Perez | [materials](Manolo_Perez) |
+| Marco Salvemini | [materials](Marco_Salvemini) |
+| Matthias Steinrücken | [materials](Matthias_Steinrucken) |
+| Serena Tucci | [materials](Serena_Tucci) |
 
 
 
