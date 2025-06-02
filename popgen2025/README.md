@@ -57,14 +57,14 @@ To connect to the machine using SSH, send us your public key. [Instructions on h
    <td width="100"></td>
    <td><a href="https://www.sibe-iseb.it"><img src="./img/SIBE.png" alt="yay" height="80" width="800"></a></td>
    <td width="100"></td>
-   <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SIGA.png" alt="cnr" height="150" width="800"></a></td>
+   <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SIGA.png" alt="cnr" height="150" width="1000"></a></td>
       </tr>
       <tr>
       <td><a href="https://www.associazionegeneticaitaliana.it/"><img src="./img/AGI.jpeg" height="100" width="500"></a></td>
       <td width="100"></td>
       <td align="right"><a href="https://www.recas-bari.it/index.php/en/"><img src="./img/RECAS.png" alt="yay" height="150" width="500"></a></td>
       <td width="100"></td>
-      <td align="center"><a href="https://elixir-europe.org/about-us/who-we-are/nodes/italy"><img src="./img/ELIXIR.png" alt="yay" height="100" width="150"></a></td>
+      <td align="center"><a href="https://elixir-europe.org/about-us/who-we-are/nodes/italy"><img src="./img/elixir.png" alt="yay" height="100" width="150"></a></td>
    </tr>
    <tr>
 </table>
