@@ -52,7 +52,7 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
 
 <table width="1000">
    <tr>
-   <td><img src="./img/embo.png" alt="yay" height="80" width="1000"></a></td>
+   <td><img src="./img/embo.png" alt="yay" height="80" width="800"></a></td>
    <td width="50"></td>
   <td><a href="https://www.associazionegeneticaitaliana.it/"><img src="./img/AGI.jpeg" height="100" width="500"></a></td>
   <td width="50"></td>
