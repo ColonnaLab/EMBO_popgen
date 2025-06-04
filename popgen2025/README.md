@@ -53,9 +53,9 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
 <table width="1000">
    <tr>
    <td><img src="./img/embo.png" alt="yay" height="80" width="1000"></a></td>
-   <td width="100"></td>
+   <td width="50"></td>
   <td><a href="https://www.associazionegeneticaitaliana.it/"><img src="./img/AGI.jpeg" height="100" width="500"></a></td>
-  <td width="100"></td>
+  <td width="50"></td>
   <td align="center"><a href="https://elixir-europe.org/about-us/who-we-are/nodes/italy"><img src="./img/elixir.png" alt="yay" height="100" width="150"></a></td>
   </tr>
   <tr>
