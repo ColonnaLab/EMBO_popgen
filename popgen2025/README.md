@@ -60,9 +60,7 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
   </tr>
   <tr>
 <td align="right"><a href="https://www.recas-bari.it/index.php/en/"><img src="./img/RECAS.png" alt="yay" height="150" width="500"></a></td>
-   <td width="100"></td>
-<td><a href="https://www.sibe-iseb.it"><img src="./img/SIBE.png" alt="yay" height="80" width="800"></a></td>
-   <td width="100"></td>
+  <td><a href="https://www.sibe-iseb.it"><img src="./img/SIBE.png" alt="yay" height="80" width="800"></a></td>
    <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SSIGA.png" alt="cnr" height="150" width="800"></a></td>
 <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/UNINA.jpg" alt="cnr" height="150" width="800"></a></td>
 </tr>
