@@ -77,7 +77,7 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
     </td>
     <td align="center" style="padding: 10px;">
       <a href="https://www.sibe-iseb.it">
-        <img src="./img/SIBE.png" alt="SIBE" height="80">
+        <img src="./img/SIBE.webp" alt="SIBE" height="80">
       </a>
     </td>
     <td align="center" style="padding: 10px;">
