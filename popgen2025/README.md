@@ -51,29 +51,25 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
 
 
 <table width="700">
-  <!-- Top row: EMBO, AGI, ELIXIR -->
   <tr>
     <td align="center">
-      <a href="https://www.embo.org">
-        <img src="./img/embo.png" alt="EMBO" height="80" width="250">
+        <img src="./img/embo.png" alt="EMBO" height="80" width="300">
       </a>
     </td>
     <td width="50"></td>
     <td align="center">
       <a href="https://www.associazionegeneticaitaliana.it/">
-        <img src="./img/AGI.jpeg" alt="AGI" height="80" width="250">
+        <img src="./img/AGI.jpeg" alt="AGI" height="100" width="300">
       </a>
     </td>
     <td width="50"></td>
     <td align="center">
       <a href="https://elixir-europe.org/about-us/who-we-are/nodes/italy">
-        <img src="./img/elixir.png" alt="ELIXIR" height="80" width="250">
+        <img src="./img/elixir.png" alt="ELIXIR" height="100" width="200">
       </a>
     </td>
   </tr>
-
-  <!-- Bottom row: RECAS, SIBE, SSIGA, UNINA -->
-  <tr>
+   <tr>
     <td align="center">
       <a href="https://www.recas-bari.it/index.php/en/">
         <img src="./img/RECAS.png" alt="RECAS" height="100" width="200">
@@ -88,12 +84,12 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
     <td width="25"></td>
     <td align="center">
       <a href="http://www.geneticagraria.it/">
-        <img src="./img/SSIGA.png" alt="SSIGA" height="120" width="250">
+        <img src="./img/SSIGA.png" alt="SSIGA" height="120" width="200">
       </a>
     </td>
     <td align="center">
       <a href="https://www.unina.it">
-        <img src="./img/UNINA.jpg" alt="UNINA" height="120" width="250">
+        <img src="./img/UNINA.jpg" alt="UNINA" height="120" width="200">
       </a>
     </td>
   </tr>
