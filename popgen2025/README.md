@@ -50,7 +50,7 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
 </table>
 
 
-<table width="1000">
+<table width="700">
   <!-- Top row: EMBO, AGI, ELIXIR -->
   <tr>
     <td align="center">
@@ -88,12 +88,12 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
     <td width="25"></td>
     <td align="center">
       <a href="http://www.geneticagraria.it/">
-        <img src="./img/SSIGA.png" alt="SSIGA" height="120" width="300">
+        <img src="./img/SSIGA.png" alt="SSIGA" height="120" width="250">
       </a>
     </td>
     <td align="center">
       <a href="https://www.unina.it">
-        <img src="./img/UNINA.jpg" alt="UNINA" height="120" width="300">
+        <img src="./img/UNINA.jpg" alt="UNINA" height="120" width="250">
       </a>
     </td>
   </tr>
