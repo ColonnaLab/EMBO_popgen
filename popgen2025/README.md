@@ -50,44 +50,51 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
 </table>
 
 
-<table width="100%">
-   <tr>
-    <td align="center" style="padding: 10px;">
+<table width="1000">
+  <!-- Top row: EMBO, AGI, ELIXIR -->
+  <tr>
+    <td align="center">
       <a href="https://www.embo.org">
-        <img src="./img/embo.png" alt="EMBO" height="80">
+        <img src="./img/embo.png" alt="EMBO" height="80" width="250">
       </a>
     </td>
-    <td align="center" style="padding: 10px;">
+    <td width="50"></td>
+    <td align="center">
       <a href="https://www.associazionegeneticaitaliana.it/">
-        <img src="./img/AGI.jpeg" alt="AGI" height="80">
+        <img src="./img/AGI.jpeg" alt="AGI" height="80" width="250">
       </a>
     </td>
-    <td align="center" style="padding: 10px;">
+    <td width="50"></td>
+    <td align="center">
       <a href="https://elixir-europe.org/about-us/who-we-are/nodes/italy">
-        <img src="./img/elixir.png" alt="ELIXIR" height="80">
+        <img src="./img/elixir.png" alt="ELIXIR" height="80" width="250">
       </a>
     </td>
   </tr>
 
-   <tr>
-    <td align="center" style="padding: 10px;">
+  <!-- Bottom row: RECAS, SIBE, SSIGA, UNINA -->
+  <tr>
+    <td align="center">
       <a href="https://www.recas-bari.it/index.php/en/">
-        <img src="./img/RECAS.png" alt="RECAS" height="100">
+        <img src="./img/RECAS.png" alt="RECAS" height="100" width="200">
       </a>
     </td>
-    <td align="center" style="padding: 10px;">
+    <td width="25"></td>
+    <td align="center">
       <a href="https://www.sibe-iseb.it">
-        <img src="./img/SIBE.webp" alt="SIBE" height="80">
+        <img src="./img/SIBE.png" alt="SIBE" height="100" width="200">
       </a>
     </td>
-    <td align="center" style="padding: 10px;">
+    <td width="25"></td>
+    <td align="center">
       <a href="http://www.geneticagraria.it/">
-        <img src="./img/SSIGA.png" alt="SSIGA" height="100">
+        <img src="./img/SSIGA.png" alt="SSIGA" height="100" width="200">
       </a>
     </td>
-    <td align="center" style="padding: 10px;">
+    <td width="25"></td>
+    <td align="center">
       <a href="https://www.unina.it">
-        <img src="./img/UNINA.jpg" alt="UNINA" height="100">
+        <img src="./img/UNINA.jpg" alt="UNINA" height="100" width="200">
       </a>
     </td>
   </tr>
