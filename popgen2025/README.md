@@ -64,5 +64,4 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
    <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/SSIGA.png" alt="cnr" height="150" width="800"></a></td>
 <td align="center"><a href="http://www.geneticagraria.it/"><img src="./img/UNINA.jpg" alt="cnr" height="150" width="800"></a></td>
 </tr>
-<tr>
 </table>
