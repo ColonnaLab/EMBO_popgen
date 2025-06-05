@@ -54,7 +54,6 @@ To connect to the machine via SSH, please send us your public key.[Instructions 
   <tr>
     <td align="center">
         <img src="./img/embo.png" alt="EMBO" height="80" width="300">
-      </a>
     </td>
     <td width="50"></td>
     <td align="center">
