@@ -19,9 +19,9 @@ ssh -i <PATH_TO_PRIVATE_KEY> embo-popgen25.cloud.ba.infn.it -l <USERNAME>
 
 2. via WEB:
 using the RStudio Browser interface only (which is just an  authenticated RStudio web interface), pointing the browser to the URL:
-````
+
 https://embo-popgen25.cloud.ba.infn.it/
-````
+
 The usernames are the same used for SSH, but in this case you must insert your own password to access the system.
 
 **Usernames and passwords will be provided via Slack: if you have not received the invitation to join the EMBO POPGEN 2025 channel please get in touch with us ASAP.**
