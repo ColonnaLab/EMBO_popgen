@@ -22,7 +22,7 @@ For this course we will work on the High Performance Cluster.
 To connect to the machine via SSH, please send us your public key.[Instructions on how to create your public key](https://github.com/ColonnaLab/EMBO_popgen/blob/main/popgen2025/connections/EMBO_POPGEN2025_keypair.pdf)
 
 [Instructions on how to connect to the machine] 
-(https://github.com/ColonnaLab/EMBO_popgen/blob/main/popgen2025/connections/README.md)
+(https://github.com/ColonnaLab/EMBO_popgen/blob/main/popgen2025/connections)
 
 ## Repos with teaching materials
 | Speakers | Teaching materials |
