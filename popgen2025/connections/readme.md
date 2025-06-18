@@ -1,9 +1,9 @@
 # SERVER CONNECTION 2025
 
 The Server can be accessed by speakers and students at:
-```
-embo-popgen25.cloud.ba.infn.it
-```
+
+  embo-popgen25.cloud.ba.infn.it
+
 
 The software has been installed system-wide and should be visible by everyone. 
 To access the server, please follow one of the two below options:
@@ -20,7 +20,7 @@ ssh -i <PATH_TO_PRIVATE_KEY> embo-popgen25.cloud.ba.infn.it -l <USERNAME>
 2. via WEB:
 using the RStudio Browser interface only (which is just an  authenticated RStudio web interface), pointing the browser to the URL:
 
-https://embo-popgen25.cloud.ba.infn.it/
+   https://embo-popgen25.cloud.ba.infn.it/
 
 The usernames are the same used for SSH, but in this case you must insert your own password to access the system.
 
