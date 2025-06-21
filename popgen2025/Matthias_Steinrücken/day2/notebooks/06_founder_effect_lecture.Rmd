@@ -1,0 +1,84 @@
+---
+title: Founder Effect
+output: html_document
+---
+
+# (1) Sampling with replacement
+
+Assume we have a starting frequency at 50% for "red" balls in an urn with "red" and "blue" balls.
+Let's investigate what happens in the frequency of red balls with we have a large urn (600 balls) or a small urn (6 balls)
+
+```{r}
+# large urn with 600 balls, 300 red and 300 blue
+nr_large <- 600; large_urn <- c( rep("red", nr_large/2), rep("blue", nr_large/2) )
+```
+
+What happens if I sample with replacement 600 balls to create the next "generation"? What is the frequency of red balls? Remember that the initial frequency is 0.50.
+
+```{r}
+length(which(sample(x=large_urn, size=nr_large, replace=TRUE)=="red")) / nr_large
+```
+
+What is the __expected__ frequency? In other words, what is the average frequency if we repeat the experiment many times? 
+
+```{r}
+freq_large <- rep(NA, 1000); for (i in 1:length(freq_large)) freq_large[i] <- length(which(sample(x=large_urn, size=nr_large, replace=TRUE)=="red")) / nr_large;
+mean(freq_large)
+```
+
+Let's redo this experiment with the small urn, with only 6 balls but with still an initial frequency of 0.50 of red balls.
+
+```{r}
+# small urn with 6 balls, 3 red and 3 blue
+nr_small <- 6; small_urn <- c( rep("red", nr_small/2), rep("blue", nr_small/2) )
+```
+
+What happens if we sample with replacement 6 balls to create the next "generation"? What is the frequency of red balls? Remember that the initial frequency is 0.50.
+
+```{r}
+length(which(sample(x=small_urn, size=nr_small, replace=TRUE)=="red")) / nr_small
+```
+
+What is the __expected__ frequency? In other words, what is the average frequency if we repeat the experiment many times? 
+
+```{r}
+freq_small <- rep(NA, 10000); for (i in 1:length(freq_small)) freq_small[i] <- length(which(sample(x=small_urn, size=nr_small, replace=TRUE)=="red")) / nr_small;
+mean(freq_small)
+```
+
+Why?
+
+```{r}
+var(freq_large)
+```
+
+```{r}
+var(freq_small)
+```
+
+# (2) Founder effect
+
+```{r}
+# ancestors (pre-colonisation)
+ancestors <- rep(letters[1:20], sample(1:20,size=20,prob=20:1,replace=T))
+cat("nr of ancestors:", length(ancestors))
+cat("\nnr of distinct alleles:", length(unique(ancestors)))
+cat("\nallele counts:"); table(ancestors)
+```
+
+```{r}
+# founding event
+founders <- sample(ancestors, 20)
+cat("nr of founders:", length(founders))
+cat("\nnr of distinct alleles:", length(unique(founders)))
+cat("\nallele counts:"); table(founders)
+```
+
+```{r}
+# descendants (after post-colonisation expansion)
+descendants <- sample(founders, length(ancestors), replace=TRUE)
+cat("nr of descendants:", length(descendants))
+cat("\nnr of distinct alleles:", length(unique(descendants)))
+cat("\nallele counts:"); table(descendants)
+```
+

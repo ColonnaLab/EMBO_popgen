@@ -1,0 +1,1851 @@
+\documentclass{beamer}
+% \documentclass[handout]{beamer}
+
+\usepackage{amsmath,amsfonts,amsthm,amssymb,euscript,mathrsfs,url,stmaryrd,bbm}
+\usepackage{subfigure}
+\usepackage{tikz}
+
+\usepackage{color}
+\usepackage{import}
+
+% \usepackage[absolute,overlay]{textpos}
+
+\usepackage[utf8]{inputenc}
+
+% should get rid of superfluous equation labels
+% or all labels, if we never reference
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{booktabs}
+
+% \usepackage[export]{adjustbox}% http://ctan.org/pkg/adjustbox
+
+
+% theme
+\usetheme{Singapore}
+\useinnertheme{rounded}
+\usecolortheme{rose}
+% usetheme{Warsaw}
+
+%farbversuche
+%sieht sehr gut aus aber erstmal nicht
+\definecolor{grey}{RGB}{0,0,0}
+%aber wir machen erstmal was anderes
+\definecolor{darkgreen}{RGB}{90,160,70}
+\definecolor{darkred}{RGB}{160,70,70}
+\definecolor{brickred}{RGB}{220,55,75}
+% \definecolor{yellow}{RGB}{255,255,0}
+\definecolor{turquoise}{RGB}{0,255,255}
+% \definecolor{grey}{RGB}{0,255,255}
+\definecolor{maroon}{RGB}{128,0,0}
+
+%farbe als structure setzen
+\setbeamercolor{structure}{fg=maroon!40!black}
+% \setbeamercolor{structure}{fg=white!72!black}
+%\setbeamercolor{structure}{fg=white!50!green!60!black}
+
+%versuch die textfarbe zu setzen
+% \setbeamercolor{normal text}{fg=blue!30!black}
+%\setbeamercolor{normal text}{fg=blue}
+
+% cover up
+\setbeamercovered{transparent}
+
+% make it work on matthias' laptop
+% \setbeamertemplate{blocks}[default]
+
+
+% macros
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\V}{\mathbb{V}}
+% \newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\1}{\ensuremath{\mathbf{1}}}
+% \input{macros.tex}
+
+
+% \newlength{\nodedist}
+
+
+\setbeamercolor*{title}{use=structure,fg=white,bg=structure.fg,}
+\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true,shadow=true]
+
+%we need this because sometimes we flip it
+\def\defaultbeameritem{ball}
+\setbeamertemplate{itemize items}[\defaultbeameritem]
+
+
+% fancy footline
+\setbeamertemplate{footline}
+{
+\begin{tikzpicture}(0,0)
+\draw[draw=none,top color=white,bottom color=grey!20!white] (0,0) rectangle (\paperwidth,0.25);
+% \node at (\paperwidth-12,0.2) {\insertframenumber /\inserttotalframenumber};
+\node at (\paperwidth-12,0.2) {\insertpagenumber /\insertpresentationendpage};
+\end{tikzpicture}}
+
+%suppress navigation symbols
+\setbeamertemplate{navigation symbols}{}
+% % no footline
+% \setbeamertemplate{footline}{}
+% \setbeamertemplate{footline}[frame number]
+
+% we want numbered figures
+\setbeamertemplate{caption}[numbered]
+
+% relevant stuff
+\title{EMBO PopGen}
+\subtitle{Bayesian methods and ABC}
+\author{Matthias Steinrücken\\[2ex]{\scriptsize adapted from Matteo Fumagalli (EMBO, 2024)}}
+% \institute{Department of Ecology and Evolution, University of Chicago\\ Department of Human Genetics, University of Chicago\\ NITMB} 
+\institute{Department of Ecology and Evolution, University of Chicago\\ Department of Human Genetics, University of Chicago} 
+\date{Day 3, June 25, 2025}
+
+\def\newblock{\hskip .11em plus .33em minus .07em}
+\renewcommand{\raggedright}{\leftskip=0pt \rightskip=0pt plus 0cm} 
+\renewcommand{\insertnavigation}[1]{\insertsectionnavigationhorizontal{#1}{}{}}
+
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{\begin{minipage}[!b]{2cm}\includegraphics[width=1.5cm]{graphics/university.seal.rgb.maroon.png}\\\phantom{a}\\\phantom{b}\end{minipage}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\titlepage 
+	% \addtocounter{framenumber}{-1}
+\end{frame}
+\logo{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Intended Learning Outcomes}
+	At the end of this session you will be able to:
+	\begin{itemize}
+		\item Critically discuss advantages (and disadvantages) of Bayesian data analysis.
+		\item Illustrate Bayes’ Theorem and concepts of prior and posterior distributions.
+		\item Implement simple Bayesian methods, including sampling and approximated techniques.
+		\item Apply Bayesian methods to solve problems in biology.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Intended Learning Outcomes}
+	At the end of this session you will be able to:
+	\begin{itemize}
+		\item Appreciate the use of Bayesian statistics in life sciences.
+		\item Formulate and explain Bayes’ theorem.
+		\item Describe a Normal-Normal model with or without Monte Carlo sampling.
+		% \item Apply Bayesian statistics to estimate genotypes from DNA sequencing data (maybe practical).
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Meet Nessie}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.4\textwidth]{graphics/LochNessMonster.jpg}
+	\end{center}
+	\caption{Nessie, the Loch Ness Monster. True or fake news?}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Likelihood for a monster to exist (!?)}
+	\begin{itemize}
+		\item $D = \{0, 1\}$ is our data, whether I tell you I saw Nessie or not.
+		\item $\theta \in \{0, 1\}$ is the probability for Nessie existing (or not).
+	\end{itemize}
+	\begin{block}{Questions}
+		\begin{itemize}
+			\item What are $p(D = 1|\theta = 1)$ and $p(D = 1|\theta = 0)$?
+			\item What is a Maximum Likelihood Estimate of $\theta$?
+		\end{itemize}
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Likelihood thinking...}
+	Our inference on $\theta$ is driven solely by our observations, given by our likelihood function.
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.5\textwidth]{graphics/EyeOnly.png}
+	\end{center}
+	\caption{The eye: a ``likelihood'' organ.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Non-Likelihood thinking...}
+	In real life we take many decisions based not only on what we observe but also on some believes of ours.
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.5\textwidth]{graphics/EyeBrain.png}
+	\end{center}
+	\caption{The brain: a ``non-likelihood'' organ.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Bayesian thinking}
+	\begin{itemize}
+		\item With ``eyes only'' our intuition is that $p(\theta|D) \propto p(D|\theta)$.
+		\item With ``the brain'' our intuition is that $p(\theta|D) \propto p(D|\theta)p(\theta)$.
+	\end{itemize}
+	Our ``belief'' expresses the probability $p(\theta)$ \textbf{unconditional} of the data.
+	\begin{block}{Question}
+		How can we define $p(\theta)$?
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Prior and posterior probability}
+	\begin{block}{}
+		The ``belief'' function $p(\theta)$ is called \textbf{prior probability} and the joint product of the likelihood $p(D|\theta)$ and the prior is proportional to the \textbf{posterior probability} $p(\theta|D)$.
+	\end{block}
+	\begin{block}{}
+		Using posterior probabilities for inference is called \textbf{Bayesian statistics}.
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Bayesian statistics}
+	Bayesian statistics is an alternative to frequentist approaches but without a definite division as in many cases the approach taken is \textbf{eclectic}.
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.2\textwidth]{graphics/Fisher.png}
+	\end{center}
+	\caption{Ronald Fisher.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Publishing a paper}
+	Example:\\
+	You submitted a manuscript for publication to a peer-reviewed journal and you want to assess its probability of being accepted and published.
+	\begin{center}
+		\includegraphics[width=.35\textwidth]{graphics/journals.png}
+	\end{center}
+	Which information do you need (and use) to make such inference?
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Measuring biodiversity}
+	Example:\\
+	You are measuring the biodiversity of crabs on Scottish rock shores in four different locations over three years.
+	\begin{table}
+		\caption{Biodiversity levels.}
+		\begin{tabular}{c|cccc}
+			Year	& Loc. A	& Loc. B	& Loc. C	& Loc. D \\
+			2016	& 45		& 54		& 47		& 52 \\
+			2017	& 41		& ?			& 43		& 45 \\
+			2018	& 32		& 38		& 37		& 35 \\
+		\end{tabular}
+	\end{table}
+	\begin{block}{Question}
+		\begin{itemize}
+			\item What is a reasonable value for the missing entry?
+			\item What if partial observation suggests 102?
+		\end{itemize}
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Statistical inference}
+	\begin{itemize}
+		\item Frequentist (from data only).
+		\item Likelihoodist (using a statistical model).
+		\item Bayesian (using prior information).
+		\item Empirical Bayesian (observed data contribute to the prior).
+	\end{itemize}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.3\textwidth]{graphics/EyeBrainEB.png}
+	\end{center}
+	\caption{The brain \textbf{and} the eye: an Empirical Bayesian organ.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Statistical inference}
+	If $D$ is the data and $\theta$ is your unknown parameter, then
+	\begin{itemize}
+		\item The frequentist conditions on parameters and integrates over the data, $p(D|\theta)$.
+		\item The Bayesian conditions on the data and integrates over the parameters, $p(\theta|D)$.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Bayesian vs. Frequentist:}
+	\begin{itemize}
+		\item We derive ``proper'' probability distributions of our parameters rather than deriving a point estimate.
+		\item A probability is assigned to a hypothesis rather than a hypothesis is tested.
+		\item We ``accept'' the null hypothesis rather than ``fail to reject'' it.
+		\item Parsimony imposed in model choice rather than correcting for multiple tests.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{History}
+	\begin{columns}
+	\begin{column}{.5\textwidth}
+		\begin{figure}
+		\begin{center}
+			\includegraphics[width=.4\textwidth]{graphics/ThomasBayes.jpeg}
+		\end{center}
+		\caption{Rev. Thomas Bayes.}
+		\end{figure}
+	\end{column}	
+	\begin{column}{.5\textwidth}
+		\begin{figure}
+		\begin{center}
+			\includegraphics[width=.4\textwidth]{graphics/Laplace.jpg}
+		\end{center}
+		\caption{Pierre-Simon, marquis de Laplace.}
+		\end{figure}
+	\end{column}	
+	\end{columns}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Why?}
+	\begin{block}{Why is Bayesian statistics popular?}
+		\begin{itemize}
+			\item Recent increased computing power.
+			\item Good frequentist properties.
+			\item Answers are easily interpretable by non-specialists.
+			\item Already implemented in packages.
+		\end{itemize}
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Troubles with the p-value?}
+	\begin{block}{John K. Kruschke (2010)}
+\only<1>{...the fundamental fatal flaw of p-values is that they are ill defined, because any set of data has many different p-values.\\[1ex]
+		...many people mistake the p-value for the probability that the null hypothesis is true.}%
+\only<2>{Some people may have the mistaken impression that the advantages of Bayesian methods are negated by the need to specify a prior distribution.
+	\begin{itemize}
+		\item It is inappropriate not to use a prior.
+		\item Priors are explicitly specified and must be agreeable to a skeptical scientific audience.
+		\item When different groups of scientists have differing priors, stemming from differing theories and empirical, then Bayesian methods provide rational means for comparing the conclusions from the different priors.
+	\end{itemize}}
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Why are WE using it?}
+	\begin{block}{}
+		Bayesian statistics is frequently used in many topics in life sciences:
+		\begin{itemize}
+			\item Genetics (e.g. fine mapping of disease-susceptibility genes).
+			\item Ecology (e.g. agent-based models).
+			\item Evolution (e.g. inference of phylogenetic trees).
+			\item Bioinformatics (e.g. genome assembly).
+			\item Systems biology (e.g. gene networks).
+			\item ...
+		\end{itemize}
+		and provides a rationale for other approaches (e.g. artificial neural networks).
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{The likelihood approach}
+	\begin{block}{}
+		\begin{itemize}
+			\item $Y$ is a random variable.
+			\item $f(y|\theta)$ is a probability distribution (called the likelihood) representing the sampling model for the observed data $(y_1, y_2, \ldots, y_n)$ given a vector of unknown parameters $\theta$.
+			\item $\int f (y|\theta)d\theta$ is not necessarily $= 1$ or even finite.
+			\item It is possible to find the value of $\theta$ that maximises the likelihood function: We can calculate a maximum likelihood estimate (MLE) for $\theta$, as: $\hat\theta = \text{argmax}_\theta f (y|\theta)$.
+		\end{itemize}
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Bayes’ Theorem}
+	\begin{block}{}
+		\begin{equation}
+			p(\theta|y) = \frac{f (y|\theta)\pi(\theta)}{m(\theta)} = \frac{f (y|\theta)\pi(\theta)}{\int f (y|\theta)\pi(\theta)d\theta}
+		\end{equation}
+	\end{block}
+	\begin{itemize}
+		\item $\theta$ is not a fixed parameter but a random quantity with prior distribution $\pi(\theta)$.
+		\item $p(\theta|y) $is the posterior probability distribution of $\theta$.
+		\item $\int p(\theta|y) d\theta = 1$
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Bayes’ Theorem in action!}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.5\textwidth]{graphics/Frogs.jpg}
+	\end{center}
+	\caption{The chytrid fungus \emph{Batrachochytrium dendrobatidis} is the most significant threat to amphibians.}
+	\end{figure}
+	% Let’s prove Bayes’ Theorem!
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Venn diagrams}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.35\textwidth]{graphics/venn_diagram.png}
+	\end{center}
+	\caption{Sets $U$, $A$ (samples with infection), $B$ (samples with positive test result) and $A \cap B$ (or $AB$).}
+	\end{figure}
+	Given that the test is positive for a randomly selected sample, what is the probability that said sample is infected?
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Normal-Normal model}
+	Let $y$ be number of observed frogs with disease:
+	\begin{block}{}
+		If
+		\begin{equation}
+			f(y|\theta) = N(y|\theta,\sigma^2)
+		\end{equation}
+		\begin{equation}
+			\pi(\theta) = N(\theta|\mu,\tau^2)
+		\end{equation}
+		then
+		\begin{equation}
+			p(\theta|y) = N\Big( \theta \Big| \frac{\sigma^2\mu + \tau^2 y}{\sigma^2 + \tau^2}, \frac{\sigma^2\tau^2}{\sigma^2 + \tau^2} \Big)
+		\end{equation}
+	\end{block}
+	\begin{center}
+		\includegraphics[width=.6\textwidth, trim={0 .25cm 0 1cm}, clip]{graphics/gaussian_model.pdf}
+	\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Normal-Normal model}
+	\begin{block}{``Shrinking'' factor B}
+		\begin{equation}
+			B = \frac{\sigma^2}{\sigma^2 + \tau^2}
+		\end{equation}
+		with $0 \leq B \leq 1$.\\
+		Then
+		\begin{equation}
+			\E(\theta|y) = B \mu + (1-B) y
+		\end{equation}
+		\begin{equation}
+			\V(\theta|y) = (1-B)\sigma^2 = B \tau^2
+		\end{equation}
+	\end{block}
+\visible<2>{Question:
+	\begin{itemize}
+		\item What if $\sigma^2 >> \tau^2$?
+		\item What if $\sigma^2 << \tau^2$?
+	\end{itemize}}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Save the frogs with a Normal-Normal model!}
+	\begin{block}{Infected frogs (observed and ``believed'' a priori)}
+		Assume that $y = 6$, $\sigma = 1$, $\mu = 2$ and $\tau = 1$.
+	\end{block}
+	\vspace{-1ex}
+	\begin{equation}
+		f(y = 6|\theta) = N(y=6|\theta,1)
+	\end{equation}
+	\begin{equation}
+		\pi(\theta) = N(\theta|2, 1)
+	\end{equation}
+\visible<2-3>{\vspace{-1ex}\begin{itemize}
+		\item The \emph{maximum a posteriori probability} (MAP) is 4.
+		\item What happens if we use a sharper or wider prior?
+		\item What happens if we have more observations?
+	\end{itemize}
+	\begin{center}
+		% trim is left, lower, right, upper
+\only<2>{\includegraphics[width=.6\textwidth, trim={0 .25cm 0 1cm}, clip]{graphics/gaussian_model.pdf}}
+\only<3>{\includegraphics[width=.6\textwidth, trim={0 .25cm 0 1cm}, clip]{graphics/gaussian_model_sharper.pdf}}
+	\end{center}
+}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Monte Carlo sampling}
+	Drawing random samples from the posterior distribution instead of calculating its parameters.
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.4\textwidth]{graphics/MonteCarlo.jpeg}
+	\end{center}
+	\caption{Monte Carlo and its famous casino.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+\begin{frame}\frametitle{Monte Carlo sampling}
+	Drawing random samples from the posterior distribution instead of calculating its parameters.
+	\begin{center}
+\only<1>{\includegraphics[width=.7\textwidth]{graphics/mc_density.pdf}}
+\only<2>{\includegraphics[width=.7\textwidth]{graphics/mc_50_samples.pdf}}
+\only<3>{\includegraphics[width=.7\textwidth]{graphics/mc_1000000_samples.pdf}}
+	\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Recap \& Refresh}
+	\begin{itemize}
+		\item Why going Bayesian? p-values are troublesome.
+		\item Theorem: $p(\theta|y) = \frac{f(y|\theta)\pi(\theta)}{\int f(y|\theta)\pi(\theta)d\theta}$
+		\item Normal-Normal model: $p(\theta|y) = N( \theta | \frac{\sigma^2\mu + \tau^2 y}{\sigma^2 + \tau^2}, \frac{\sigma^2\tau^2}{\sigma^2 + \tau^2})$
+		\item Monte Carlo sampling
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Intended Learning Outcomes}
+	At the end of this day you will be able to:
+	\begin{itemize}
+		\item Describe the pros and cons of using different priors (e.g.\ elicited, conjugate, ...).
+		\item Evaluate the interplay between prior and posterior distributions.
+		\item Calculate several quantities of interest from posterior distributions.
+		% \item Apply Bayesian inference to estimate population variation from DNA data.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Prior distributions}
+	How can we decide which prior distribution is more appropriate in our study?
+	\begin{itemize}
+		\item They are derived from past information or opinions from experts.
+		\item They are typically distributed as commonly used distribution families.
+		\item They can be limited to bear little information.
+		\item ... endless possibilities ...
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Elicited priors}
+	\begin{block}{}
+		\begin{itemize}
+			\item Define the collection of $\theta$ which are possible.
+			\item Assign some probability to each one of the possible cases.
+			\item Make sure that they sum up to 1.
+		\end{itemize}
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Elicited \textbf{discrete} priors}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.4\textwidth]{graphics/Rabbits.jpeg}
+	\end{center}
+	\caption{How many kits do rabbits have in one litter?}
+	\end{figure}
+	\vspace{-3.5ex}\begin{block}{}
+	``Rabbits can have anywhere from one to 14 babies in one litter with an average litter size of 6.''
+	\end{block}
+\visible<2>{\begin{itemize}
+			\item $\pi(\theta=0)=\pi(\theta>14)=0$
+			\item $\pi(\theta=2)<\pi(\theta=6)>\pi(\theta=10)$
+			\item $\sum_{i=1}^{14} \pi(\theta=i) = 1$
+	\end{itemize}}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Elicited \textbf{continuous} priors}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.4\textwidth]{graphics/BumpassHell.jpeg}
+	\end{center}
+	\caption{Bumpass Hell, hot springs and fumaroles at Lassen Volcanic National Park, California.}
+	\end{figure}
+	\vspace{-2ex}\begin{block}{}
+		``From past observations, the temperature has a range of (80.1, 110.4) with an average of 88.3 Celsius degrees.''
+	\end{block}
+\visible<2>{\begin{itemize}
+		\item $\pi(80\leq \theta<85)<\pi(85\leq \theta<90)>\pi(90\leq \theta<95)$
+	\end{itemize}}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Elicited \textbf{parametric} priors}
+	$\theta$ belongs to a parametric distributional family $\pi(\theta|\nu)$.\\
+	Advantages:
+	\begin{itemize}
+		\item Reduces the effort for the elicitee.
+		\item Overcomes the finite support problem.
+		\item May lead to simplifications in the computation of the posterior.
+	\end{itemize}
+	Disadvantage:
+\visible<2>{
+	\begin{itemize}
+		\item Impossible to find a distribution that perfectly matches the elicitee’s beliefs.
+	\end{itemize}}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Elicited \textbf{parametric} priors}
+	\begin{equation}
+		\pi(\theta) = \begin{cases}
+							0,					& \text{for $\theta < 80.1$ or $\theta > 110.4$},\\
+							N(\mu,\sigma^2),	& \text{for $80.1 \leq \theta \leq 110.4$},
+						\end{cases}
+	\end{equation}
+	with $\mu=88.3$ and $\sigma^2 = 10$.
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.4\textwidth]{graphics/normal_prior.png}
+	\end{center}
+	\caption{Elicited prior distribution of water temperature.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{How to build elicited priors}
+	\begin{itemize}
+		\item Focus on quantiles close to the middle of the distribution (e.g.\ the 50$^\text{th}$, 25$^\text{th}$ and 75$^\text{th}$) rather than extreme quantiles (e.g.\ the 95$^\text{th}$ and 5$^\text{th}$).
+		\item Assess the symmetry.
+		\item Priors can be updated and reassessed as new information is available.
+		\item Useful for experimental design and data exploration.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Conjugate priors}
+	\begin{block}{}
+		$\pi(\theta)$ is member of a family which is \emph{conjugate} with the likelihood $f(y|\theta)$ so that the posterior distribution $p(\theta|y)$ belongs to the same distributional family as the prior.
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Conjugate priors}
+	Example: $Y$ is the count of distinct elephant herds arriving at the pool in a day during the migration season.
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.35\textwidth]{graphics/Elephants.jpeg}
+	\end{center}
+	\caption{Elephants drinking at the pool. What’s the arrival rate for distinct herds?}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Poisson and elephants}
+	Poisson distribution is an appropriate model for $Y$ if:
+	\begin{enumerate}
+		\item $Y$ is the number of times an event occurs in an interval and it can take values any positive integer value including 0.
+		\item The occurrence of one event does not affect the probability that a second event will occur (i.e. events occur independently).
+		\item The rate at which events occur is constant (it cannot be higher in some intervals and lower in other intervals).
+		\item Two events cannot occur at exactly the same instant.
+		\item The probability of an event in an interval is proportional to the length of the interval.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Poisson distribution}
+	If $\theta$ is the event rate (rate parameter), then the probability of observing $y$ events in an interval is:
+	\begin{equation}
+		f(y|\theta) = \frac{e^{-\theta}\theta^y}{y!}, \: y \in \{0,1,2,\ldots\}, \theta > 0
+	\end{equation}
+	which is the probability mass function (pmf) for a Poisson distribution.\\[3ex]
+	Let’s plot the distribution for $\theta = 4$ using \texttt{R}.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Poisson distribution}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.45\textwidth]{graphics/poisson_distribution.png}
+	\end{center}
+	\caption{Poisson distribution for $\theta = 4$. This is the likelihood distribution for the number of herds per day with a rate of 4.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Conjugate prior for Poisson distribution}
+	Prior: Gamma distribution
+	\begin{equation}
+		\pi(\theta) = \frac{\theta^{\alpha-1}e^{-\theta/\beta}}{\Gamma(\alpha)\beta^\alpha}, \quad \theta >0, \alpha>0, \beta>0
+	\end{equation}
+	\begin{equation}
+		\E[G(\alpha\beta)] = \alpha\beta
+	\end{equation}
+	\begin{equation}
+		\V[G(\alpha,\beta)] = \alpha\beta^2
+	\end{equation}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Gamma distribution}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.55\textwidth]{graphics/gamma_distribution.pdf}
+	\end{center}
+	\caption{Gamma distribution for different values of shape and rate parameters.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\only<1>{\frametitle{Gamma $\times$ Poisson = ?}}\only<2>{\frametitle{Gamma $\times$ Poisson = Gamma}}
+	\begin{equation}
+		\begin{split}
+			p(\theta|y ) & \propto  f (y |\theta)\pi(\theta)\\
+				& \propto \only<1>{\:?}\visible<2>{(e^{-\theta}\theta^y)(\theta^{\alpha-1}e^{\theta/\beta})\\
+				& = \theta^{y+\alpha-1}e^{-\theta(1+1/\beta)}}
+		\end{split}
+	\end{equation}
+\visible<2>{$p(\theta|y) \sim G(\alpha',\beta')$ with $\alpha' =y+\alpha$ and $\beta' =(1+1/\beta)^{-1}$\\[1ex]
+	Posterior is (another) Gamma distribution.
+	\begin{block}{}
+		Conjugate priors allow for posterior distributions to emerge without numerical integration!
+	\end{block}}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Elephants’ arrivals}
+	Example:
+	\begin{itemize}
+		\item We have some intuition that we expect to see 3 herds per day (prior).
+		\item We observed 4 herds (data).
+	\end{itemize}
+	\begin{center}
+		\includegraphics[width=.55\textwidth]{graphics/gamma_elephants.pdf}
+	\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Non-informative priors}
+	Can we use a Bayesian approach when no reliable prior information on $\theta$ is available?\\[2ex]
+	Yes, a \emph{non-informative} prior distribution for $\theta$ contains ``no information'' about $\theta$ and all the information in the posterior will (mostly) arise from the data.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Non-informative priors}
+	Discrete case:\\[1.5ex]
+	If $\vec\Theta = \{\theta_1, \theta_2, \ldots, \theta_n\}$, then
+	\begin{equation}
+		p(\theta_i) = \frac{1}{n}, \quad i=1,2,\ldots,n	
+	\end{equation}
+	with
+	\begin{equation}
+		\sum_{i=1}^n \frac{1}{n} = 1
+	\end{equation}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Non-informative priors}
+	Continuous and bounded case:\\[1.5ex]
+	If $\vec\Theta = [a,b]$ with $-\infty < a < b < +\infty$, then
+	\begin{equation}
+		p(\theta) = \frac{1}{b-a}, \quad \text{if $a < \theta < b$} 	
+	\end{equation}
+	Integrates to 1.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Non-informative priors}
+	Continuous and unbounded case:\\[1.5ex]
+	If $\vec\Theta = (-\infty, +\infty)$, then
+	\begin{equation}
+		p(\theta) = c, \quad \text{for any $c$} 	
+	\end{equation}
+	is an \emph{improper} distribution as
+	\begin{equation}
+		\int_{-\infty}^{+\infty} p(\theta) d\theta = +\infty
+	\end{equation}
+	Bayesian inference is still possible under some circumstances.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Non-informative priors}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.4\textwidth]{graphics/uniform_prior.png}
+	\end{center}
+	\caption{uniform prior distribution for the arrival rate of elephant herds.}
+	\end{figure}
+	\begin{itemize}
+		\item Rule out scenarios that are impossible in real life.
+		\item Lack a conjugate model (sampling methods are required).
+		\item Non-informative priors are related to \emph{reference} priors.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Hierarchical modelling}
+	\emph{Hyperpriors} define the distribution of hyperparameters.
+	\begin{equation}
+		p(\theta|y) = \frac{\int f(y|\theta)\pi(\theta|\nu)h(\nu)d\nu}{\int \int f(y|\theta)\pi(\theta|\nu)h(\nu)d\nu d\theta}
+	\end{equation}
+\visible<2>{\begin{block}{Empirical Bayesian}
+		\emph{Estimated posterior} $p(\theta|y,\hat\nu)$ by replacing $\nu$ with an estimate $\hat\nu$ obtained by maximising the marginal distribution $m(y|\nu)$.
+	\end{block}
+	If $\nu \sim h(\nu|\lambda)$ with unknown parameters $\lambda$, then we have a third-stage prior $g(\lambda)$.}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Bayesian inference}
+	The posterior distribution of model parameters can be difficult to interpret.\\[2ex]
+	We want to \textbf{summarize} the information enclosed in these distribution.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Point estimation}
+	Example: Arrival rate with $y = 1$ and prior $\sim G (0.5, 1)$.
+	\begin{center}
+		\includegraphics[width=.5\textwidth]{graphics/MAP_gamma.png}
+	\end{center}
+	Question:\\
+	What is the (i) mean, (ii) mode and (iii) median of the resulting posterior distribution?
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Point estimation}
+	\begin{itemize}
+		\item The mode is the easiest to calculate as we can work directly with the numerator.
+		\item If the prior distribution is flat, then the \emph{posterior mode} will be equal to the maximum likelihood estimate.
+		\item If the posterior distribution is symmetric, then the mean and the median are equivalent.
+		\item For symmetric unimodal distributions, all these three features are equivalent.
+		\item For asymmetric distributions, the median is often the best choice as it is less affected by outliers and it is an intermediate to the mode and the mean.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Point estimation}
+	If we want to obtain a measure of accuracy of a point estimate $\hat\theta(\vec{y})$, we can calculate the \emph{posterior variance}:
+	\begin{equation}
+		\E_{\theta|\vec{y}}[(\theta-\hat\theta)^2]
+	\end{equation}
+	In the multivariate case the posterior mode is $\hat{\vec{\theta}}(\vec{y}) = (\hat\theta_1,\hat\theta_2,...,\hat\theta_k)$.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Credible intervals}
+	A $100\times(1-\alpha)$ credible set for $\theta$ is a subset $C$ of $\Theta$ such that:
+	\begin{equation}
+		1 - \alpha \leq \P(C|y) = \int_C p(\theta|y) d\theta
+	\end{equation}
+	\emph{``The probability that $\theta$ lies in $C$ given the observed data y is at least $(1 - \alpha)$''}\\[1.5ex]
+	E.g.\ $\alpha = 0.05$
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Credible intervals}
+	In continuous settings we can calculate the \emph{highest posterior density}, or \textbf{HPD}, credible set, defined as:
+	\begin{equation}
+		C = \{\theta \in \Theta : p(\theta|y) \geq k(\alpha)\}
+	\end{equation}
+	where $k(\alpha)$ is the largest constant satisfying $\P(C|y) \geq \alpha$.\\[2ex]
+	% Example: $p(\theta|y) \sim G(2,1)$ and $k(\alpha) = 0.1$.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Credible intervals}
+	How can we summarize our results?
+	\begin{itemize}
+		\item The posterior mean.
+		\item Several posterior percentiles (e.g.\ 0.025, 0.25, 0.50, 0.75, 0.975).
+		\item A credible interval.
+		\item Posterior probabilities $p(\theta > c|y)$ where $c$ is a notable point (e.g.\ 0, 1, depending on the problem).
+		\item A plot of the distribution to check whether it is unimodal, multimodal, skewed, ...
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Hypothesis testing}
+	In the \textbf{frequentist} approach,
+	\begin{enumerate}
+		\item One formulates a null hypothesis $H_0$ and an alternative hypothesis $H_a$.
+		\item An appropriate test statistic is chosen $T (Y )$.
+		\item One computes the \emph{observed significance}, or \emph{p-value}, of the test as the chance that $T(Y)$ is ``more extreme'' than $T(y_\text{obs})$, where the ``extremeness'' is towards the alternate hypothesis.
+		\item If the p-value is less than some threshold, typically in the form of a pre-specified Type I error rate, $H_0$ is rejected, otherwise it is not.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Hypothesis testing}
+	Limits of frequentist approach:
+	\begin{enumerate}
+		\item Only when two hypotheses are nested (e.g.\ $H_0$ is a simplification of $H_a$ and involves setting one parameter of $H_a$ to some known constant value).
+		\item Evidence \emph{against} the null hypothesis (e.g.\ a large p-value does not mean that the two models are equivalent, but only that we lack evidence of the contrary; we do not ``accept the null hypothesis'' but ``fail to reject it'').
+		\item No direct interpretation as weight of evidence (but only as a long-term probability; p-values are not the probability that $H_0$ is true!).
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Hypothesis testing}
+	In the Bayesian approach,
+	\begin{enumerate}
+		\item One can test as many models as desired, $M_i$, $i = 1, ..., m$.
+		\item One calculates the posterior probability that each model is correct.
+		\item One compares each pair of posterior probabilities.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Hypothesis testing}
+	Suppose we have two models $M_1$ and $M_2$ for data $Y$ and the two models have parameters $\theta_1$ and $\theta_2$.\\[1ex]
+	With prior densities $\pi_i (\theta_i )$ and $i = 1, 2$, the marginal distributions of $Y$ are:
+	\begin{equation}
+		p(y|M_i) = \int f(y|\theta_i,M_i) \pi_i (\theta_i ) d\theta_i
+	\end{equation}
+	We can calculate the posterior probabilities $\P(M_1|y)$ and $\P(M_2|y) = 1 - \P(M_1|y)$ for the two models.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Bayes factors}
+	A Bayes factor (BF) is used to summarize these results, and it is equal to the ration of posterior odds of $M_1$ to the prior odds of $M_1$:
+	\begin{equation}
+		BF = \frac{\P(M_1|y)/\P(M_2|y)}{\P(M_1)/\P(M_2)} = \frac{p(y|M_1)}{p(y|M_2)}
+	\end{equation}
+	If the two models are \emph{a priori} equally probable then:
+	\begin{equation}
+		BF = \P(M_1|y)/\P(M_2|y)
+	\end{equation}
+	which are the posterior odds of $M_1$.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Interpretation}
+	\begin{block}{Interpretation}
+		BF captures the change in the odds in favor of model 1 (vs. 2) as we move from the prior to the posterior.
+	\end{block}
+	\begin{center}
+	\begin{tabular}{c|c}
+		\textbf{BF}		& \textbf{Strength of evidence}\\
+		1 to 3			& not worth more than a bare mention\\
+		3 to 20			& positive\\
+		20 to 150		& strong\\
+		$>$ 150			& very strong\\
+	\end{tabular}
+	\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Recap \& Refresh}
+	\begin{itemize}
+		\item How to build elicited priors.
+		\item Conjugate priors: normal-normal, poisson-gamma, beta-binomial.
+		\item Point estimates (mean, mode, median) and HPD credible intervals.
+		\item Model testing.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Intended Learning Outcomes}
+	At the end of this day you will be able to:
+	\begin{itemize}
+		\item Describe the use of asymptotic methods.
+		\item Illustrate the utility of direct and indirect sampling methods.
+		\item Evaluate the feasibility of Markov Chain Monte Carlo sampling.
+		\item Implement simple indirect sampling methods in \texttt{R}.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Bayesian computation}
+	The calculation of posterior distributions often involves the evaluation of complex high-dimensional integrals.\\[2ex]
+	When a conjugate prior is not available or appropriate we can evaluate the posterior distribution with:
+	\begin{enumerate}
+		\item Asymptotic methods for approximating the posterior density.
+		\item Numerical integration.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Asymptotic methods}
+	\begin{block}{Bayesian Central Limit Theorem}
+		When there are many data points $p(\theta|x)$ will be approximately normally distributed.
+	\end{block}
+	For large data points, the posterior can be approximated by a normal distribution with mean equal to the posterior mode and (co)variance (matrix) equal to minus the inverse of the second derivative matrix of the log posterior evaluated at the mode.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Asymptotic methods}
+	Example:\\
+	Recalling the beta-binomial model with flat prior,\\
+	\begin{equation}
+		p(\theta|x) \propto \theta^x (1-\theta)^{n-x}
+	\end{equation}
+	The approximation is given by:
+	\begin{enumerate}
+		\item Take the log: \visible<2-5>{$l(\theta) = x \log\theta + (n-x) \log(1-\theta)$}
+\visible<2-5>{\item Take the derivative of $l(\theta)$ and set it to zero, obtaining: $\hat\theta = \tfrac{x}{n}$}
+\visible<3-5>{\item Take the second derivative evaluated at $\hat\theta$, obtaining: $-\tfrac{n}{\hat\theta} - \tfrac{n}{1-\hat\theta}$}
+\visible<4-5>{\item Take minus the inverse, obtaining: $\tfrac{\hat\theta (1-\hat\theta)}{n}$}
+\visible<5>{\item $p(\theta|x) \sim N(\theta,\tfrac{\hat\theta (1-\hat\theta)}{n})$}
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Asymptotic methods}
+	\begin{block}{}
+		If $p(\theta|x) \propto \theta^x (1-\theta)^{n-x}$, then for large $n$ we have\\ $p(\theta|x) \sim N(\theta,\tfrac{\hat\theta (1-\hat\theta)}{n})$.
+	\end{block}
+	Exercise:\\
+	$k = 20$\\
+	$n = 100$\\
+	Compare the exact and approximated posterior (e.g. use \texttt{qqplot}). What happens if $n = 10$?
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Asymptotic methods}
+	Model \emph{approximations} or \emph{first order approximations}: Estimate $\theta$ by the mode and the error goes to 0 at a rate proportional to $1/n$.\\[2ex]
+	The estimates of moments and quantiles may be poor if the posterior differs from normality.\\[2ex]
+	\emph{Laplace’s Method} provides a second order approximation to the posterior mean, with an error that decreases at a rate $1/n^2$.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Asymptotic methods}
+	Advantages:
+	\begin{itemize}
+		\item They replace numerical integration with numerical differentiation.
+		\item They are deterministic (without elements of stochasticity).
+		\item They reduce the computational complexity in any study of robustness (how sensitive are our conclusions to changes in the prior/likelihood?).
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Asymptotic methods}
+	Disadvantages:
+	\begin{itemize}
+		\item They require that the posterior is unimodal.
+		\item They require that the size of the data is large (how large is ``large enough''?).
+		\item For high-dimensional parameters the calculation of Hessian matrices (second derivatives) are hard.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Noniterative Monte Carlo methods}
+	If $\theta \sim h(\theta)$ with $h(\theta)$ being a posterior distribution, we wish to estimate $\gamma$, the posterior mean of $c(\theta)$, where
+	\begin{equation}
+		\gamma = \E[c(\theta)] = \int c(\theta) h(\theta) d\theta
+	\end{equation}
+	If $\theta_1, \theta_2, \ldots, \theta_N$ are independent and identically distributed (iid) as $h(\theta)$, then:
+\visible<2>{\begin{equation}
+		\hat\gamma = \frac{1}{n} \sum_{i=1}^N c(\theta_i)
+	\end{equation}
+	converges to $\E[c(\theta)]$ with probability 1 as $N \to \infty$.\\[1.5ex]
+	The computation of \textbf{posterior expectations} requires only a sample of size N from the posterior distribution.}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Noniterative Monte Carlo methods}
+	The variance of $\hat\gamma$ can be estimated from the sample variance of the $c(\theta_i)$ values.
+	\begin{equation}
+		\hat{\text{se}} = \sqrt{\frac{1}{N(N-1)}\sum_{i=1}^N [c(\theta_i) - \hat\gamma]^2}
+	\end{equation}
+	The Central Limit Theorem implies that $\hat\gamma \pm \hat{\text{se}}(\hat\gamma)$ provides an approximate 95\% confidence interval.\\
+	$N$ can be chosen as large as necessary to provide the desirable confidence.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Noniterative Monte Carlo methods}
+	In the univariate case, a histogram of the sampled $\theta_i$ estimates the posterior itself.\\[1.5ex]
+	An estimate of $p \equiv \P\{a < c(\theta) < b\}$ is given by
+	\begin{equation}
+		\hat{p} = \frac{\text{\# of $c(\theta_i) \in (a,b)$}}{N}
+	\end{equation}
+	Accuracy improves with $N$, the Monte Carlo sample size (which we can choose and have control upon).
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Noniterative Monte Carlo methods}
+	What happens if we cannot directly sample from this distribution?\\
+	There are methods for \textbf{indirect} sampling of the posterior distribution: (i)~Importance sampling, (ii)~Rejection sampling, (iii)~Weighted bootstrap.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Rejection sampling}
+	If we identify an envelope function $g(\theta)$ and a constant $M > 0$ such that $h(\theta)\pi(\theta) < Mg(\theta)$ for all $\theta$, then:
+	\begin{enumerate}
+		\item Generate $\theta_i \sim g(\theta)$.
+		\item Generate $U \sim \text{Uniform}(0, 1)$.
+		\item If $MUg(\theta_i) < h(\theta_i)\pi(\theta_i)$ accept $\theta_i$ otherwise reject $\theta_i$.
+	\end{enumerate}
+	If we repeat this procedure until $N$ samples are obtained, the sampled values will be random variables from $h(\theta)$.
+	\begin{block}{}
+		It is hard to sample from the true posterior but it is easier to sample from the envelope function.
+	\end{block}
+	Exercise: Approximate a Beta distribution using a uniform envelope function.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Markov chain Monte Carlo methods}
+	\begin{itemize}
+		\item All previous methods are non-iterative as they draw a sample of fixed size $N$.
+		\item There is no notion of ``convergence'' but rather we require $N$ to be sufficiently large.
+		\item For many problems with high dimensionality it may be difficult to find an importance sampling density or an envelope function.
+	\end{itemize}
+	In these cases, we can use \emph{Markov chain Monte Carlo} (MCMC) methods.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Markov process and chain}
+	\begin{enumerate}
+		\item A mathematical object following a stochastic (or random) process, typically defined as a collection of random variables.
+		\item The next value of the process depends only on the current value, but it is independent of the previous values.
+		\item A Markov chain is a Markov process that has a particular type of state space, which dictates the possible values that a stochastic process can take.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Markov chain Monte Carlo}
+	\begin{block}{Stationary distribution}
+		The probability distribution to which the process converges for large values of steps, or iterations.
+	\end{block}
+	The stationary distribution of an MCMC is the desired posterior distribution.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Markov chain Monte Carlo}
+	\begin{itemize}
+		\item The basic idea is to construct a Markov chain on the state space~$\Theta$, whose stationary distribution is the target posterior density $p(\theta|y)$.
+		\item We perform a random walk on the state space, so that the fraction of time we spend in each state $\theta$ is proportional to~$p(\theta|y)$.
+		\item By drawing correlated samples $\theta_0, \theta_1 , \theta_2 , \ldots$ from the chain, we can perform Monte Carlo integration with respect to $p(\theta|y)$.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Markov chain Monte Carlo}
+	An assessment of \emph{convergence} of the Markov chain to its stationary distribution is required.\\[2ex]
+	The majority of Bayesian MCMC computation is based on two algorithms:
+	\begin{enumerate}
+		\item The \emph{Gibbs sampler}.
+		\item The \emph{Metropolis-Hastings} (M-H) algorithm.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Gibbs sampler}
+	Suppose our model has k parameters $\theta = (\theta_1, \theta_2, ..., \theta_k )$.\\[1.5ex]
+	We assume that we can sample from the full conditional distributions.\\[1.5ex]
+	The collection of full conditional distributions uniquely determines the joint posterior distribution $p(\theta,y)$ and therefore all marginal posterior distributions $p(\theta_i,y)$, for $i = 1,\ldots,k$.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Gibbs sampler}
+	Given an arbitrary set of starting $(\theta_1^{(0)}, ..., \theta_k^{(0)})$ values, the algorithm, for $t = 1,\ldots,T$, is:
+	\begin{itemize}
+		\item Draw $\theta_1^{(t)}$ from $p(\theta_1|\theta_2^{(t-1)},\theta_3^{(t-1)},\ldots,\theta_k^{(t-1)},y)$.
+		\item Draw $\theta_2^{(t)}$ from $p(\theta_2|\theta_1^{(t)},\theta_3^{(t-1)},\ldots,\theta_k^{(t-1)},y)$.
+		\item ...
+		\item Draw $\theta_k^{(t)}$ from $p(\theta_k|\theta_1^{(t)},\theta_2^{(t)},\ldots,\theta_{k-1}^{(t)},y)$.
+	\end{itemize}
+	$(\theta_1^{(t)},\theta_2^{(t)},\ldots,\theta_{k}^{(t)})$ converges to a draw from the true joint posterior distribution $p(\theta_1,\theta_2,\ldots,\theta_k|y)$.\\[1.5ex]
+	Then, for $t > t_0$, $\{\theta^{(t)},t = t_0 +1,\ldots,T\}$ is a correlated sample from the true posterior.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Gibbs sampler}
+	\begin{itemize}
+		\item The parameter space must be fully \emph{connected}, without ``holes''.
+		\item When $\theta$ and $\nu$ are highly correlated the chain will have ``slow mixing''.
+		\item To ensure that all the full conditional distributions are available, the prior distribution of each parameter can be chosen to be conjugate with the corresponding likelihood.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Gibbs sampler}
+	A histogram of $\{\theta_i^{(t)},t = t_0 +1,\ldots,T\}$ provides an estimator of the marginal posterior distribution for $\theta_i$.\\[2ex]
+	The posterior mean can be estimated as the posterior mean:
+	\begin{equation}
+		\hat{\E}(\theta_i|y) = \frac{1}{T-t_0}\sum_{t=t_0+1}^T \theta_i^{(t)}
+	\end{equation}
+	The time $0 \leq t \leq t_0$ is called the burn-in period.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Metropolis algorithm}
+	Given:
+	\begin{itemize}
+		\item $p(\theta|y) \propto h(\theta) \equiv f(y|\theta) \pi(\theta)$
+		\item A candidate, or proposal, symmetric density $q(\theta^*|\theta^{(t-1)})$ which satisfies $q(\theta'|\theta) = q(\theta|\theta')$.
+		\item A starting value $\theta^{(0)}$ at iteration $t = 0$.
+	\end{itemize}
+	For (t = 1, ..., T ) the algorithm repeats:
+	\begin{enumerate}
+		\item Draw $\theta^* \sim q(\cdot|\theta^{(t-1)})$.
+		\item Calculate $r = h(\theta^*)/h(\theta^{(t-1)})$.
+		\item If $r \geq 1$, set $\theta^{(t)} = \theta^*$. Otherwise set $\theta^{(t)} = \theta^*$ with probability $r$ or set $\theta^{(t)} = \theta^{(t-1)}$ with probability $1-r$.
+	\end{enumerate}
+	$\theta^{(t)}$ converges in distribution to a draw from the true posterior density $p(\theta|y)$.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Metropolis algorithm}
+	An often used candidate density is:
+	\begin{equation}
+		q(\theta^*|\theta^{(t-1)}) = N(\theta^*|\theta^{(t-1)},\tilde{\Sigma})
+	\end{equation}
+	\emph{random walk} Metropolis: symmetric and ``self-correcting'' distribution.\\[2ex]
+	$\tilde{\Sigma}$, the posterior variance, can be empirically estimated from a preliminary run.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Metropolis-Hastings algorithm}
+	When $q(\theta'|\theta) \neq q(\theta|\theta')$ the acceptance rate $r$ is:
+	\begin{equation}
+		r = \frac{h(\theta^*)q(\theta^{(t-1)}|\theta^*)}{h(\theta^{(t-1)})q(\theta^*|\theta^{(t-1)})}
+	\end{equation}
+	A draw $\theta^{(t)}$ converges in distribution to a draw from the true posterior density as $t \to \infty$.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Hastings independence chain}
+	If we set $q(\theta^*|\theta^{(t-1)}) = q(\theta^*)$, then the proposal ignores the current value of the variable.\\[2ex]
+	The acceptance rate is:
+	\begin{equation}
+		r = \frac{h(\theta^*)/q(\theta^*)}{h(\theta^{(t-1)})/q(\theta^{(t-1)})}
+	\end{equation}		
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{MCMC algorithms}
+	\begin{itemize}
+		\item \emph{Langevin-Hastings} algorithm introduces a systematic drift in the candidate density.
+		\item \emph{Slice sampler} algorithm uses auxiliary variables to expand the parameter space.
+		\item \emph{Hybrid} forms combined multiple algorithm in a single problem.
+		\item \emph{Adaptive} algorithms use the early output from a chain to refine the sampling as it progresses.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Convergence}
+	Diagnostic strategy:
+	\begin{itemize}
+		\item Run parallel chains with starting points from a wide distribution.
+		\item Visually inspect these chains.
+		\item For each graph calculate the scale reduction factor.
+		\item Investigate crosscorrelations among parameters.
+	\end{itemize}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.35\textwidth]{graphics/Chains.png}
+	\end{center}
+	\caption{Three chains mixing for increasing t.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Recap \& Refresh}
+	If there is no closed form for the posterior distribution:
+	\begin{itemize}
+		\item Asymptotic methods (e.g. Normal approximation)
+		\item Direct sampling (Monte Carlo)
+		\item Non-iterative sampling (e.g.\ rejection algorithm)
+		\item Iterative sampling: MCMC (Gibbs vs. Metropolis algorithms)
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Intended Learning Outcomes}
+	At the end of this day you will be able to:
+	\begin{itemize}
+		\item Appreciate the applicability of ABC.
+		\item Describe the rejection algorithm.
+		\item Critically discuss the choice of summary statistics.
+		\item Implement ABC methods in \texttt{R}.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Posterior probability distribution}
+	\begin{equation}
+		p(\theta|x) = \frac{p(x|\theta)\pi(\theta)}{p(x)}
+	\end{equation}
+	which can be difficult as the marginal likelihood
+	\begin{equation}
+		p(x) = \int p(x|\theta)\pi(\theta)d\theta
+	\end{equation}
+	might involve a high dimensional integral difficult (or impossible) to solve.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Sampling from the posterior}
+	\begin{itemize}
+		\item If the likelihood can be evaluated up to a normalizing constant, Monte Carlo methods can be used to sample from the posterior.
+		\item If the likelihood function becomes difficult to define and compute, it is easier to \emph{simulate} data samples from the model given the value of a parameter.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Rejection algorithm}
+	If data points are \textbf{discrete} and of low dimensionality, given observation $y$, repeat the following until $N$ points have been accepted:
+	\begin{enumerate}
+		\item Draw $\theta_i \sim \pi(\theta)$.
+		\item Simulate $x_i \sim p(x|\theta_i)$.
+		\item Reject $\theta_i$ if $x_i \neq y$.
+	\end{enumerate}
+	These are sampled from $p(\theta|y)$.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Rejection algorithm (elephants are back!)}
+	Example:
+	\begin{itemize}
+		\item We observe 4 herds arriving.
+		\item The likelihood is Poisson-distributed and the prior is Gamma-shaped $G(3,1)$.
+		\item The posterior distribution is Gamma distributed with shape parameter 3 + 4 = 7 and scale/rate 0.5.
+	\end{itemize}
+	Let us assume that we cannot evaluate the likelihood but we know how to \emph{simulate} y given a certain value of our parameter $\theta$.\\
+	Exercise:\\
+	Calculate the posterior distribution of $\theta$ in \texttt{R}.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Rejection algorithm}
+	If data points are \textbf{continuous} and of low dimensionality, given observation $y$, repeat the following until $N$ points have been accepted:
+	\begin{enumerate}
+		\item Draw $\theta_i \sim \pi(\theta)$.
+		\item Simulate $x_i \sim p(x|\theta_i)$.
+		\item Reject $\theta_i$ if $\rho(x_i, y)>\epsilon$.
+	\end{enumerate}
+	where $\rho(\cdot,\cdot)$ is a function measuring the \emph{distance} between simulated and observed points.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Rejection algorithm (hot water is back!)}
+	Example (water temperature):
+	\begin{itemize}
+		\item $\theta$ is continuous with prior distribution U(80.1,110.3).
+		\item We have a single observation $y = 91.3514$.
+		\item For $\rho(\cdot,\cdot)$ we use the Euclidean distance:
+			\begin{equation}
+				\rho(x_i,y) = \sqrt{(x_i-y)^2}
+			\end{equation}
+	\end{itemize}
+	Assume we cannot evaluate the likelihood function but we can simulate observations that are distributed according to it.\\
+	Exercise:\\
+	Calculate the posterior distribution of $\theta$ using \texttt{R}.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Rejection algorithm v2}
+	Alternatively, $\epsilon$ is the proportion of accepted simulations (ranked by distance with observations). In this case one sets the number of simulations to be performed (not the number of accepted simulations).
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Rejection algorithm v2}
+	Exercise (water temperature):
+	\begin{itemize}
+		\item $Y = \{91.34, 89.21, 88.98\}$.
+		\item $\theta$ has prior $N(\mu = 90, \sigma^2 = 20)$ for $80 \leq \theta \leq 110$.
+		\item The simulating function is \texttt{simulate <- function(param) rnorm(n=1, mean=param, sd=sqrt(20))}.
+		\item the distance function is $\rho(x_i,Y) = \tfrac{\sum_{j \in Y}\sqrt{(x_i - j)^2}}{|Y|}$.
+		\item $N=10,000$ and $\epsilon=0.05$.
+	\end{itemize}
+	Tasks:
+	\begin{enumerate}
+		\item Plot the sampled prior distribution.
+		\item Plot the distribution of ranked distances with indication of 5\% threshold.
+		\item Plot the posterior distribution.
+		\item Calculate notable quantiles and HPD 95\%.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Rejection algorithm with high dimensionality}
+	If data points are of \textbf{high dimensionality}, given observation $y$, repeat the following until $N$ points have been accepted:
+	\begin{enumerate}
+		\item Draw $\theta_i \sim \pi(\theta)$.
+		\item Simulate $x_i \sim p(x|\theta_i)$.
+		\item Reject $\theta_i$ if $\rho(S(x_i), S(y)) > \epsilon$.
+	\end{enumerate}
+	with $S(y)$ being summary statistics.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Rejection algorithm}
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.6\textwidth]{graphics/ABC.png}
+	\end{center}
+	\caption{From: Beaumont (2010) Annu Rev Ecol Evol Syst. Rejection- and regression-based approximate Bayesian computation (ABC).}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Summary statistics}
+	\begin{itemize}
+		\item The choice of summary statistics is a mapping from a high dimension to a low dimension.
+		\item Some information is lost, but with enough summary statistics much of the information is kept.
+		\item The aim for the summary statistics is to satisfy the Bayes’ sufficiency:
+			\begin{equation}
+				p(\theta|x) = p(\theta|S(x))
+			\end{equation}
+	\end{itemize}
+	Issues?\\
+\visible<2>{Solutions:
+	\begin{enumerate}
+		\item Use a wider acceptance tolerance.
+		\item Perform a better sampling from the prior.
+	\end{enumerate}}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Regression-based ABC}
+	\begin{enumerate}
+		\item Given observation $y$ repeat the following until $M$ points have been generated: A. Draw $\theta_i \sim \pi(\theta)$; B. Simulate $x_i \sim p(x|\theta_i)$.
+		\item Calculate $S_j (x)$ for all $j$ and $k_j$ (emp.\ standard deviation).
+		\item $\rho(S(x),S(y)) := \sqrt{\sum_{j=1}^s(\tfrac{S_j(x)}{k_j} - \tfrac{S_j(y)}{k_j})^2}$
+		\item Choose $\epsilon$ such that the proportion of accepted points $P_\epsilon = \tfrac{N}{M}$.
+		\item Weight the simulated points $S(x_i)$ using $K_\epsilon(\rho(S(x_i), S(y)))$
+			\begin{equation}
+				K_\epsilon(t) = \begin{cases}
+										\epsilon^{-1}(1-(t\epsilon)^2), & \text{for $t \leq \epsilon$},\\
+										0,								& \text{for $t > \epsilon$}.
+									\end{cases}
+			\end{equation}
+		\item Apply weighted linear regression to the $N$ points that have nonzero weight to obtain an estimate of $\hat\E(\theta|S(x))$.
+		\item Adjust $\theta^*_i = \theta_i - \hat\E(\theta|S(x_i)) + \hat\E(\theta|S(y))$.
+		\item The $\theta^*_i$ with weights $K_\epsilon(\rho(S(x_i), S(y)))$ are random draws from an approximation of $p(\theta|y)$.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{MCMC-ABC}
+	Initialise by sampling $\theta^{(0)} \sim \pi(\theta)$.\\
+	At iteration $t \geq 1$:
+	\begin{enumerate}
+		\item Simulate $\theta' \sim K(\theta|\theta{^{(t-1)}})$ where $K(\cdot)$ is a proposal distribution that depends on the current value of $\theta$.
+		\item Simulate $x \sim p(x|\theta')$.
+		\item If $\rho(S(x),S(y)) < \epsilon$ (rejection step),
+			\begin{itemize}
+				\item $u \sim U(0,1)$.
+				\item if $u \leq \pi(\theta')/\pi(\theta^{(t-1)}) \times K(\theta^{(t-1)}|\theta')/K(\theta'|\theta^{(t-1)})$,\\ update $\theta^{(t)}=\theta'$.
+				\item Otherwise $\theta^{(t)}=\theta^{(t-1)}$.
+			\end{itemize}
+		\item Otherwise $\theta^{(t)}=\theta^{(t-1)}$.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Model assessment}
+	\begin{block}{Model choice}
+		Given a series of model $\mu_1, \mu_2, \ldots, \mu_N$ with prior probabilities $\sum_i \pi(\mu_i) = 1$, it is of interest to calculate Bayes factors between two models $i$ and $j$:
+		\begin{equation}
+			\frac{p(\mu_i|x)}{p(\mu_j|x)} / \frac{p(\mu_i)}{p(\mu_j)} 
+		\end{equation}
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Choice of summary statistics}
+	The more the merrier?
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.4\textwidth]{graphics/LucyBlanket.jpg}
+	\end{center}
+	\caption{Choosing summary statistics: The issue of pulling a short blanket.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Choice of summary statistics}
+	\begin{enumerate}
+		\item One could calculate the ratio of the posterior density with or without a particular summary statistic. Departures greater than a threshold are suggestive that the excluded summary statistic is important.
+		\item Different summary statistics can be weighted differently according to their correlation with some model parameters.
+		\item The number of summary statistics can also be reduced via multivariate dimensional scaling. Summary statistics should be scaled in order to have equal mean and variance, if normally distributed.
+		\item Even if there is no need of a strong theory relating summary statistics to model parameters, it is suitable to have some expectations.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Model validation}
+	Validation is the assessment of goodness-of-fit of the model and comparing alternative models, to distinguish errors due to the approximation from errors caused by the choice of the model.
+	\begin{enumerate}
+		\item The distributions of simulated summary statistics are visualised and compared to the corresponding target statistic. If the target is outside, then this could be a problem in the model.
+		\item The observations are compared with the posterior predictive distribution. This can be done by simulating data with parameters drawn randomly from the current posterior distribution.
+	\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Applications of ABC in biology}
+	Population genetics, agent-based models, protein interaction networks, speciation rates under a neutral ecological model, extinction rates from phylogenetic data, epidemiology, ...
+	\begin{figure}
+	\begin{center}
+		\includegraphics[width=.4\textwidth]{graphics/Patin1.png}
+	\end{center}
+	\caption{Patin et al. (2009): Different models simulating the demographic regime of the African groups and the mean proportion of small distances ($\Omega_{0.5}$) obtained in comparisons with simulated statistics.}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{To ABC or not to ABC?}
+	\begin{itemize}
+		\item When a likelihood function is known and can be efficiently evaluated, then there is no advantage in using ABC.
+		\item When the likelihood function is known but difficult to evaluate in practise, the ABC is a valid option.
+		\item Many scenarios in evolutionary biology or ecology can be generated by simulations.
+		\item ABC can be useful for initial exploratory phase.
+		\item Be careful with the choice of your priors!
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Intended Learning Outcomes}
+	At the end of this session you are now able to:
+	\begin{itemize}
+		\item Critically discuss advantages (and disadvantages) of Bayesian data analysis.
+		\item Illustrate Bayes’ Theorem and concepts of prior and posterior distributions.
+		\item Implement simple Bayesian methods in R, including sampling and approximated techniques.
+		\item Apply Bayesian methods to solve problems in biology.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

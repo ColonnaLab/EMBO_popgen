@@ -1,0 +1,67 @@
+---
+title: Mutation
+output: html_document
+---
+
+# Effect of mutations on allele frequency
+
+## (1) With mutation rate a->A
+
+```{r}
+# mutation rate
+mu <- 1e-2
+# over 1000 generations
+fA <- rep(NA, 1000)
+# starting allele frequency is 0
+fA[1] <- 0
+```
+
+```{r}
+for (t in 1:999) fA[t+1] <- fA[t] + mu*(1-fA[t])
+```
+
+```{r}
+plot(x=1:1000, y=fA, type="l", xlab="generations", lty=1, ylim=c(0,1), ylab="Allele frequency", lwd=2)
+lines(x=1:1000, y=1-fA, lty=2, lwd=2)
+```
+
+## (2) With equal mutation rates a->A and A->a
+
+```{r}
+# mutation rates
+mu_aA <- 1e-2
+mu_Aa <- 1e-2
+# over 1000 generations
+fA <- rep(NA, 1000)
+# starting allele frequency
+fA[1] <- 0
+```
+
+```{r}
+for (t in 1:999) fA[t+1] <- (1-mu_Aa)*fA[t] + mu_aA*(1-fA[t])
+```
+
+```{r}
+plot(x=1:1000, y=fA, type="l", lty=1, ylim=c(0,1), ylab="Allele frequency", xlab="generations", lwd=2)
+lines(x=1:1000, y=1-fA, lty=2, lwd=2)
+```
+
+## (3) With unequal mutation rates a->A and A->a
+
+```{r}
+mu_aA <- 2e-2
+mu_Aa <- 1e-2
+fA <- rep(NA, 1000)
+fA[1] <- 0
+```
+
+```{r}
+for (t in 1:999) fA[t+1] <- (1-mu_Aa)*fA[t] + mu_aA*(1-fA[t])
+```
+
+```{r}
+plot(x=1:1000, y=fA, type="l", lty=1, ylim=c(0,1), ylab="Allele frequency", xlab="generations", lwd=2)
+lines(x=1:1000, y=1-fA, lty=2, lwd=2)
+cat("final frequency:", fA[length(fA)])
+```
+

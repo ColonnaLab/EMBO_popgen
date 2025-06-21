@@ -1,0 +1,19 @@
+
+# go to directory
+# setwd("~/professor/githubRepository/embo_2025/my_stuff/day2/notebooks/")
+setwd("~/professor/githubRepository/embo_2025/my_stuff/day3/notebooks/")
+
+# list notebook files
+notebookFiles <- list.files (pattern="*.ipynb")
+
+# loop through and convert
+for (notebookName in notebookFiles[1]) {
+  # get basename
+  baseName <- strsplit(notebookName, "\\.")[[1]][1]
+  print (baseName)
+  # rmd-outname
+  rmdOutName <- paste(baseName,".Rmd", sep='')
+  # convert
+  rmarkdown::convert_ipynb(notebookName, rmdOutName)
+}
+

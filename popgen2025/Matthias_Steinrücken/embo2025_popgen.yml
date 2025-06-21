@@ -1,0 +1,12 @@
+name: embo2025_popgen_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - matplotlib
+  - msprime
+  - tqdm
+  - demesdraw
+  - tskit
+  - csvkit

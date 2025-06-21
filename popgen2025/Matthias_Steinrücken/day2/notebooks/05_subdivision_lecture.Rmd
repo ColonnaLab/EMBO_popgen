@@ -1,0 +1,16 @@
+---
+title: Subdivision
+output: html_document
+---
+
+## $F_{ST}$ and migration rates
+
+```{r}
+# migration rate
+Nm <- seq(0, 10, 0.1)
+# FST
+FST <- 1 / (1 + 4*Nm)
+
+plot(Nm, FST, type="l")
+```
+

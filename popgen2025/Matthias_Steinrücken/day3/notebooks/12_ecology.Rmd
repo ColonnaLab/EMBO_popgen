@@ -1,0 +1,24 @@
+---
+title: Ecological applications of Bayesian networks
+output: html_document
+---
+
+# Introduction to Bayesian methods in ecology and evolution
+
+## Ecological applications of Bayesian networks
+
+Read __one__ of the following papers provided in `Readings` folder:
+
+- `Eklof_2013.pdf`
+- `Gaggiotti_2010.pdf`
+- `Trifonova_2017.pdf`
+
+These studies propose the use of Bayesian networks in the field of ecology (either theoretical or applied) and evolution.
+
+Write a short report (equivalent to about 1 side of A4) addressing the follwoing points for the chosen study:
+
+1. What are the hypotheses to be tested?
+2. How did the authors suggest to use Bayes networks to test these hypotheses?
+3. What are the conclusions of the study?
+4. What did you learn on the use of Bayes network after reading this paper?
+

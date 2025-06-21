@@ -1,0 +1,268 @@
+---
+title: Bayesian networks
+output: html_document
+---
+
+### Intended Learning Outcomes
+
+At the end of this part you will be able to:
+
+* describe the concepts of conditional parameterisation and conditional independence,
+* implement a naive Bayes model,
+* calculate joint probabilities from Bayes networks,
+* appreciate the use of Bayes networks in ecology and evolution.
+
+If we want to represent a joint distribution $P$ over a set of binary-valued random variables $\{X_1, X_2, ..., X_N\}$ we would need to specify $2^n-1$ numbers.
+
+Problems are:
+
+- the explicit representation of the joint distribution is unmanageable,
+- it is computationally expensive to store and manipulare it,
+- it is impossible to acquire so many numbers from an elicited human expert,
+- some numbers can be very small and hard to contemplate,
+- we would need large amount of data to learn the joint distribution.
+
+Solutions are:
+
+1. use __independence properties__ in the distribution and an __alternative parameterisation__ to represent high-dimensional distributions more compactly,
+2. use a combinatorial data structure - a directed acyclic graph - as a general-purpose modelling language.
+
+### Conditional parameterisation
+
+Consider the problem of assessing the demographic factors (e.g. birth vs. death rates, expansions vs. contractions) of a particular species of interest. 
+It may be hard to quantify it directly but we have access to estimates of the population size which is informative on demographic factors although not fully indicative.
+
+<!-- <center><img src="Images/parrot.jpeg" width="400" height="400" /><center> -->
+![](Images/parrot.jpeg){width=400,height=400}
+
+Our probability space is induced by two random variables _Demographic rate (D)_ and _population Size (S)_ .
+
+We assume that both are binary-valued, so that 
+
+- $Val(D) = \{d^1, d^0\}$ which represent high ($d^1$) and low ($d^0$) demographic rate
+- $Val(S) = \{s^1, s^0\}$ which represent high ($s^1$) and low ($s^0$) population size
+
+Our joint distribution has four entries ($2^n$, but only $2^n-1$ are independent), for example
+
+D    | S   |   P(D,S)  |
+---   |---    |---     |
+$d^0$  |  $s^0$   |   0.665   |
+$d^0$  |  $s^1$   |   0.035   |
+$d^1$  |  $s^0$   |   0.060   |
+$d^1$  |  $s^1$   |   0.240   |
+
+We can use the chain rule of conditional probabilities:
+
+$P(X_1, ..., X_k) = P(X_1) P(X_2|X_1) \cdot \cdot \cdot P(X_k | X_1,...,X_{k-1})$
+
+to represent our joint distribution as
+
+$P(D,S) = P(D)P(S|D)$
+
+Instead of specifying all entries of $P(D,S)$ we would specify in the form of $P(D)$ (the _prior distribution_ over $D$) and $P(S|D)$ (the _conditional probability distribution_ of $S$ given $D$).
+
+$d^0$   | $d^1$   |
+---     | ---    |
+0.7    | 0.3    |
+
+D    | $s^0$   |   $s^1$  |
+---   |---    |---     |
+$d^0$  |  0.95   |   0.05   |
+$d^1$  |  0.20   |   0.80   |
+
+We are also representing the process in a way that is compatible with causality.
+
+<!-- <center><img src="Images/baynet1.png" width="400" height="400" /><center> -->
+![](Images/baynet1.png){width=400,height=400}
+
+This Bayesian network has a node for each random variable with an edge representing the direction of the dependence in this model.
+
+### Naive Bayes model
+
+Assume we have access to some measure of the _Genetic diversity_ ($G$) of our population of interest and $G$ takes on three values as
+
+- $Val(G) = \{g^1, g^2, g^3\}$ which represent high ($g^1$), medium ($g^2$) and low ($g^3$) genetic diversity
+
+We can exploit:
+
+1. conditional parameterisation
+2. conditional independence
+
+For any reasonable $P(D,S,G)$ there are no independencies:
+
+- $D$ is correlated to both $S$ and $G$
+- $S$ and $G$ are not independent as, for instance, $P(g^1 | s^1) > P(g^2 | s^1)$
+
+However $P$ satisfies a conditional independence property: if we know that a population has high demographic rate, a high population size no longer gives us information about the population's genetic diversity.
+
+$P(g | d^1, s^1) = P(g | d^1)$
+
+$P \models  P(S \perp G | D)$
+
+We can write
+
+$P(D,S,G) = P(S,G|D)P(D)$
+
+but since
+
+$P(S,G|D)=P(S|D)P(G|D)$
+
+we have that
+
+$P(D,S,G) = P(S|D)P(G|D)P(D)$
+
+We factorise the joint distribution as a product of three conditional distributions.
+
+The alternative parameterisation is more compact than the joint as we have three binomial distributions and two three-valued multinomial distributions (with a total of seven parameters instead of eleven).
+
+$d^0$   | $d^1$   |
+---     | ---    |
+0.7    | 0.3    |
+
+D    | $s^0$   |   $s^1$  |
+---   |---    |---     |
+$d^0$  |  0.95   |   0.05   |
+$d^1$  |  0.20   |   0.80   |
+
+D    | $g^1$   |   $g^2$  |  $g^3$   |
+---   |---    |---     |---     |
+$d^0$  |  0.20   |   0.34   | 0.46    |
+$d^1$  |  0.74   |   0.17   | 0.09    |
+
+This probabilistic model would be represented using a Bayesian network.
+
+<!-- <center><img src="Images/baynet2.png" width="800" height="800" /><center> -->
+![](Images/baynet2.png){width=800,height=800}
+
+Modularity is another advantage of this representation.
+
+This is an example of a general model called _naive Bayes model_ which assumes that:
+
+1. instances fall into one of a number of mutually exclusive and exhaustive _classes_
+2. observed _features_ are conditionally independent given the instance's class
+
+<!-- <center><img src="Images/naiveBayes.png" width="600" height="600" /><center> -->
+![](Images/naiveBayes.png){width=600,height=600}
+
+$(X_i \perp \textbf{X}|C)$ for all $i$
+
+The model factorises as $P(C,X_1,...,X_n) = P(C)\prod_{i=1}^n P(X_i|C)$
+
+__ACTIVITY__
+
+What is the probability that a population has a low demographic rate, medium genetic diversity, low population size?
+
+$P(d^0, g^2, s^0) = ?$
+
+```{r}
+# ...
+```
+
+The naive Bayes model is often chosen because of its simplicty and small number of parameters.
+However its strong assumptions may cause to overestimate the impact of certain evidence.
+
+This model is typically used for classification with a confidence calculated by the ratio:
+
+\begin{equation*}
+\frac{P(C=c^1 | x_1,...,x_n)}{P(C=c^2 | x_1,...,x_n)} = \frac{P(C=c^1)}{P(C=c^2)} \prod_{i=1}^n \frac{P(x_i | C=c^1)}{P(x_i | C=c^2)}
+\end{equation*}
+
+__ACTIVITY__
+
+What is the confidence that a population has a high demographic rate given that it has medium genetic diversity and high population size?
+
+```{r}
+# ...
+```
+
+### Bayesian networks
+
+They build on the same intuitions as the naive Bayes model but they don't require strong independence assumptions and are more flexible.
+
+The core of Bayesian networks is a directed acyclic graph (DAG) $\mathcal{G}$ whose nodes are the random variables in our domain and whose edges correspond, intuitively, to direct influence of one node to another.
+
+The graph $\mathcal{G}$ can be viewed as:
+
+1. a data structure to represent a joint distribution compactly in a factorised way
+2. a compact representation for a set of conditional independence assumptions about a distribution
+
+These two views are equivalent.
+
+Consider that the genetic diversity $G$ of a population depends not only by its demographic rate $D$ but also on _geographical Barriers_ $B$ in its environment with
+
+- $Val(B) = \{b^0, b^1\}$ which represent absence ($b^0$) and presence ($b^1$) of geographical barriers
+
+Consider also that we want to assign a conservation status $C$ to said population with
+
+- $Val(C) = \{c^0, c^1\}$ which represent threatened ($c^0$) and least-concerned ($c^1$) label.
+
+We have five random variables:
+
+- Demographic rate $D$, binary
+- population Size $S$, binary
+- Genetic diversity $G$, ternary
+- Geographical Barriers $B$, binary
+- Conservation status $C$, binary
+
+The joint distribution has 48 entries.
+
+The first component of a Bayesian network is its structure where each variable is a stochastic function of its parents.
+
+<!-- <center><img src="Images/baynet3.png" width="800" height="800" /><center> -->
+![](Images/baynet3.png){width=800,height=800}
+
+The second component is a set of _local probability models_ .
+
+$b^0$   | $b^1$   |
+---     | ---    |
+0.6    | 0.4    |
+
+$d^0$   | $d^1$   |
+---     | ---    |
+0.7    | 0.3    |
+
+D    | $s^0$   |   $s^1$  |
+---   |---    |---     |
+$d^0$  |  0.95   |   0.05   |
+$d^1$  |  0.20   |   0.80   |
+
+D,B    | $g^1$   |   $g^2$  |  $g^3$   |
+---   |---    |---     |---     |
+$d^0,b^0$  |  0.30   |   0.40   | 0.30    |
+$d^0,b^1$  |  0.05   |   0.25   | 0.70    |
+$d^1,b^0$  |  0.90   |   0.08   | 0.02    |
+$d^1,b^1$  |  0.50   |   0.30   | 0.20    |
+
+G    | $c^0$    | $c^1$     |
+---   |---    |---     |
+$g^1$    | 0.1    |   0.9   |
+$g^2$    | 0.4    |   0.6   |
+$g^3$    | 0.99    |   0.01   |
+
+The network structure together with its conditional probability distributions (CPDs) is a _Bayesian network_ $\mathcal{B}$.
+
+We can refer to this example as $\mathcal{B}^{species}$
+
+We can use this data structure to calculate the probability of an event, e.g. $P(d^1, b^0, g^2, s^1, c^0)$
+
+$P(d^1, b^0, g^2, s^1, c^0) = P(d^1) P(b^0) P(g^2 | d^1, b^0) P(s^1 | d^1) P(c^0 | g^2)$
+
+```{r}
+0.3*0.6*0.08*0.8*0.4
+```
+
+In general we have
+
+$P(D,B,G,S,C) = P(D) P(B) P(G|D,B) P(S|D) P(C|G)$
+
+which is an example of the _chain rule for Bayesian networks_ .
+
+### Intended Learning Outcomes
+
+At the end of this part you are now able to:
+
+* describe the concepts of conditional parameterisation and conditional independence,
+* implement a naive Bayes model,
+* calculate joint probabilities from Bayes networks,
+* appreciate the use of Bayes networks in ecology and evolution.
+

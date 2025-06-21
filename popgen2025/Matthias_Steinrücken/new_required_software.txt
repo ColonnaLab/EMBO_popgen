@@ -1,0 +1,57 @@
+day 2:
+
+-- stuff that goes with lecture is R
+-- but then the practical is in python with msprime
+-- maybe it is best to convert the R notebooks into python?
+		-- perhaps that was actaully intended?
+		-- it's a bit, but maybe best
+		-- then again, RStudio is easier
+
+R
+RStudio
+
+
+python
+msprime
+tqdm
+demesdraw
+
+
+
+==========
+
+day 3:
+
+
+- simulate in msprime, but abc package in R?
+- heavy lifting on day 3 seems to be R?
+
+
+
+python
+tskit
+csv
+pymc3 (only for 08_MCMC, Matteo did not use)
+
+
+R - library:
+abc
+coda
+fields
+
+I overlooked in 10_speciation:
+`maps`
+`spam`
+
+
+10_speciation needs ms <-- we are definitely changing this to msprime
+
+
+
+
+Overall:
+
+R + RStudio (libraries: abc, coda, fields); Python (libraries: msprime, tskit, tqdm, demesdraw, csv, pymc3 <- should all be available via conda)
+
+
+"ms" as well
