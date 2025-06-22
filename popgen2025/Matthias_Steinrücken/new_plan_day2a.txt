@@ -9,20 +9,33 @@ Day 2 10:45-12:30 Practical session
 This will be a mix of lecture and individual experiments. We will use the slides for day2a.pdf and the relevant notebooks.
 We will cover terminology, alleles and genotypes, drift and fitness.
 
-- not sure I want to keep the learning goals/outcomes
-
-- Author notes (Day 2a) [slides refer to new version]:
-
-- 70: notebook: drift (1) : time: 10:55 - until 11:10
-- 75: notebook: drift (2) : time: 11:15 - until 11:40
-- 78: drift (3) : time: 11:45 - until 12:00
-- 94: jupyter-notebook: selection (3) time: 12:20 - 10mins QandA
+- First 96 slides of day2a.pdf
+	- with notebooks 01_drift and 02_selection insterspersed
 
 
 
 
 
-===== NOTES =====
+
+
+
+
+
+
+
+===== AUTHOR NOTES =====
+
+
+Author notes (Day 2a) [slides refer to new version]:
+60: This should be more or less by 10:15
+70: notebook: drift (1) : time: 10:55 - until 11:10
+75: notebook: drift (2) : time: 11:15 - until 11:40
+78: drift (3) : time: 11:45 - until 12:00
+95: jupyter-notebook: selection (3) time: 12:20 - 10mins QandA
+
+
+
+
 
 - Units:
 

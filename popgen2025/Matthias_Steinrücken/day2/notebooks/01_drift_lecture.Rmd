@@ -107,12 +107,18 @@ What is the chance that an allele at 50% at time 0 goes to fixation (100%) or is
 N <- 50
 gen <- 1000 # generations
 nrepl <- 200 # number of distinct simulations
+numLost <- 0
+numFixed <- 0
 for (j in 1:nrepl) {
     fA <- rep(NA, gen)
     fA[1] <- 0.5
     for (t in 1:(gen-1)) fA[t+1] <- rbinom(1, 2*N, fA[t]) / (2*N)
+    if (fA[length(fA)] > 1 - 1e-8) { numFixed <- numFixed + 1 }
+    if (fA[length(fA)] < 1e-8) { numLost <- numLost + 1 }
     if (j==1) plot(x=1:gen, y=fA, xlab="generations", type="l", ylim=c(0,1), col=rainbow(nrepl)[j]) else lines(x=1:gen, y=fA, col=rainbow(nrepl)[j])
 }
+print(paste("Fraction repl. where allele lost", numLost/nrepl))
+print(paste("Fraction repl. where allele fixed", numFixed/nrepl))
 ```
 
 ## (3) Effect of population size

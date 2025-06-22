@@ -1206,7 +1206,11 @@
 	The strength of selection (or \textbf{selection coefficient}), often represented by the symbol $s$, is defined from the fitness values.\\[2ex]
 	For example, if $Aa$ is not the fittest genotype then the selection coefficient against heterozygotes can be interpreted as the deficit from a relative fitness of 1, so that
 	\begin{equation}
-		w_{Aa} = 1-s
+		\begin{split}
+			w_{AA} & = 1\\
+			w_{Aa} & = 1-s\\
+			w_{aa} & = 1-2s\\
+		\end{split}
 	\end{equation}
 	What is the effect of selection on changes in allele frequency?
 \end{frame}
@@ -1228,6 +1232,21 @@
 		Nevertheless, it is still possible that a fit individual will have no offspring.
 	\end{column}
 	\end{columns}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Selection and drift combined}
+	Fitter individuals more likely to contribute to next generation:
+	\begin{equation}
+		f_A'(t) = \frac{(f_A(t))^2 \cdot w_{AA} + f_A(t)f_a(t) \cdot w_{Aa}}{(f_A(t))^2 \cdot w_{AA} + 2 * f_A(t)f_a(t) \cdot w_{Aa} + (f_a(t))^2 \cdot w_{aa}}
+	\end{equation}
+	Frequency in next generation from binomial with ``more'' contribution of fitter type:
+	\begin{equation}
+		f_A(t+1) = \tfrac{1}{2N} \text{Binom}(2N, f_A'(t))
+	\end{equation}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
