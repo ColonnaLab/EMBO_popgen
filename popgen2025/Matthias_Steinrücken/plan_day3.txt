@@ -1,0 +1,30 @@
+
+== Morning session: introduction to Bayesian methods
+
+09:30-10:15 Lecture
+
+- Present slides day3_bayes up to slide 77.
+- Mention that notebooks (01_thinking, 02_concepts, 04_priors, 05_inference) same content, and more details
+
+10:45-12:30 Practical session
+
+- (finish theory)
+- 06_population.Rmd
+- (03_genomics.Rmd, maybe for people that are quick)
+- learning priors: practical_ABC.pdf Task 1
+
+
+== Afternoon session: introduction to ABC
+
+13:30-14:15 Lecture
+
+- 09_ABC.Rmd (use notebook to present)
+
+14:45-16:30 Practical
+
+- either 10_speciation.ipynb
+- or infer demography of mosquitoes using practical_ABC.pdf tasks 2 and 3
+
+
+
+
