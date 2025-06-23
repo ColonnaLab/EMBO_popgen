@@ -77,7 +77,9 @@ plot(x=1:100, y=fA, type="l", ylim=c(0,1), lwd=2)
 
 Wasn't the expected allele frequency supposed not to change after each generation? What's happening?
 
-Let's assume that we repeat the whole history for 100 generations many times (i.e. 20) and record the trajectory of the allele frequency.
+Let's assume that we repeat the whole history for 100 generations many times (i.e. 20) and record the trajectories of the allele frequency.
+
+Plot a couple of replicates of the allele frequency trajectory.
 
 ```{r}
 N <- 50

@@ -85,7 +85,7 @@ simulateTrajectory <- function(s, N, t=500, nrepl=100, initFreq=1/(2*N)) {
         if ((2*N*s) > 1) u <- 2*s
     
         cat("Lost = ", length(which(fA[,t]==0)), "\n")
-        cat("Fixed = ", length(which(fA[,t]==1)), "\t (expected = ", (u*nrepl), ")\n")
+        cat("Fixed = ", length(which(fA[,t]==1)), "\t (neutral expected = ", (u*nrepl), ")\n")
     
         return(invisible(fA));
 
