@@ -38,7 +38,7 @@ If data points are __discrete__ and of low dimensionality, given observation $y$
 * Simulate $x_i \sim f(x|\theta_i)$
 * Reject $\theta_i$ if $x_i \neq y$
 
-These are sampled from $P(\theta|x)$.
+The accepted $\theta_i$ are sampled from $P(\theta|x)$.
 
 The posterior distribution gives the probability distribution of the parameter values that gave rise to the observations.
 To calculate summaries of this distribution it is possible to draw a histogram and derive notable percentiles.
@@ -90,7 +90,7 @@ quantile(thetas, c(0.025,0.25,0.5,0.75,0.975))
 
 #### Continuous data (Water temperature)
 
-If the data are __continuous__ and of low dimensionality, given observation $y$, the algorithms repeat the following until $N$ points have been accepted:
+If the data are __continuous__ and of low dimensionality, given observation $y$, the algorithm repeats the following until $N$ points have been accepted:
 
 * Draw $\theta_i \sim \pi(\theta)$
 * Simulate $x_i \sim f(x | \theta_i)$

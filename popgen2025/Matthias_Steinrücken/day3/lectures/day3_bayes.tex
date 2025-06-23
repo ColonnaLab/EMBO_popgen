@@ -557,7 +557,10 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}\frametitle{Monte Carlo sampling}
-	Drawing random samples from the posterior distribution instead of calculating its parameters.
+	Calculating parameters of posterior distribution not always possible.
+	\begin{itemize}
+		\item Drawing random samples from it might be.
+	\end{itemize}
 	\begin{figure}
 	\begin{center}
 		\includegraphics[width=.4\textwidth]{graphics/MonteCarlo.jpeg}
@@ -669,7 +672,7 @@
 		``From past observations, the temperature has a range of (80.1, 110.4) with an average of 88.3 Celsius degrees.''
 	\end{block}
 \visible<2>{\begin{itemize}
-		\item $\pi(80\leq \theta<85)<\pi(85\leq \theta<90)>\pi(90\leq \theta<95)$
+		\item $\pi(80\leq \theta<85)<\pi(85\leq \theta<90)>\pi(90\leq \theta<110)$
 	\end{itemize}}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -754,7 +757,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}\frametitle{Poisson and elephants}
-	Poisson distribution is an appropriate model for $Y$ if:
+	\textbf{Poisson distribution} is an appropriate model for $Y$ if:
 	\begin{enumerate}
 		\item $Y$ is the number of times an event occurs in an interval and it can take values any positive integer value including 0.
 		\item The occurrence of one event does not affect the probability that a second event will occur (i.e. events occur independently).
@@ -971,7 +974,7 @@
 \begin{frame}\frametitle{Point estimation}
 	\begin{itemize}
 		\item The mode is the easiest to calculate as we can work directly with the numerator.
-		\item If the prior distribution is flat, then the \emph{posterior mode} will be equal to the maximum likelihood estimate.
+		\item If the prior distribution is uniform, then the \emph{posterior mode} will be equal to the maximum likelihood estimate.
 		\item If the posterior distribution is symmetric, then the mean and the median are equivalent.
 		\item For symmetric unimodal distributions, all these three features are equivalent.
 		\item For asymmetric distributions, the median is often the best choice as it is less affected by outliers and it is an intermediate to the mode and the mean.
@@ -1081,7 +1084,11 @@
 	\begin{equation}
 		p(y|M_i) = \int f(y|\theta_i,M_i) \pi_i (\theta_i ) d\theta_i
 	\end{equation}
-	We can calculate the posterior probabilities $\P(M_1|y)$ and $\P(M_2|y) = 1 - \P(M_1|y)$ for the two models.
+	We can calculate the posterior probabilities
+	\begin{equation}
+	 	\P(M_1|y) = \frac{p(y|M_1) \P(M_1)}{\sum_{i}p(y|M_i) \P(M_i)}
+	\end{equation}
+	and $\P(M_2|y) = 1 - \P(M_1|y)$ for the two models.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

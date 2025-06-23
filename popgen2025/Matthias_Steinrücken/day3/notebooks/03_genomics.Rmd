@@ -1,5 +1,5 @@
 ---
-title: Bayesin Genotype Calling
+title: Bayesian Genotype Calling
 output: html_document
 ---
 
@@ -80,6 +80,7 @@ With the same assumptions as in point C, calculate genotype posterior probabilit
 In this case, we need to modify our previous priors.
 Specifically, if $f$ is the frequency of allele A and $I$ is the inbreeding coefficient,
 then the prior probabilities for all genotypes are:
+
 * $p(AA)=f^2 + I \times f \times (1-f)$
 * $p(AT)=2 \times f \times (1-f) \times (1-I)$
 * $p(TT)=(1-f)^2 + I \times f \times (1-f)$

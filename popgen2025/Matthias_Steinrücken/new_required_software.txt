@@ -51,7 +51,7 @@ I overlooked in 10_speciation:
 
 Overall:
 
-R + RStudio (libraries: abc, coda, fields); Python (libraries: msprime, tskit, tqdm, demesdraw, csv, pymc3 <- should all be available via conda)
+R + RStudio (libraries: abc, coda, fields, maps, spam); Python (libraries: msprime, tskit, tqdm, demesdraw, csv, pymc3 <- should all be available via conda)
 
 
 "ms" as well

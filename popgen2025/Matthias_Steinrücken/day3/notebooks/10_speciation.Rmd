@@ -15,8 +15,6 @@ You will also need some data and R functions provided in `Data`.
 
 I suggest to copy `functions.R` and `polar.brown.sfs*` in the workspace where you will run this practical without overwriting the repository.
 
-You can work in teams for this practical.
-
 ##### Project
 
 In this practical you are going to estimate the divergence (or speciation) time between polar bears and brown bears using genomics data. You will be using Approximate Bayesian Computation (ABC) methods to inference this time.
@@ -70,7 +68,7 @@ nrSites
 This value is important as we will condition the simulations to generate this
 number of sites for each repetition.
 In other words, when simulating data we will simulate exactly this number of
-polymoprhic sites to calculate the site frequency spectrum and all
+polymorphic sites to calculate the site frequency spectrum and all
 corresponding summary statistics afterwards.
 
 I provide a function to easily calculate several summary statistics
@@ -106,7 +104,9 @@ You first aim is to performs N simulations of data by drawing from a prior distr
 You can define how many simulations you want to perform (ideally a lot).
 
 ```{r}
-nrSimul <- 1e4 # but change this accordingly
+# nrSimul <- 1e4 # but change this accordingly
+# start small, simulations might take a while
+nrSimul <- 20
 ```
 
 Then you should define the prior distribution of our parameter to be estimated,
@@ -136,8 +136,8 @@ calculate summary statistics is the following:
 
 ```{r}
 # first, set the path to the "ms" software you installed
-# msDir <- "~/professor/githubRepository/embo_2025/my_stuff/msdir/ms" # this is for testing at home
-msDir <- "ms" # this should work on the server
+msDir <- "~/professor/GitHub/embo_2025/my_stuff/msdir/ms" # this is for testing at home
+# msDir <- "ms" # this should work on the server
 # mspmsDir <- "/Users/steinrue/.conda/working_env/bin/mspms" # this is for testing at home
 # mspmsDir <- "/opt/conda/envs/bioenv/bin/mspms" # this should work on the server
 
@@ -194,7 +194,7 @@ Please consider these points carefully when completing the project.
 
 * Assess which summary statistics are more or less informative for the parameter estimation (e.g. after a first run of simulations with all parameters, look for correlations between the simulated parameter value and summary statistics).
 * You can also look for correlations between summary statistics and eventually use only one of the pair if two summary statistics are highly correlated. If you are a pro, you can also perform a principal component or multidimensional scaling analysis (e.g. with package 'pls') and by using each statistic's loadings, you can create novel uncorrelated summary statistics which are linear combinations of the previous ones (this part is purely suggestive).
-*  Remember to scale your simulated (jointly with the observed) summary statistics separately, so that the mean is zero and standard deviation is one.
+*  This might not be needed: Remember to scale your simulated (jointly with the observed) summary statistics separately, so that the mean is zero and standard deviation is one.
 *  Generate a plot with the posterior distribution of the parameter of interest. You can also show the chosen prior distribution on the same plot.
 * Calculate the posterior mean, mode, median and  other notable quantities (e.g. 95% HPD interval) to summarize the posterior distribution.
 * I suggest you to use the 'abc' package in R instead of implementing methods (e.g. regression) yourself.

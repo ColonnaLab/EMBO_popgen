@@ -1,0 +1,174 @@
+---
+title: Bayesian Genotype Calling
+output: html_document
+---
+
+Bayesian applications in genomics
+
+### Reconstructing genomes from sequencing data
+
+You are going to develop and implement a Bayesian approach to reconstruct genomes from data produced from high-throughput sequencing machines. 
+
+Specifically, you will be doing __genotype calling__ from short-read NGS data.
+
+<!-- <img src="Images/NGS.png" width="400" height="400" /> -->
+![](Images/NGS.png){width=400,height=400}
+
+Load the *R* functions needed with `source("Data/functions.R")`.
+
+Among these functions, we provide one that calculates the likelihood of a certain set of observed bases
+for diploid individuals.
+This function is called _calcGenoLikes_ and takes 5 paramaters as input:
+
+* the set of observed bases itself (collection of bases)
+* the first allele of the genotype
+* the second allele of the genotype
+* the sequencing error rate
+* a boolean indicating whether the results should be returned in logarithmic scale (TRUE) or not (FALSE)
+
+```{r}
+source("Data/functions.R")
+```
+
+For instance, assuming that your set of observed bases is `AAGAGGA`, your alleles are `A` and `G` (meaning that you want to calculate the likelihood for genotypes `{AA,AG,GG}`, and your sequencing error rate is 0.01, then the likelihood (not in logarithm) for each genotype can be calculated with 
+```calcGenoLikes("AAGAGGA", "A", "G", 0.01, FALSE)```
+
+```{r}
+calcGenoLikes("AAGAGGA", "A", "G", 0.01, FALSE)
+```
+
+Complete all the following tasks using *R* when necessary.
+The key point of these exercises is to not recalculate quantities that you have already computed.
+The aim is that you should be able to understand whether the likelihood or the prior is the same (or not)
+between different scenarios.
+
+___A)___ 
+
+Using Bayes' theorem, write the formula for the posterior probability of genotype G being
+AA given the sequencing data D.
+Write the explicit denominator assuming that your alleles are A and G and all possible genotypes are only AA, AG, GG.
+
+```{r}
+# P(G=AA|D) = P(D|G=AA) * P(G=AA) / P(D) #
+# P(D) = sum_g={AA, AT, TT}  P(D|G=g) * P(G=g)
+```
+
+___B)___ 
+
+Assuming that your data is `AAAG`, your alleles are A and G, and the sequencing error rate is 0.01,
+calculate genotype posterior probability using a uniform prior, e.g. $P(G=AA) = P(G=AG) = P(G=GG) = ?$
+
+```{r}
+# uniform prior is all equal
+piUnif <- c(1/3, 1/3, 1/3)
+names (piUnif) <- c('AA', 'AG', 'GG')
+
+# get the geno likes
+genoLikesAAAG01 <- calcGenoLikes("AAAG", "A", "G", 0.01, FALSE)
+
+# compute posterior probability
+prePost <- piUnif * genoLikesAAAG01
+post <- prePost / sum(prePost)
+print (post)
+```
+
+___C)___ 
+
+With the same assumptions as in point B, calculate genotype posterior probabilities using prior probabilitties based on [Hardy Weinberg Equilibrium](https://en.wikipedia.org/wiki/Hardy–Weinberg_principle) with a frequency of G of 0.1. Do you need to calculate a new likelihood or is it the same one as in point B?
+
+```{r}
+# assume geno prior is given by HWE, with fG = 0.1
+fG <- 0.1
+piHWE <- c((1-fG)^2, 2*(1-fG)*fG, fG^2)
+names (piHWE) <- c('AA', 'AG', 'GG')
+
+# compute new posterior
+# WE DO NOT HAVE TO RECOMPUTE GENO LIKES, because nothing changed about the data, only prior changed
+prePost <- piHWE * genoLikesAAAG01
+post <- prePost / sum(prePost)
+print (post)
+```
+
+___D)___ 
+
+With the same priors used in point C but with a sequencing error rate of 0.05, calculate the genotype posterior probabilities. Do you need to calculate a new likelihood or is it the same one as in point C?
+
+```{r}
+# since the error rate changed, we have to recompute the geno likelihoods
+genoLikesAAAG05 <- calcGenoLikes("AAAG", "A", "G", 0.05, FALSE)
+
+# now compute posterior with same prior as above
+prePost <- piHWE * genoLikesAAAG05
+post <- prePost / sum(prePost)
+print (post)
+
+```
+
+___E)___  (bonus question)
+
+With the same assumptions as in point C, calculate genotype posterior probabilities using a prior based on Hardy Weinberg Equilibrium with a frequency of G of 0.1 and an [inbreeding coefficient](https://en.wikipedia.org/wiki/Inbreeding) of 0.2.
+In this case, we need to modify our previous priors.
+Specifically, if $f$ is the frequency of allele A and $I$ is the inbreeding coefficient,
+then the prior probabilities for all genotypes are:
+
+* $p(AA)=f^2 + I \times f \times (1-f)$
+* $p(AT)=2 \times f \times (1-f) \times (1-I)$
+* $p(TT)=(1-f)^2 + I \times f \times (1-f)$
+
+Do you need to calculate a new likelihood or is it the same one as in points B and C?
+
+```{r}
+# first define inbreeding coefficient
+F = 0.2
+
+# then update prior to reflect it
+piHWEcoeff <- piHWE
+piHWEcoeff['AA'] <- piHWE['AA'] + 0.5 * piHWE['AG'] * F
+piHWEcoeff['AG'] <- piHWE['AG'] * (1 - F)
+piHWEcoeff['GG'] <- piHWE['GG'] + 0.5 * piHWE['AG'] * F
+
+# compute posterior
+# no need to recompute geno likelihoods
+prePost <- piHWEcoeff * genoLikesAAAG01
+post <- prePost / sum(prePost)
+print (post)
+
+```
+
+___F___)
+
+Assuming that our collection of sequenced bases is `AAAGAGAAAAAAAGGGGAAAGGA`, calculate the genotype posterior probabilities using the same priors as in point C and sequencing error rate of 0.05. What happens if we have more data? What is the __confidence__ in our genotype inference?
+
+```{r}
+# compute new geno likelihoods, because now we have more data
+genoLikesMore05 <- calcGenoLikes("AAAGAGAAAAAAAGGGGAAAGGA", "A", "G", 0.05, FALSE)
+
+# compute postrior with HWE prior
+prePost <- piHWE * genoLikesMore05
+post <- prePost / sum(prePost)
+print (post)
+```
+
+We are more confident that the genotype is a heterozygote, since we have more data indicative of that.
+
+___G)___ 
+
+What happens if we have a lot  of data? Assume that your sequenced bases are
+`bases <- paste(c(rep("A",1e3),rep("G",1e3)), sep="", collapse="")`.
+Calculate the genotype likelihoods for this data.
+What is happening here?
+
+It is convenient to use numbers in log-scale and you can do that by selecting TRUE as the last parameter in the _calcGenoLikes_. 
+Remember that if you want to calculate proper probabilities (in log) you have to [approximate](https://en.wikipedia.org/wiki/List_of_logarithmic_identities) the sum of logs.
+
+Without calculating posterior probabilities, what is the effect of the prior here in your opinion?
+
+```{r}
+# a lot of observations
+bases <- paste(c(rep("A",1e3),rep("G",1e3)), sep="", collapse="")
+calcGenoLikes(bases, "A", "G", 0.05, TRUE)
+```
+
+The log-likelihood of the heterozygote is approx. 3000 units above the log-likelihood for the homzygotes, thus the heterozygote is very likely. This makes sense, since we have a lot of data indicating that.
+
+The prior will likely do very little here, and the posterior will be concentrated on 'AG'.

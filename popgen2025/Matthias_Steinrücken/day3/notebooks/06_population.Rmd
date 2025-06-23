@@ -13,7 +13,7 @@ We have only a sample of the entire population of bears but we want to make infe
 Our sample contains information for 100 individuals with the following genotypes: 63 AA, 34 AG, 3 GG.
 A frequentist estimate of the frequency of G is given by: $(34+(3\times2))/200=40/200=0.20$.
 
-What is the posterior distribution for the population frequency of G?
+#### What is the posterior distribution for the population frequency of G?
 
 The first thing we need to do is define our likelihood model.
 We can imagine to randomly sample one allele from the population and each time the allele can be either G or not.
@@ -55,7 +55,7 @@ We can choose $Beta(\alpha,\beta)$, which is defined as
 \begin{equation}
     P(p) = \frac{1}{B(\alpha,\beta)} p^{\alpha-1}(1-p)^{\beta-1}
 \end{equation}
-where $\frac{1}{B(\alpha,\beta)}$ is simply a normalisation term which does not depend on $p$. Furthermore, for $\alpha = \beta = 1$, this is the uniform distribution, and thus yields a non-informative prior.
+where $\frac{1}{B(\alpha,\beta)}$ is simply a normalization term which does not depend on $p$. Furthermore, for $\alpha = \beta = 1$, this is the uniform distribution, and thus yields a non-informative prior.
 
 The full model can be expressed as $P(p|k,n) \propto P(k|p,n)P(p)$.
 
@@ -70,11 +70,11 @@ The posterior distribution (Beta-Binomial model) is a Beta distribution with par
 If we set $\alpha=\beta=1$ then $P(p|k,n)=Beta(k+1,n-k+1)$.
 What are $k$ and $n$?
 
-$n$ is the number of alleles we sample and $k$ is the occurence of allele $G$ in our sample.
+$n$ is the number of alleles we sample and $k$ is the occurrence of allele $G$ in our sample.
 
 __A)__ 
 
-Plot the posterior probability. Then calculate the maximum a posteriori value, 95\% credible intervals, and notable quantiles. 
+Plot the posterior probability, assuming a uniform prior (alpha = beta = 1). Then calculate the maximum a posteriori value, 95\% credible intervals, and notable quantiles. 
 
 What happens to the distribution if we have only 10 samples (with the sample allele frequency of 0.20)?
 

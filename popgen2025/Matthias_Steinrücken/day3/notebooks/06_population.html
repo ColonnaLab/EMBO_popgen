@@ -363,8 +363,9 @@ to make inferences at the whole population level.</p>
 <p>Our sample contains information for 100 individuals with the
 following genotypes: 63 AA, 34 AG, 3 GG. A frequentist estimate of the
 frequency of G is given by: <span class="math inline">\((34+(3\times2))/200=40/200=0.20\)</span>.</p>
-<p>What is the posterior distribution for the population frequency of
-G?</p>
+<div id="what-is-the-posterior-distribution-for-the-population-frequency-of-g" class="section level4">
+<h4>What is the posterior distribution for the population frequency of
+G?</h4>
 <p>The first thing we need to do is define our likelihood model. We can
 imagine to randomly sample one allele from the population and each time
 the allele can be either G or not.</p>
@@ -398,7 +399,7 @@ generate a non-informative prior?</p>
 <span class="math display">\[\begin{equation}
     P(p) = \frac{1}{B(\alpha,\beta)} p^{\alpha-1}(1-p)^{\beta-1}
 \end{equation}\]</span> where <span class="math inline">\(\frac{1}{B(\alpha,\beta)}\)</span> is simply a
-normalisation term which does not depend on <span class="math inline">\(p\)</span>. Furthermore, for <span class="math inline">\(\alpha = \beta = 1\)</span>, this is the uniform
+normalization term which does not depend on <span class="math inline">\(p\)</span>. Furthermore, for <span class="math inline">\(\alpha = \beta = 1\)</span>, this is the uniform
 distribution, and thus yields a non-informative prior.</p>
 <p>The full model can be expressed as <span class="math inline">\(P(p|k,n) \propto P(k|p,n)P(p)\)</span>.</p>
 <p>The closed form for the posterior distribution given our choices for
@@ -412,11 +413,12 @@ distribution with parameters <span class="math inline">\(k+\alpha\)</span> and <
 <span class="math inline">\(P(p|k,n)=Beta(k+1,n-k+1)\)</span>. What are
 <span class="math inline">\(k\)</span> and <span class="math inline">\(n\)</span>?</p>
 <p><span class="math inline">\(n\)</span> is the number of alleles we
-sample and <span class="math inline">\(k\)</span> is the occurence of
+sample and <span class="math inline">\(k\)</span> is the occurrence of
 allele <span class="math inline">\(G\)</span> in our sample.</p>
 <p><strong>A)</strong></p>
-<p>Plot the posterior probability. Then calculate the maximum a
-posteriori value, 95% credible intervals, and notable quantiles.</p>
+<p>Plot the posterior probability, assuming a uniform prior (alpha =
+beta = 1). Then calculate the maximum a posteriori value, 95% credible
+intervals, and notable quantiles.</p>
 <p>What happens to the distribution if we have only 10 samples (with the
 sample allele frequency of 0.20)?</p>
 <pre class="r"><code>#...</code></pre>
@@ -445,6 +447,7 @@ point A.</p>
 <p>Calculate the Bayes factor for a model with <span class="math inline">\(p&lt;=0.5\)</span> vs a model with <span class="math inline">\(p&gt;0.5\)</span>. Note that these models are
 equally probable a priori.</p>
 <pre class="r"><code>#...</code></pre>
+</div>
 
 
 
