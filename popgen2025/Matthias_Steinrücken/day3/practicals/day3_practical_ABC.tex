@@ -66,12 +66,14 @@ Fst, dxy, segsites1, segsites2, pi1, pi2, tajima1, tajima2
 
 0.2134, 0.0978, 0.3797, 0.1013, 0.0914, 0.0355, 0.2847, 2.0788
 
+These values are: F\_ST (Fst) between the two populations, divergence between the populations (dxy), \# segr. sites in each population (segsites1, segsites2), $\pi$ in each population (pi1, pi2), and Tajima's D in each population (tajima1, tajima2).
+
 Estimate the parameters of the IM model using ABC. As first trial, assume that we know all parameters but \textbf{T\_split}. In particular, assume that there is no migration and \textbf{N1}=150,000 and \textbf{N2}=5000. Produce the posterior distribution of \textbf{T\_split}.
 
 You can look at this link to calculate summary statistics using msprime\\
 \url{https://tskit.dev/tskit/docs/stable/stats.html#sec-stats}
 
-I suggest that you simulate the datasets and compute the summary statistics in \texttt{Python}, and write the values to a file. Then load the values from the file in \texttt{R}. Inspect whether the simulated summary statistics include the observed ones, how the summary statistics correlate with each other and the parameters, and then use the function \texttt{abc} from the library ``abc'' to perform the abc-estimation.
+I suggest that you simulate the datasets and compute the summary statistics in \texttt{Python}, and write the values to a file. Then load the values from the file in \texttt{R}. Inspect whether the range of the simulated summary statistics include the observed ones, how the summary statistics correlate with each other and the parameters, and then use the function \texttt{abc} from the library ``abc'' to perform the abc-estimation.
 
 \textbf{Task 3 (afternoon):} Attempt to jointly infer \textbf{T\_split}, \textbf{N1} and \textbf{N2}.
 

@@ -1,0 +1,94 @@
+---
+title: Day2b practical
+output: html_document
+---
+
+First encode the samples:
+```{r}
+nC <- rbind (c(0,1,1), c(0,1,0), c(0,0,0), c(1,1,0))
+print(nC)
+sC <- rbind (c(0,0,0), c(0,0,0), c(0,0,0), c(0,1,0))
+print(sC)
+```
+
+(i) Then compute allele frequencies:
+```{r}
+computeAlleleFreqs <- function (genoMatrix) { colSums (genoMatrix) / dim(genoMatrix)[1] }
+nCFreqs <- computeAlleleFreqs (nC)
+print (nCFreqs)
+sCFreqs <- computeAlleleFreqs (sC)
+print (sCFreqs)
+```
+
+(ii) Unfolded SFS:
+```{r}
+computeUnfoldedSFS <- function (genoMatrix) {
+  numSamples <- dim(genoMatrix)[1];
+  freqBinWidth = 1/numSamples;
+  # fres of alleles
+  alleleFreqs <- computeAlleleFreqs (genoMatrix);
+  # breaks for histogram
+  theBreaks <- seq(-freqBinWidth/2, 1 + freqBinWidth/2, freqBinWidth);
+  # get a histogram
+  theHist <- hist(alleleFreqs, plot=FALSE, breaks = theBreaks);
+  # final sfs is here
+  sfs <- theHist$counts;
+  return (sfs <- sfs[2:(length(sfs)-1)])
+}
+```
+
+SFSs with counts:
+```{r}
+computeUnfoldedSFS (nC)
+computeUnfoldedSFS (sC)
+```
+
+SFSs with rel. freqs:
+```{r}
+computeUnfoldedSFS(nC)/sum(computeUnfoldedSFS(nC))
+computeUnfoldedSFS(sC)/sum(computeUnfoldedSFS(sC))
+```
+
+(iii) Tajima's pairwise estimator:
+```{r}
+tajimasEstimator <- function (genoMatrix) {
+  numSamples <- dim(genoMatrix)[1];
+  pwSum <- 0
+  for (i in seq(numSamples)) {
+    for (j in seq(i,numSamples)) {
+      pwSum <- pwSum + sum(abs(genoMatrix[i,] - genoMatrix[j,]));
+      # print (paste(i, j, sum(abs(genoMatrix[i,] - genoMatrix[j,]))))
+    }
+  }
+  return (2*pwSum/(numSamples*(numSamples-1)));
+}
+tajimasEstimator (nC)
+tajimasEstimator (sC)
+```
+
+(iii) Watterson's estimator:
+```{r}
+wattersonsEstimator <- function (genoMatrix) {
+  numSamples <- dim(genoMatrix)[1];
+  numTrueSegSites <- sum(colSums(genoMatrix) >= 1);
+  harmonicMean <- sum(1/seq(1,numSamples-1));
+  return (numTrueSegSites/harmonicMean);
+}
+wattersonsEstimator (nC)
+wattersonsEstimator (sC)
+```
+
+(iv) Compare effective population sizes:
+
+\begin{equation}
+  \theta = 4 N_e \mu
+\end{equation}
+\begin{equation}
+  \to N_e = \frac{\theta}{4\mu}
+\end{equation}
+Thus:
+\begin{equation}
+  \frac{N_e^{(N)}}{N_e^{(S)}} = \frac{\theta^{(N)}}{\theta^{(S)}}
+\end{equation}
+
+The estimate for the northern population is 3 times higher than the estimate for the southern population. Given that the two populations evolve under a constant population size and the same mutation rate, the effective population size in the north is thus 3 times higher.

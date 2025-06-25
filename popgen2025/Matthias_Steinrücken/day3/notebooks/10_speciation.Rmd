@@ -17,7 +17,7 @@ I suggest to copy `functions.R` and `polar.brown.sfs*` in the workspace where yo
 
 ##### Project
 
-In this practical you are going to estimate the divergence (or speciation) time between polar bears and brown bears using genomics data. You will be using Approximate Bayesian Computation (ABC) methods to inference this time.
+In this practical you are going to estimate the divergence (or speciation) time between polar bears and brown bears using genomics data. You will be using Approximate Bayesian Computation (ABC) methods for inference this time.
 
 ```{r}
 # Open R and load all R functions and data needed:
@@ -49,6 +49,25 @@ nChroms.polar <- nrow(polar.brown.sfs)-1
 nChroms.polar
 nChroms.brown <- ncol(polar.brown.sfs)-1
 nChroms.brown
+```
+
+The full SFS has a lot of segregating sites. Thus, we subsample it to fewer segregating sites to speed up the simulations.
+```{r}
+numSubSampleSites <- 1000
+
+# set NAs to zero
+polar.brown.sfs[is.na(polar.brown.sfs)] <- 0
+
+# weights for multinomial
+mWeights <- c(polar.brown.sfs)
+
+# draw a subsample
+subDraw <- rmultinom (1, numSubSampleSites, mWeights)
+
+# reshape it nto joint SFS and overwrite the old SFS
+polar.brown.sfs <- matrix(subDraw,nrow=nChroms.polar+1, ncol=nChroms.brown+1, byrow=FALSE)
+
+plot2DSFS(polar.brown.sfs, xlab="Polar", ylab="Brown", main="2D-SFS")
 ```
 
 The only thing you need to remember about the site frequency spectrum is that we
@@ -94,7 +113,7 @@ is the following (some of them are rescaled):
 * puf: proportion of sites with unequal frequency between polar bears and brown bears (note that puf=1-pef).
 
 It is not important that you understand the significance (if any) of all these summary statistics in an evolutionary context.
-If interested, a nice review is "Molecular Signatures of Natural Selection" by Rasmus Nielsen (you can find a pdf copy `Nielsen_2005.pdf` in this directory).
+If interested, a nice review is "Molecular Signatures of Natural Selection" by Rasmus Nielsen (you can find a pdf copy `Nielsen_2005.pdf` in the supplemetal reading directory).
 However, some of these summary statistics might be more informative than others.
 It is your first goal to understand which summary statistics to keep.
 
@@ -106,7 +125,7 @@ You can define how many simulations you want to perform (ideally a lot).
 ```{r}
 # nrSimul <- 1e4 # but change this accordingly
 # start small, simulations might take a while
-nrSimul <- 20
+nrSimul <- 200
 ```
 
 Then you should define the prior distribution of our parameter to be estimated,
@@ -136,8 +155,8 @@ calculate summary statistics is the following:
 
 ```{r}
 # first, set the path to the "ms" software you installed
-msDir <- "~/professor/GitHub/embo_2025/my_stuff/msdir/ms" # this is for testing at home
-# msDir <- "ms" # this should work on the server
+# msDir <- "~/professor/GitHub/embo_2025/my_stuff/msdir/ms" # this is for testing at home
+msDir <- "ms" # this should work on the server
 # mspmsDir <- "/Users/steinrue/.conda/working_env/bin/mspms" # this is for testing at home
 # mspmsDir <- "/opt/conda/envs/bioenv/bin/mspms" # this should work on the server
 

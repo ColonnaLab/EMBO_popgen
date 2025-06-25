@@ -1,0 +1,155 @@
+---
+title: Genetic Drift
+output: html_document
+---
+
+# Expected allele frequency genetic drift
+
+## (1) Over one generation
+
+We assume to have 50 diploid individuals and an allele frequency of 0.50.
+
+```{r}
+N <- 50
+fA <- 0.5
+```
+
+A binomial distribution models the sampling with replacement of gene copies.
+The next cells illustrate how to perform a random sampling from a binomial distribution with 2N samples and probability of "success" equal to $f_A$. Since we are interested in frequencies and not counts, we then divide by 2N.
+
+```{r}
+rbinom(1, 2*N, fA) / (2*N)
+```
+
+```{r}
+rbinom(1, 2*N, 0.53) / (2*N)
+```
+
+```{r}
+rbinom(1, 2*N, 0.56) / (2*N)
+```
+
+```{r}
+rbinom(1, 2*N, 0.67) / (2*N)
+```
+
+If we assume to repeat the experiment many times and calculate the average frequency, then...
+
+```{r}
+N <- 50
+fA <- 0.5
+frequencies <- rbinom(100, 2*N, fA) / (2*N)
+print(frequencies)
+hist(frequencies)
+```
+
+```{r}
+mean( rbinom(100, 2*N, fA) / (2*N) )
+```
+
+```{r}
+mean( rbinom(1e5, 2*N, fA) / (2*N) )
+```
+
+meaning that after a generation the expected allele frequency does not change.
+
+## (2) Over many generations
+
+Scenario similar to above, but with a starting allele frequency of 0.50, 50 diploid individuals and 100 generations.
+
+```{r}
+N <- 50
+# 100 generations
+fA <- rep(NA, 100)
+# at t=0
+fA[1] <- 0.50
+```
+
+We repeat the sampling procedure at each generation.
+
+```{r}
+for (t in 1:99) fA[t+1] <- rbinom(1, 2*N, fA[t]) / (2*N)
+```
+
+```{r}
+plot(x=1:100, y=fA, type="l", ylim=c(0,1), lwd=2)
+```
+
+Wasn't the expected allele frequency supposed not to change after each generation? What's happening?
+
+Let's assume that we repeat the whole history for 100 generations many times (i.e. 20) and record the trajectories of the allele frequency.
+
+Plot a couple of replicates of the allele frequency trajectory.
+
+```{r}
+N <- 50
+for (j in 1:20) {
+    fA <- rep(NA, 100)
+    fA[1] <- 0.5
+    for (t in 1:99) fA[t+1] <- rbinom(1, 2*N, fA[t]) / (2*N)
+    if (j==1) plot(x=1:100, y=fA, xlab="generations", type="l", ylim=c(0,1), col=rainbow(20)[j]) else lines(x=1:100, y=fA, col=rainbow(20)[j])
+}
+```
+
+```{r}
+N <- 50
+gen <- 100 # generations
+nrepl <- 20 # number of distinct simulations
+for (j in 1:nrepl) {
+    fA <- rep(NA, gen)
+    fA[1] <- 0.5
+    for (t in 1:(gen-1)) fA[t+1] <- rbinom(1, 2*N, fA[t]) / (2*N)
+    if (j==1) plot(x=1:gen, y=fA, xlab="generations", type="l", ylim=c(0,1), col=rainbow(nrepl)[j]) else lines(x=1:gen, y=fA, col=rainbow(nrepl)[j])
+}
+```
+
+What is the chance that an allele at 50% at time 0 goes to fixation (100%) or is lost (0%)? To answer this question run the experiment above over more generations and more replicates and see what happens. Calculate the proportion of alleles that are fixed or lost at the end of your experiment. What happens if you change the initial allele frequency? Do these proportions change?
+
+```{r}
+N <- 50
+gen <- 1000 # generations
+nrepl <- 200 # number of distinct simulations
+numLost <- 0
+numFixed <- 0
+for (j in 1:nrepl) {
+    fA <- rep(NA, gen)
+    fA[1] <- 0.5
+    for (t in 1:(gen-1)) fA[t+1] <- rbinom(1, 2*N, fA[t]) / (2*N)
+    if (fA[length(fA)] > 1 - 1e-8) { numFixed <- numFixed + 1 }
+    if (fA[length(fA)] < 1e-8) { numLost <- numLost + 1 }
+    if (j==1) plot(x=1:gen, y=fA, xlab="generations", type="l", ylim=c(0,1), col=rainbow(nrepl)[j]) else lines(x=1:gen, y=fA, col=rainbow(nrepl)[j])
+}
+print(paste("Fraction repl. where allele lost", numLost/nrepl))
+print(paste("Fraction repl. where allele fixed", numFixed/nrepl))
+```
+
+## (3) Effect of population size
+
+Let's consider the effect of population size on the drift process.
+
+```{r}
+# small population (blue)
+N <- 100
+for (j in 1:10) {
+    fA <- rep(NA, 100); fA[1] <- 0.5
+    for (t in 1:99) fA[t+1] <- rbinom(1, 2*N, fA[t]) / (2*N)
+    if (j==1) plot(x=1:100, y=fA, type="l", ylim=c(0,1), col="blue") else lines(x=1:100, y=fA, col="blue")
+}
+
+# large population (red)
+N <- 1000
+for (j in 1:10) {
+    fA <- rep(NA, 100); fA[1] <- 0.5
+    for (t in 1:99) fA[t+1] <- rbinom(1, 2*N, fA[t]) / (2*N)
+    lines(x=1:100, y=fA, col="red")
+}
+```
+
+```{r}
+rbinom(1, 20, 0.5) / 20
+```
+
+```{r}
+rbinom(1, 20000, 0.5) / 20000
+```
+

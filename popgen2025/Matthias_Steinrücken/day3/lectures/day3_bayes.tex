@@ -147,17 +147,17 @@
 %
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Intended Learning Outcomes}
-	At the end of this session you will be able to:
-	\begin{itemize}
-		\item Appreciate the use of Bayesian statistics in life sciences.
-		\item Formulate and explain Bayes’ theorem.
-		\item Describe a Normal-Normal model with or without Monte Carlo sampling.
-		% \item Apply Bayesian statistics to estimate genotypes from DNA sequencing data (maybe practical).
-	\end{itemize}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Intended Learning Outcomes}
+% 	At the end of this session you will be able to:
+% 	\begin{itemize}
+% 		\item Appreciate the use of Bayesian statistics in life sciences.
+% 		\item Formulate and explain Bayes’ theorem.
+% 		\item Describe a Normal-Normal model with or without Monte Carlo sampling.
+% 		% \item Apply Bayesian statistics to estimate genotypes from DNA sequencing data (maybe practical).
+% 	\end{itemize}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 %
@@ -261,16 +261,16 @@
 %
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Publishing a paper}
-	Example:\\
-	You submitted a manuscript for publication to a peer-reviewed journal and you want to assess its probability of being accepted and published.
-	\begin{center}
-		\includegraphics[width=.35\textwidth]{graphics/journals.png}
-	\end{center}
-	Which information do you need (and use) to make such inference?
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Publishing a paper}
+% 	Example:\\
+% 	You submitted a manuscript for publication to a peer-reviewed journal and you want to assess its probability of being accepted and published.
+% 	\begin{center}
+% 		\includegraphics[width=.35\textwidth]{graphics/journals.png}
+% 	\end{center}
+% 	Which information do you need (and use) to make such inference?
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 %
@@ -302,7 +302,7 @@
 \begin{frame}\frametitle{Statistical inference}
 	\begin{itemize}
 		\item Frequentist (from data only).
-		\item Likelihoodist (using a statistical model).
+		% \item Likelihoodist (using a statistical model).
 		\item Bayesian (using prior information).
 		\item Empirical Bayesian (observed data contribute to the prior).
 	\end{itemize}
@@ -332,9 +332,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}\frametitle{Bayesian vs. Frequentist:}
 	\begin{itemize}
-		\item We derive ``proper'' probability distributions of our parameters rather than deriving a point estimate.
+		\item Bayesian approaches yield ``proper'' probability distributions the parameters rather than deriving a point estimate.
 		\item A probability is assigned to a hypothesis rather than a hypothesis is tested.
-		\item We ``accept'' the null hypothesis rather than ``fail to reject'' it.
+		\item Bayesian approaches ``accept'' the null hypothesis rather than ``fail to reject'' it.
 		\item Parsimony imposed in model choice rather than correcting for multiple tests.
 	\end{itemize}
 \end{frame}
@@ -382,20 +382,20 @@
 %
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Troubles with the p-value?}
-	\begin{block}{John K. Kruschke (2010)}
-\only<1>{...the fundamental fatal flaw of p-values is that they are ill defined, because any set of data has many different p-values.\\[1ex]
-		...many people mistake the p-value for the probability that the null hypothesis is true.}%
-\only<2>{Some people may have the mistaken impression that the advantages of Bayesian methods are negated by the need to specify a prior distribution.
-	\begin{itemize}
-		\item It is inappropriate not to use a prior.
-		\item Priors are explicitly specified and must be agreeable to a skeptical scientific audience.
-		\item When different groups of scientists have differing priors, stemming from differing theories and empirical, then Bayesian methods provide rational means for comparing the conclusions from the different priors.
-	\end{itemize}}
-	\end{block}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Troubles with the p-value?}
+% 	\begin{block}{John K. Kruschke (2010)}
+% \only<1>{...the fundamental fatal flaw of p-values is that they are ill defined, because any set of data has many different p-values.\\[1ex]
+% 		...many people mistake the p-value for the probability that the null hypothesis is true.}%
+% \only<2>{Some people may have the mistaken impression that the advantages of Bayesian methods are negated by the need to specify a prior distribution.
+% 	\begin{itemize}
+% 		\item It is inappropriate not to use a prior.
+% 		\item Priors are explicitly specified and must be agreeable to a skeptical scientific audience.
+% 		\item When different groups of scientists have differing priors, stemming from differing theories and empirical, then Bayesian methods provide rational means for comparing the conclusions from the different priors.
+% 	\end{itemize}}
+% 	\end{block}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 %
@@ -422,10 +422,13 @@
 \begin{frame}\frametitle{The likelihood approach}
 	\begin{block}{}
 		\begin{itemize}
-			\item $Y$ is a random variable.
-			\item $f(y|\theta)$ is a probability distribution (called the likelihood) representing the sampling model for the observed data $(y_1, y_2, \ldots, y_n)$ given a vector of unknown parameters $\theta$.
+			\item $Y$ is a random variable (data).
+			\item $f(y|\theta)$ is a probability distribution (called the likelihood) representing the sampling model for the observed data $y$ given unknown parameter(s) $\theta$.
 			\item $\int f (y|\theta)d\theta$ is not necessarily $= 1$ or even finite.
-			\item It is possible to find the value of $\theta$ that maximises the likelihood function: We can calculate a maximum likelihood estimate (MLE) for $\theta$, as: $\hat\theta = \text{argmax}_\theta f (y|\theta)$.
+			\item It is possible to find the value of $\theta$ that maximizes the likelihood function: We can calculate a maximum likelihood estimate (MLE) for $\theta$, as:
+			\begin{equation}
+				\hat\theta = \text{argmax}_\theta f (y|\theta)				
+			\end{equation}
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -437,12 +440,12 @@
 \begin{frame}\frametitle{Bayes’ Theorem}
 	\begin{block}{}
 		\begin{equation}
-			p(\theta|y) = \frac{f (y|\theta)\pi(\theta)}{m(\theta)} = \frac{f (y|\theta)\pi(\theta)}{\int f (y|\theta)\pi(\theta)d\theta}
+			p(\theta|y) = \frac{f (y|\theta)\pi(\theta)}{m(y)} = \frac{f (y|\theta)\pi(\theta)}{\int f (y|\theta)\pi(\theta)d\theta}
 		\end{equation}
 	\end{block}
 	\begin{itemize}
-		\item $\theta$ is not a fixed parameter but a random quantity with prior distribution $\pi(\theta)$.
-		\item $p(\theta|y) $is the posterior probability distribution of $\theta$.
+		\item $\theta$ is not a fixed parameter but a random quantity with \textbf{prior} distribution $\pi(\theta)$.
+		\item $p(\theta|y) $is the \textbf{posterior} probability distribution of $\theta$.
 		\item $\int p(\theta|y) d\theta = 1$
 	\end{itemize}
 \end{frame}
@@ -464,23 +467,23 @@
 %
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Venn diagrams}
-	\begin{figure}
-	\begin{center}
-		\includegraphics[width=.35\textwidth]{graphics/venn_diagram.png}
-	\end{center}
-	\caption{Sets $U$, $A$ (samples with infection), $B$ (samples with positive test result) and $A \cap B$ (or $AB$).}
-	\end{figure}
-	Given that the test is positive for a randomly selected sample, what is the probability that said sample is infected?
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Venn diagrams}
+% 	\begin{figure}
+% 	\begin{center}
+% 		\includegraphics[width=.35\textwidth]{graphics/venn_diagram.png}
+% 	\end{center}
+% 	\caption{Sets $U$, $A$ (samples with infection), $B$ (samples with positive test result) and $A \cap B$ (or $AB$).}
+% 	\end{figure}
+% 	Given that the test is positive for a randomly selected sample, what is the probability that said sample is infected?
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}\frametitle{Normal-Normal model}
-	Let $y$ be number of observed frogs with disease:
+	Let $y$ be number of observed frogs with disease (in sample of certain size):
 	\begin{block}{}
 		If
 		\begin{equation}
@@ -530,7 +533,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}\frametitle{Save the frogs with a Normal-Normal model!}
 	\begin{block}{Infected frogs (observed and ``believed'' a priori)}
-		Assume that $y = 6$, $\sigma = 1$, $\mu = 2$ and $\tau = 1$.
+		If data $y = 6$, $\sigma = 1$, and prior $\mu = 2$ and $\tau = 1$.
 	\end{block}
 	\vspace{-1ex}
 	\begin{equation}
@@ -587,8 +590,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}\frametitle{Recap \& Refresh}
 	\begin{itemize}
-		\item Why going Bayesian? p-values are troublesome.
-		\item Theorem: $p(\theta|y) = \frac{f(y|\theta)\pi(\theta)}{\int f(y|\theta)\pi(\theta)d\theta}$
+		\item Why going Bayesian? % p-values are troublesome.
+		\item Bayes' theorem: $p(\theta|y) = \frac{f(y|\theta)\pi(\theta)}{\int f(y|\theta)\pi(\theta)d\theta}$
 		\item Normal-Normal model: $p(\theta|y) = N( \theta | \frac{\sigma^2\mu + \tau^2 y}{\sigma^2 + \tau^2}, \frac{\sigma^2\tau^2}{\sigma^2 + \tau^2})$
 		\item Monte Carlo sampling
 	\end{itemize}
@@ -685,7 +688,7 @@
 	Advantages:
 	\begin{itemize}
 		\item Reduces the effort for the elicitee.
-		\item Overcomes the finite support problem.
+		% \item Overcomes the finite support problem.
 		\item May lead to simplifications in the computation of the posterior.
 	\end{itemize}
 	Disadvantage:
@@ -759,12 +762,17 @@
 \begin{frame}\frametitle{Poisson and elephants}
 	\textbf{Poisson distribution} is an appropriate model for $Y$ if:
 	\begin{enumerate}
-		\item $Y$ is the number of times an event occurs in an interval and it can take values any positive integer value including 0.
-		\item The occurrence of one event does not affect the probability that a second event will occur (i.e. events occur independently).
-		\item The rate at which events occur is constant (it cannot be higher in some intervals and lower in other intervals).
-		\item Two events cannot occur at exactly the same instant.
-		\item The probability of an event in an interval is proportional to the length of the interval.
+		\item Observation intervals (days) mutually independent.
+		\item Herds arrive at constant rate throughout observation interval.
+		\item Rate is the same across intervals. 
 	\end{enumerate}
+	% \begin{enumerate}
+	% 	\item $Y$ is the number of times an event occurs in an interval and it can take values any positive integer value including 0.
+	% 	\item The occurrence of one event does not affect the probability that a second event will occur (i.e. events occur independently).
+	% 	\item The rate at which events occur is constant (it cannot be higher in some intervals and lower in other intervals).
+	% 	\item Two events cannot occur at exactly the same instant.
+	% 	\item The probability of an event in an interval is proportional to the length of the interval.
+	% \end{enumerate}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -773,75 +781,95 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}\frametitle{Poisson distribution}
 	If $\theta$ is the event rate (rate parameter), then the probability of observing $y$ events in an interval is:
+	\begin{block}{}
 	\begin{equation}
 		f(y|\theta) = \frac{e^{-\theta}\theta^y}{y!}, \: y \in \{0,1,2,\ldots\}, \theta > 0
 	\end{equation}
-	which is the probability mass function (pmf) for a Poisson distribution.\\[3ex]
-	Let’s plot the distribution for $\theta = 4$ using \texttt{R}.
+	\end{block}
+	which is the probability mass function (pmf) for a Poisson distribution.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Poisson distribution}
-	\begin{figure}
-	\begin{center}
-		\includegraphics[width=.45\textwidth]{graphics/poisson_distribution.png}
-	\end{center}
-	\caption{Poisson distribution for $\theta = 4$. This is the likelihood distribution for the number of herds per day with a rate of 4.}
-	\end{figure}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Conjugate prior for Poisson distribution}
-	Prior: Gamma distribution
+\begin{frame}\frametitle{Gamma prior is conjugate}
+	If
 	\begin{equation}
-		\pi(\theta) = \frac{\theta^{\alpha-1}e^{-\theta/\beta}}{\Gamma(\alpha)\beta^\alpha}, \quad \theta >0, \alpha>0, \beta>0
+		f(y|\theta) = \frac{e^{-\theta}\theta^y}{y!} \qquad \text{(Poisson)}
 	\end{equation}
+	and
 	\begin{equation}
-		\E[G(\alpha\beta)] = \alpha\beta
+		\pi(\theta) \propto \theta^{\alpha-1}e^{-\theta/\beta} \qquad \text{(Gamma$(\alpha,\beta)$)}
 	\end{equation}
+	then
 	\begin{equation}
-		\V[G(\alpha,\beta)] = \alpha\beta^2
+		f(y|\theta) \pi(\theta) \propto \theta^{y+\alpha-1}e^{-\theta(1+1/\beta)} \qquad \text{(Gamma$(y+\alpha,(1+1/\beta)^{-1}$)}
 	\end{equation}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Gamma distribution}
-	\begin{figure}
-	\begin{center}
-		\includegraphics[width=.55\textwidth]{graphics/gamma_distribution.pdf}
-	\end{center}
-	\caption{Gamma distribution for different values of shape and rate parameters.}
-	\end{figure}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\only<1>{\frametitle{Gamma $\times$ Poisson = ?}}\only<2>{\frametitle{Gamma $\times$ Poisson = Gamma}}
-	\begin{equation}
-		\begin{split}
-			p(\theta|y ) & \propto  f (y |\theta)\pi(\theta)\\
-				& \propto \only<1>{\:?}\visible<2>{(e^{-\theta}\theta^y)(\theta^{\alpha-1}e^{\theta/\beta})\\
-				& = \theta^{y+\alpha-1}e^{-\theta(1+1/\beta)}}
-		\end{split}
-	\end{equation}
-\visible<2>{$p(\theta|y) \sim G(\alpha',\beta')$ with $\alpha' =y+\alpha$ and $\beta' =(1+1/\beta)^{-1}$\\[1ex]
-	Posterior is (another) Gamma distribution.
-	\begin{block}{}
-		Conjugate priors allow for posterior distributions to emerge without numerical integration!
-	\end{block}}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Poisson distribution}
+% 	\begin{figure}
+% 	\begin{center}
+% 		\includegraphics[width=.45\textwidth]{graphics/poisson_distribution.png}
+% 	\end{center}
+% 	\caption{Poisson distribution for $\theta = 4$. This is the likelihood distribution for the number of herds per day with a rate of 4.}
+% 	\end{figure}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% %
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Conjugate prior for Poisson distribution}
+% 	Prior: Gamma distribution
+% 	\begin{equation}
+% 		\pi(\theta) = \frac{\theta^{\alpha-1}e^{-\theta/\beta}}{\Gamma(\alpha)\beta^\alpha}, \quad \theta >0, \alpha>0, \beta>0
+% 	\end{equation}
+% 	\begin{equation}
+% 		\E[G(\alpha\beta)] = \alpha\beta
+% 	\end{equation}
+% 	\begin{equation}
+% 		\V[G(\alpha,\beta)] = \alpha\beta^2
+% 	\end{equation}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% %
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Gamma distribution}
+% 	\begin{figure}
+% 	\begin{center}
+% 		\includegraphics[width=.55\textwidth]{graphics/gamma_distribution.pdf}
+% 	\end{center}
+% 	\caption{Gamma distribution for different values of shape and rate parameters.}
+% 	\end{figure}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% %
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\only<1>{\frametitle{Gamma $\times$ Poisson = ?}}\only<2>{\frametitle{Gamma $\times$ Poisson = Gamma}}
+% 	\begin{equation}
+% 		\begin{split}
+% 			p(\theta|y ) & \propto  f (y |\theta)\pi(\theta)\\
+% 				& \propto \only<1>{\:?}\visible<2>{(e^{-\theta}\theta^y)(\theta^{\alpha-1}e^{\theta/\beta})\\
+% 				& = \theta^{y+\alpha-1}e^{-\theta(1+1/\beta)}}
+% 		\end{split}
+% 	\end{equation}
+% \visible<2>{$p(\theta|y) \sim G(\alpha',\beta')$ with $\alpha' =y+\alpha$ and $\beta' =(1+1/\beta)^{-1}$\\[1ex]
+% 	Posterior is (another) Gamma distribution.
+% 	\begin{block}{}
+% 		Conjugate priors allow for posterior distributions to emerge without numerical integration!
+% 	\end{block}}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 %
@@ -933,18 +961,18 @@
 %
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Hierarchical modelling}
-	\emph{Hyperpriors} define the distribution of hyperparameters.
-	\begin{equation}
-		p(\theta|y) = \frac{\int f(y|\theta)\pi(\theta|\nu)h(\nu)d\nu}{\int \int f(y|\theta)\pi(\theta|\nu)h(\nu)d\nu d\theta}
-	\end{equation}
-\visible<2>{\begin{block}{Empirical Bayesian}
-		\emph{Estimated posterior} $p(\theta|y,\hat\nu)$ by replacing $\nu$ with an estimate $\hat\nu$ obtained by maximising the marginal distribution $m(y|\nu)$.
-	\end{block}
-	If $\nu \sim h(\nu|\lambda)$ with unknown parameters $\lambda$, then we have a third-stage prior $g(\lambda)$.}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Hierarchical modelling}
+% 	\emph{Hyperpriors} define the distribution of hyperparameters.
+% 	\begin{equation}
+% 		p(\theta|y) = \frac{\int f(y|\theta)\pi(\theta|\nu)h(\nu)d\nu}{\int \int f(y|\theta)\pi(\theta|\nu)h(\nu)d\nu d\theta}
+% 	\end{equation}
+% \visible<2>{\begin{block}{Empirical Bayesian}
+% 		\emph{Estimated posterior} $p(\theta|y,\hat\nu)$ by replacing $\nu$ with an estimate $\hat\nu$ obtained by maximising the marginal distribution $m(y|\nu)$.
+% 	\end{block}
+% 	If $\nu \sim h(\nu|\lambda)$ with unknown parameters $\lambda$, then we have a third-stage prior $g(\lambda)$.}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 %
@@ -973,11 +1001,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}\frametitle{Point estimation}
 	\begin{itemize}
-		\item The mode is the easiest to calculate as we can work directly with the numerator.
-		\item If the prior distribution is uniform, then the \emph{posterior mode} will be equal to the maximum likelihood estimate.
-		\item If the posterior distribution is symmetric, then the mean and the median are equivalent.
+		\item The \textbf{mode} is the easiest to calculate as we can work directly with the numerator.
+		\item If the prior distribution is uniform, then the \textbf{posterior mode} will be equal to the maximum likelihood estimate.
+		\item If the posterior distribution is symmetric, then the \textbf{mean} and the \textbf{median} are equivalent.
 		\item For symmetric unimodal distributions, all these three features are equivalent.
-		\item For asymmetric distributions, the median is often the best choice as it is less affected by outliers and it is an intermediate to the mode and the mean.
+		\item For asymmetric distributions, the \textbf{median} is often the best choice as it is less affected by outliers and it is an intermediate to the \textbf{mode} and the \textbf{mean}.
 	\end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1037,95 +1065,95 @@
 %
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Hypothesis testing}
-	In the \textbf{frequentist} approach,
-	\begin{enumerate}
-		\item One formulates a null hypothesis $H_0$ and an alternative hypothesis $H_a$.
-		\item An appropriate test statistic is chosen $T (Y )$.
-		\item One computes the \emph{observed significance}, or \emph{p-value}, of the test as the chance that $T(Y)$ is ``more extreme'' than $T(y_\text{obs})$, where the ``extremeness'' is towards the alternate hypothesis.
-		\item If the p-value is less than some threshold, typically in the form of a pre-specified Type I error rate, $H_0$ is rejected, otherwise it is not.
-	\end{enumerate}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Hypothesis testing}
-	Limits of frequentist approach:
-	\begin{enumerate}
-		\item Only when two hypotheses are nested (e.g.\ $H_0$ is a simplification of $H_a$ and involves setting one parameter of $H_a$ to some known constant value).
-		\item Evidence \emph{against} the null hypothesis (e.g.\ a large p-value does not mean that the two models are equivalent, but only that we lack evidence of the contrary; we do not ``accept the null hypothesis'' but ``fail to reject it'').
-		\item No direct interpretation as weight of evidence (but only as a long-term probability; p-values are not the probability that $H_0$ is true!).
-	\end{enumerate}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Hypothesis testing}
-	In the Bayesian approach,
-	\begin{enumerate}
-		\item One can test as many models as desired, $M_i$, $i = 1, ..., m$.
-		\item One calculates the posterior probability that each model is correct.
-		\item One compares each pair of posterior probabilities.
-	\end{enumerate}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Hypothesis testing}
-	Suppose we have two models $M_1$ and $M_2$ for data $Y$ and the two models have parameters $\theta_1$ and $\theta_2$.\\[1ex]
-	With prior densities $\pi_i (\theta_i )$ and $i = 1, 2$, the marginal distributions of $Y$ are:
-	\begin{equation}
-		p(y|M_i) = \int f(y|\theta_i,M_i) \pi_i (\theta_i ) d\theta_i
-	\end{equation}
-	We can calculate the posterior probabilities
-	\begin{equation}
-	 	\P(M_1|y) = \frac{p(y|M_1) \P(M_1)}{\sum_{i}p(y|M_i) \P(M_i)}
-	\end{equation}
-	and $\P(M_2|y) = 1 - \P(M_1|y)$ for the two models.
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Bayes factors}
-	A Bayes factor (BF) is used to summarize these results, and it is equal to the ration of posterior odds of $M_1$ to the prior odds of $M_1$:
-	\begin{equation}
-		BF = \frac{\P(M_1|y)/\P(M_2|y)}{\P(M_1)/\P(M_2)} = \frac{p(y|M_1)}{p(y|M_2)}
-	\end{equation}
-	If the two models are \emph{a priori} equally probable then:
-	\begin{equation}
-		BF = \P(M_1|y)/\P(M_2|y)
-	\end{equation}
-	which are the posterior odds of $M_1$.
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Interpretation}
-	\begin{block}{Interpretation}
-		BF captures the change in the odds in favor of model 1 (vs. 2) as we move from the prior to the posterior.
-	\end{block}
-	\begin{center}
-	\begin{tabular}{c|c}
-		\textbf{BF}		& \textbf{Strength of evidence}\\
-		1 to 3			& not worth more than a bare mention\\
-		3 to 20			& positive\\
-		20 to 150		& strong\\
-		$>$ 150			& very strong\\
-	\end{tabular}
-	\end{center}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Hypothesis testing}
+% 	In the \textbf{frequentist} approach,
+% 	\begin{enumerate}
+% 		\item One formulates a null hypothesis $H_0$ and an alternative hypothesis $H_a$.
+% 		\item An appropriate test statistic is chosen $T (Y )$.
+% 		\item One computes the \emph{observed significance}, or \emph{p-value}, of the test as the chance that $T(Y)$ is ``more extreme'' than $T(y_\text{obs})$, where the ``extremeness'' is towards the alternate hypothesis.
+% 		\item If the p-value is less than some threshold, typically in the form of a pre-specified Type I error rate, $H_0$ is rejected, otherwise it is not.
+% 	\end{enumerate}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% %
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Hypothesis testing}
+% 	Limits of frequentist approach:
+% 	\begin{enumerate}
+% 		\item Only when two hypotheses are nested (e.g.\ $H_0$ is a simplification of $H_a$ and involves setting one parameter of $H_a$ to some known constant value).
+% 		\item Evidence \emph{against} the null hypothesis (e.g.\ a large p-value does not mean that the two models are equivalent, but only that we lack evidence of the contrary; we do not ``accept the null hypothesis'' but ``fail to reject it'').
+% 		\item No direct interpretation as weight of evidence (but only as a long-term probability; p-values are not the probability that $H_0$ is true!).
+% 	\end{enumerate}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% %
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Hypothesis testing}
+% 	In the Bayesian approach,
+% 	\begin{enumerate}
+% 		\item One can test as many models as desired, $M_i$, $i = 1, ..., m$.
+% 		\item One calculates the posterior probability that each model is correct.
+% 		\item One compares each pair of posterior probabilities.
+% 	\end{enumerate}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% %
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Hypothesis testing}
+% 	Suppose we have two models $M_1$ and $M_2$ for data $Y$ and the two models have parameters $\theta_1$ and $\theta_2$.\\[1ex]
+% 	With prior densities $\pi_i (\theta_i )$ and $i = 1, 2$, the marginal distributions of $Y$ are:
+% 	\begin{equation}
+% 		p(y|M_i) = \int f(y|\theta_i,M_i) \pi_i (\theta_i ) d\theta_i
+% 	\end{equation}
+% 	We can calculate the posterior probabilities
+% 	\begin{equation}
+% 	 	\P(M_1|y) = \frac{p(y|M_1) \P(M_1)}{\sum_{i}p(y|M_i) \P(M_i)}
+% 	\end{equation}
+% 	and $\P(M_2|y) = 1 - \P(M_1|y)$ for the two models.
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% %
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Bayes factors}
+% 	A Bayes factor (BF) is used to summarize these results, and it is equal to the ration of posterior odds of $M_1$ to the prior odds of $M_1$:
+% 	\begin{equation}
+% 		BF = \frac{\P(M_1|y)/\P(M_2|y)}{\P(M_1)/\P(M_2)} = \frac{p(y|M_1)}{p(y|M_2)}
+% 	\end{equation}
+% 	If the two models are \emph{a priori} equally probable then:
+% 	\begin{equation}
+% 		BF = \P(M_1|y)/\P(M_2|y)
+% 	\end{equation}
+% 	which are the posterior odds of $M_1$.
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% %
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}\frametitle{Interpretation}
+% 	\begin{block}{Interpretation}
+% 		BF captures the change in the odds in favor of model 1 (vs. 2) as we move from the prior to the posterior.
+% 	\end{block}
+% 	\begin{center}
+% 	\begin{tabular}{c|c}
+% 		\textbf{BF}		& \textbf{Strength of evidence}\\
+% 		1 to 3			& not worth more than a bare mention\\
+% 		3 to 20			& positive\\
+% 		20 to 150		& strong\\
+% 		$>$ 150			& very strong\\
+% 	\end{tabular}
+% 	\end{center}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 %

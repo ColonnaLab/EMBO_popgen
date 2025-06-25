@@ -7,8 +7,9 @@ Day 2 10:45-12:30 Practical session
 This will be a mix of lecture and individual experiments. We will use the slides for day2a.pdf and the relevant notebooks.
 We will cover terminology, alleles and genotypes, drift and fitness.
 
-- First 100 slides of day2a.pdf
-	- with notebooks 01_drift and 02_selection insterspersed
+- First 100 slides of day2a.pdf (aim: slide 60 at coffee break)
+	- with notebooks 01_drift_exercise and 02_selection_exercise insterspersed
+	- notebooks *_solution have the solutions
 
 
 
@@ -19,7 +20,7 @@ Day 2 13:30-14:15 Lecture
 
 - First 59 slides of day2b.pdf.
 
-- Notebooks: 04_coalescence, 05_subdivision, and 06_founder_effect have some more details.
+- Relevant notebooks: 04_coalescence, 05_subdivision, and 06_founder_effect have some more details.
 
 
 
@@ -29,7 +30,6 @@ Day 2 14:45-16:30 Practical
 
 - Then we will use the exercises in day2b_practical_two.pdf for the remaining time.
 
-- We may leave the final 15 minutes for general Q&As.
 
 
 

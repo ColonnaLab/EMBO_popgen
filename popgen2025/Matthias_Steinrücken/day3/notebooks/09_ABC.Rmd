@@ -3,6 +3,16 @@ title: Approximate Bayesian Computation
 output: html_document
 ---
 
+<style>
+/* Restrict content width and use monospace font if needed */
+body {
+  max-width: 60ch; /* 80 characters */
+  margin: auto;
+  font-family: Arial, sans-serif; /* or use monospace for exact char width */
+  line-height: 1.6;
+}
+</style>
+
 ### Intended Learning Outcomes
 
 At the end of this part you will be able to:
@@ -275,14 +285,6 @@ Some information is lost, but with enough summary statistics much of the informa
 The aim for the summary statistics is to satisfy Bayes' sufficiency
 \begin{equation}    P(\theta|x)=P(\theta|S(x))
 \end{equation}
-
-The first example of an ABC approach was introduce by Pritchard et al. (1999).
-They summarised information for 445 Y-chromosome genes copies at eight microsatellites (and therefore 445 times 8 dimensions) into three numbers.
-The distance was chosen to be a normalised Chebyshev distance
-\begin{equation}
-    \max_j | \frac{S_j(x)}{S_j(y)} - 1|
-\end{equation}
-for $j=1,...,s$ summary statistics.
 
 One of the issues in ABC is _the curse of the dimensionality_ when using more than a few summary statistics.
 If summary statistics are uncorrelated, using the above distance, we will reject many simulations with increasing number of summary statistics.
